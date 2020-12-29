@@ -5,15 +5,15 @@ import { default as Path } from "path";
  * checkPath checks if dirPath exists.
  * @param path path to check.
  */
-export function checkPath(path: string) : boolean {
+export function checkPath(path: string): boolean {
     if (Path.isAbsolute(path)) return true; //check if path is absolute.
     const parsedPath = Path.parse(path);
     if ((parsedPath.dir == '') || (fs.existsSync(parsedPath.dir))) return true; //check if path doesn't have dir or if path exists
-    const steps = parsedPath.dir.split(parsedPath.dir.includes("/")? "/": "\\"); //split dir in steps
+    const steps = parsedPath.dir.split(parsedPath.dir.includes("/") ? "/" : "\\"); //split dir in steps
     for (let i = 0; i < steps.length; i++) {
         if (steps[i] != ".") {
             const pathTillNow = steps.reduce((prev, curr, curr_i) => {
-                return (curr_i > i)? prev : prev + Path.sep + curr;
+                return (curr_i > i) ? prev : prev + Path.sep + curr;
             })
             if (!fs.existsSync(pathTillNow)) fs.mkdirSync(pathTillNow); // check and make dir
         }
@@ -26,7 +26,7 @@ export function checkPath(path: string) : boolean {
  * loadFile loads string data from file.
  * @param path path to load from.
  */
-export function loadFileSync(path: string) : string {
+export function loadFileSync(path: string): string {
     if (checkPath(path)) {
         return fs.readFileSync(path, "utf8");
     } else {
@@ -39,7 +39,7 @@ export function loadFileSync(path: string) : string {
  * @param path path to save to.
  * @param data data to save.
  */
-export function saveFileSync(path: string, data: string) : void {
+export function saveFileSync(path: string, data: string): void {
     if (checkPath(path)) {
         fs.writeFileSync(path, data, "utf8");
     } else {
@@ -51,7 +51,7 @@ export function saveFileSync(path: string, data: string) : void {
  * loadFile loads string data from file.
  * @param path path to load from.
  */
-export async function loadFile(path: string) : Promise<string> {
+export async function loadFile(path: string): Promise<string> {
     if (checkPath(path)) {
         return await fsPromises.readFile(path, "utf8");
     } else {
@@ -64,7 +64,7 @@ export async function loadFile(path: string) : Promise<string> {
  * @param path path to save to.
  * @param data data to save.
  */
-export async function saveFile(path: string, data: string) : Promise<void> {
+export async function saveFile(path: string, data: string): Promise<void> {
     if (checkPath(path)) {
         await fsPromises.writeFile(path, data, "utf8");
     } else {
