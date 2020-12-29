@@ -5,8 +5,9 @@ import { default as Path } from "path";
  * checkPath checks if dirPath exists.
  * @param path path to check.
  */
-export function checkPath(path: string) : boolean {
-    if (Path.isAbsolute(path)) return true; //check if path is absolute.
+export async function checkPath(path: string) : Promise<boolean> {
+    /** check if dir exists */
+    if (Path.isAbsolute(path)) throw new Error("Cannot use absolute path"); //check if path is absolute.
     const parsedPath = Path.parse(path);
     if ((parsedPath.dir == '') || (fs.existsSync(parsedPath.dir))) return true; //check if path doesn't have dir or if path exists
     const steps = parsedPath.dir.split(parsedPath.dir.includes("/")? "/": "\\"); //split dir in steps
@@ -19,6 +20,13 @@ export function checkPath(path: string) : boolean {
         }
     }
     if (fs.existsSync(parsedPath.dir)) return true; // check if path exists
+    /** check permissions */
+    if (fs.existsSync(path)) {
+        await fsPromises.access(path, fs.constants.R_OK | fs.constants.W_OK)
+            .catch(() => {throw new Error("Permissions error")})
+    }
+    await fsPromises.access(parsedPath.dir, fs.constants.R_OK | fs.constants.W_OK)
+        .catch(() => {throw new Error("Permissions error")})
     return false; // else return false
 }
 
