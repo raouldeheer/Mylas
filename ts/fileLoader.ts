@@ -90,9 +90,11 @@ export function saveFileSync(path: string, data: string): void {
  * loadFile loads string data from file.
  * @param path path to load from.
  */
-export async function loadFile(path: string): Promise<string> {
+export async function loadFile(path: string, callback?: FunctionStringCallback): Promise<string> {
     if (await checkPath(path) == true) {
-        return await fsPromises.readFile(path, "utf8");
+        const data = await fsPromises.readFile(path, "utf8");
+        if (callback != undefined) callback(data);
+        return data;
     } else {
         throw new Error(`Can't read from ${path}`);
     }
@@ -103,9 +105,10 @@ export async function loadFile(path: string): Promise<string> {
  * @param path path to save to.
  * @param data data to save.
  */
-export async function saveFile(path: string, data: string): Promise<void> {
+export async function saveFile(path: string, data: string, callback?: VoidFunction): Promise<void> {
     if (await checkPath(path) == true) {
         await fsPromises.writeFile(path, data, "utf8");
+        if (callback != undefined) callback();
     } else {
         throw new Error(`Can't write to ${path}`);
     }

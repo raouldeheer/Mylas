@@ -30,6 +30,16 @@ describe("Save jsonfile to test folder", () => {
         fs.unlinkSync(testJsonPathAsync)
         expect(data).toStrictEqual(testJson);
     })
+    test("Should save the jsondata to the filesystem async with callback", done => {
+        Json.save(testJsonPathAsync, testJson, () => {
+            /** data should now be saved */
+            Json.load(testJsonPathAsync, data => {
+                fs.unlinkSync(testJsonPathAsync)
+                expect(data).toStrictEqual(testJson);
+                done();
+            });
+        });
+    })
 })
 describe("Load jsonfile from test folder", () => {
     it("Should load the jsondata from the filesystem", () => {
@@ -39,5 +49,11 @@ describe("Load jsonfile from test folder", () => {
     it("Should load the data from the filesystem async", async () => {
         const data = await Json.load(testJsonPath);
         expect(data).toStrictEqual(testJson);
+    })
+    test("Should load the data from the filesystem async with callback", done => {
+        Json.load(testJsonPath, data => {
+            expect(data).toStrictEqual(testJson);
+            done();
+        });
     })
 })

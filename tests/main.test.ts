@@ -30,6 +30,16 @@ describe("Save file to test folder", () => {
         fs.unlinkSync(testDataPathAsync)
         expect(data).toStrictEqual(testData);
     })
+    test("Should save the data to the filesystem async with callback", done => {
+        mylas.save(testDataPathAsync, testData, () => {
+            /** data should now be saved */
+            mylas.load(testDataPathAsync, data => {
+                fs.unlinkSync(testDataPathAsync)
+                expect(data).toStrictEqual(testData);
+                done();
+            });
+        });
+    })
 })
 describe("Load file from test folder", () => {
     it("Should load the data from the filesystem", () => {
@@ -39,5 +49,11 @@ describe("Load file from test folder", () => {
     it("Should load the data from the filesystem async", async () => {
         const data = await mylas.load(testDataPath);
         expect(data).toStrictEqual(testData);
+    })
+    test("Should load the data from the filesystem async with callback", done => {
+        mylas.load(testDataPath, data => {
+            expect(data).toStrictEqual(testData);
+            done();
+        });
     })
 })
