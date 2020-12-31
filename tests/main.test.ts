@@ -17,9 +17,9 @@ afterAll(() => {
 /** file tests */
 describe("Save file to test folder", () => {
     it("Should save the data to the filesystem", () => {
-        mylas.saveSync(testDataPathSync, testData);
+        mylas.saveS(testDataPathSync, testData);
         /** data should now be saved */
-        const data = mylas.loadSync(testDataPathSync);
+        const data = mylas.loadS(testDataPathSync);
         fs.unlinkSync(testDataPathSync)
         expect(data).toStrictEqual(testData);
     })
@@ -33,7 +33,7 @@ describe("Save file to test folder", () => {
 })
 describe("Load file from test folder", () => {
     it("Should load the data from the filesystem", () => {
-        const data = mylas.loadSync(testDataPath);
+        const data = mylas.loadS(testDataPath);
         expect(data).toStrictEqual(testData);
     })
     it("Should load the data from the filesystem async", async () => {

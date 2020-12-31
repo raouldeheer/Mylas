@@ -17,9 +17,9 @@ afterAll(() => {
 /** Json tests */
 describe("Save jsonfile to test folder", () => {
     it("Should save the jsondata to the filesystem", () => {
-        Json.saveSync(testJsonPathSync, testJson);
+        Json.saveS(testJsonPathSync, testJson);
         /** data should now be saved */
-        const data = Json.loadSync(testJsonPathSync);
+        const data = Json.loadS(testJsonPathSync);
         fs.unlinkSync(testJsonPathSync)
         expect(data).toStrictEqual(testJson);
     })
@@ -33,7 +33,7 @@ describe("Save jsonfile to test folder", () => {
 })
 describe("Load jsonfile from test folder", () => {
     it("Should load the jsondata from the filesystem", () => {
-        const data = Json.loadSync(testJsonPath);
+        const data = Json.loadS(testJsonPath);
         expect(data).toStrictEqual(testJson);
     })
     it("Should load the data from the filesystem async", async () => {

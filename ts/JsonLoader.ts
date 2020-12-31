@@ -1,6 +1,6 @@
 import { loadFileSync, saveFileSync, loadFile, saveFile } from "./fileLoader";
 
-export { loadJsonSync as loadSync, saveJsonSync as saveSync, loadJson as load, saveJson as save };
+export { loadJsonSync as loadS, saveJsonSync as saveS, loadJson as load, saveJson as save };
 
 /**
  * loadJsonSync loads JSON from file.
