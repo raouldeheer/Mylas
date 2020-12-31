@@ -62,7 +62,7 @@ export function saveFileSync(path: string, data: string): void {
  * @param path path to load from.
  */
 export async function loadFile(path: string): Promise<string> {
-    if (checkPath(path)) {
+    if (await checkPath(path)) {
         return await fsPromises.readFile(path, "utf8");
     } else {
         throw new Error(`Can't read from ${path}`);
@@ -75,7 +75,7 @@ export async function loadFile(path: string): Promise<string> {
  * @param data data to save.
  */
 export async function saveFile(path: string, data: string): Promise<void> {
-    if (checkPath(path)) {
+    if (await checkPath(path)) {
         await fsPromises.writeFile(path, data, "utf8");
     } else {
         throw new Error(`Can't write to ${path}`);
