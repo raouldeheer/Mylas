@@ -9,8 +9,9 @@ export async function checkPath(path: string): Promise<boolean> {
     /** check if dir exists */
     if (Path.isAbsolute(path)) throw new Error("Cannot use absolute path"); //check if path is absolute.
     const parsedPath = Path.parse(path);
-    if (!((parsedPath.dir == '') || (fs.existsSync(parsedPath.dir)))) { //check if path doesn't have dir or if path exists
-        const steps = parsedPath.dir.split(parsedPath.dir.includes("/") ? "/" : "\\"); //split dir in steps
+    const dir = parsedPath.dir;
+    if (!((dir == '') || (fs.existsSync(dir)))) { //check if path doesn't have dir or if path exists
+        const steps = dir.split(dir.includes("/") ? "/" : "\\"); //split dir in steps
         for (let i = 0; i < steps.length; i++) {
             if (steps[i] != ".") {
                 const pathTillNow = steps.reduce((prev, curr, curr_i) => {
@@ -20,13 +21,13 @@ export async function checkPath(path: string): Promise<boolean> {
             }
         }
     }
-    if (!fs.existsSync(parsedPath.dir)) return false; // check if path doesn't exists
+    if (!fs.existsSync(dir)) return false; // check if path doesn't exists
     /** check permissions */
     if (fs.existsSync(path)) {
         await fsPromises.access(path, fs.constants.R_OK | fs.constants.W_OK)
             .catch(() => { throw new Error("Permissions error") })
     }
-    await fsPromises.access(parsedPath.dir, fs.constants.R_OK | fs.constants.W_OK)
+    await fsPromises.access(dir, fs.constants.R_OK | fs.constants.W_OK)
         .catch(() => { throw new Error("Permissions error") })
     return true; // all checks good return true
 }
