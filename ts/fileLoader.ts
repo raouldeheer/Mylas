@@ -1,7 +1,10 @@
 import fs, { promises as fsPromises } from "fs";
-import { default as Path } from "path";
+import Path from "path";
 
-
+/**
+ * checkPathSync checks if dirPath exists.
+ * @param path path to check.
+ */
 export function checkPathSync(path: string): boolean {
     if (Path.isAbsolute(path)) throw new Error("Cannot use absolute path"); //check if path is absolute.
     /** check if dir exists */
