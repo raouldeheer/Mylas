@@ -17,9 +17,9 @@ afterAll(() => {
 /** Json tests */
 describe("Save jsonfile to test folder", () => {
     it("Should save the jsondata to the filesystem", () => {
-        Json.saveSync(testJsonPathSync, testJson);
+        Json.saveS(testJsonPathSync, testJson);
         /** data should now be saved */
-        const data = Json.loadSync(testJsonPathSync);
+        const data = Json.loadS(testJsonPathSync);
         fs.unlinkSync(testJsonPathSync)
         expect(data).toStrictEqual(testJson);
     })
@@ -30,14 +30,30 @@ describe("Save jsonfile to test folder", () => {
         fs.unlinkSync(testJsonPathAsync)
         expect(data).toStrictEqual(testJson);
     })
+    test("Should save the jsondata to the filesystem async with callback", done => {
+        Json.save(testJsonPathAsync, testJson, () => {
+            /** data should now be saved */
+            Json.load(testJsonPathAsync, data => {
+                fs.unlinkSync(testJsonPathAsync)
+                expect(data).toStrictEqual(testJson);
+                done();
+            });
+        });
+    })
 })
 describe("Load jsonfile from test folder", () => {
     it("Should load the jsondata from the filesystem", () => {
-        const data = Json.loadSync(testJsonPath);
+        const data = Json.loadS(testJsonPath);
         expect(data).toStrictEqual(testJson);
     })
     it("Should load the data from the filesystem async", async () => {
         const data = await Json.load(testJsonPath);
         expect(data).toStrictEqual(testJson);
+    })
+    test("Should load the data from the filesystem async with callback", done => {
+        Json.load(testJsonPath, data => {
+            expect(data).toStrictEqual(testJson);
+            done();
+        });
     })
 })

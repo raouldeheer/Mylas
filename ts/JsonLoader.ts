@@ -1,6 +1,6 @@
 import { loadFileSync, saveFileSync, loadFile, saveFile } from "./fileLoader";
 
-export { loadJsonSync as loadSync, saveJsonSync as saveSync, loadJson as load, saveJson as save };
+export { loadJsonSync as loadS, saveJsonSync as saveS, loadJson as load, saveJson as save };
 
 /**
  * loadJsonSync loads JSON from file.
@@ -23,8 +23,10 @@ function saveJsonSync(path: string, data: unknown): void {
  * loadJson loads JSON from file.
  * @param path path to load from.
  */
-async function loadJson(path: string): Promise<unknown> {
-    return JSON.parse(await loadFile(path));
+async function loadJson(path: string, callback?: (data: unknown) => void): Promise<unknown> {
+    const data = JSON.parse(await loadFile(path));
+    if (callback != undefined) callback(data);
+    return data;
 }
 
 /**
@@ -32,6 +34,7 @@ async function loadJson(path: string): Promise<unknown> {
  * @param path path to save to.
  * @param data data to save.
  */
-async function saveJson(path: string, data: unknown): Promise<void> {
+async function saveJson(path: string, data: unknown, callback?: VoidFunction): Promise<void> {
     await saveFile(path, JSON.stringify(data));
+    if (callback != undefined) callback();
 }
