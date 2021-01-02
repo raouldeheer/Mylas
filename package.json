@@ -31,9 +31,6 @@
     "url": "https://github.com/raouldeheer/Mylas/issues"
   },
   "homepage": "https://github.com/raouldeheer/Mylas#readme",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
   "devDependencies": {
     "@types/jest": "^26.0.19",
     "@types/node": "^14.14.17",
