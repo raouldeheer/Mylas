@@ -12,4 +12,4 @@
 
 ## Reporting a Vulnerability
 
-To report a Vulnerability open a issue on Github or send a mail to info@domipas.nl
+To report a Vulnerability open a issue on Github.
