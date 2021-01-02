@@ -1,12 +1,13 @@
 /** import all modules */
-import { 
-    loadFileSync    as loadS,
-    saveFileSync    as saveS,
-    loadFile        as load,
-    saveFile        as save
-} from "./fileLoader";
-import * as JsonLoader from "./JsonLoader";
+import * as filef from "./fileHandler";
+import * as json from "./JsonHandler";
+import * as dir from "./DirHandler";
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { checkP, checkPS, ...file } = filef;
 
 /** export modules */
-export default { loadS, saveS, load, save };
-export { JsonLoader as Json };
+export default { ...file, file, dir, json };
+export { json as Json };
+export { dir as Dir };
+export { file as File };
