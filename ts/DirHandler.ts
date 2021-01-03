@@ -11,7 +11,8 @@ export {
 /**
  * makes fs dir
  * @param {string} path path to dir
- * @param {VoidFunction} callback function to call when done. 
+ * @param {VoidFunction} callback function to call when done.
+ * @return {Promise<void>}
  */
 async function mkDir(path: string, callback?: VoidFunction): Promise<void> {
     if (await checkPath(path)) {
@@ -23,6 +24,7 @@ async function mkDir(path: string, callback?: VoidFunction): Promise<void> {
 /**
  * makes fs dir sync
  * @param {string} path path to dir
+ * @return {void}
  */
 function mkDirSync(path: string): void {
     if (checkPathSync(path)) {
@@ -34,6 +36,7 @@ function mkDirSync(path: string): void {
  * removes fs dir
  * @param {string} path path to dir
  * @param {VoidFunction} callback function to call when done. 
+ * @return {Promise<void>}
  */
 async function rmDir(path: string, callback?: VoidFunction): Promise<void> {
     if (await checkPath(path)) {
@@ -45,6 +48,7 @@ async function rmDir(path: string, callback?: VoidFunction): Promise<void> {
 /**
  * removes fs dir sync
  * @param {string} path path to dir
+ * @return {void}
  */
 function rmDirSync(path: string): void {
     if (checkPathSync(path)) {
