@@ -12,7 +12,7 @@ export {
 
 /**
  * checks if dirPath exists.
- * @param path path to check.
+ * @param {string} path path to check.
  */
 function checkPathSync(path: string): boolean {
     if (Path.isAbsolute(path)) throw new Error("Cannot use absolute path"); //check if path is absolute.
@@ -23,7 +23,7 @@ function checkPathSync(path: string): boolean {
 
 /**
  * checks if dirPath exists.
- * @param path path to check.
+ * @param {string} path path to check.
  */
 async function checkPath(path: string): Promise<boolean> {
     if (Path.isAbsolute(path)) throw new Error("Cannot use absolute path"); //check if path is absolute.
@@ -36,7 +36,7 @@ async function checkPath(path: string): Promise<boolean> {
 
 /**
  * checks if the path.dir exist. if it doesn't exist checkDir will make the dir.
- * @param path path for dir to check.
+ * @param {string} path path for dir to check.
  */
 function checkDir(path: string): boolean {
     /** check if dir exists */
@@ -51,7 +51,7 @@ function checkDir(path: string): boolean {
 
 /**
  * checks the permissions of a path.
- * @param path path to check permissions of.
+ * @param {string} path path to check permissions of.
  */
 async function checkPerm(path: string): Promise<boolean> {
     /** check permissions */
@@ -67,7 +67,7 @@ async function checkPerm(path: string): Promise<boolean> {
 
 /**
  * loads string data from file.
- * @param path path to load from.
+ * @param {string} path path to load from.
  */
 function loadFileSync(path: string): string {
     if (checkPathSync(path) == true) {
@@ -79,8 +79,8 @@ function loadFileSync(path: string): string {
 
 /**
  * saves string to file.
- * @param path path to save to.
- * @param data data to save.
+ * @param {string} path path to save to.
+ * @param {string} data data to save.
  */
 function saveFileSync(path: string, data: string): void {
     if (checkPathSync(path) == true) {
@@ -92,7 +92,8 @@ function saveFileSync(path: string, data: string): void {
 
 /**
  * loads string data from file.
- * @param path path to load from.
+ * @param {string} path path to load from.
+ * @param {VoidFunction} callback function to call when done. 
  */
 async function loadFile(path: string, callback?: FunctionStringCallback): Promise<string> {
     if (await checkPath(path) == true) {
@@ -106,8 +107,9 @@ async function loadFile(path: string, callback?: FunctionStringCallback): Promis
 
 /**
  * saves string to file.
- * @param path path to save to.
- * @param data data to save.
+ * @param {string} path path to save to.
+ * @param {string} data data to save.
+ * @param {VoidFunction} callback function to call when done. 
  */
 async function saveFile(path: string, data: string, callback?: VoidFunction): Promise<void> {
     if (await checkPath(path) == true) {
