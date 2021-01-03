@@ -13,38 +13,38 @@ export {
 };
 
 /**
- * loadJsonSync loads JSON from file.
- * @param path path to load from.
+ * loads JSON from file sync.
+ * @param {string} path path to load from.
  */
-function loadJsonSync(path: string): unknown {
-    return JSON.parse(loadFileSync(path) ?? "");
+function loadJsonSync<T>(path: string): T {
+    return JSON.parse(loadFileSync(path));
 }
 
 /**
- * saveJsonSync saves JSON data to file.
- * @param path path to save to.
- * @param data data to save.
+ * saves JSON data to file sync.
+ * @param {string} path path to save to.
+ * @param {T} data data to save.
  */
-function saveJsonSync(path: string, data: unknown): void {
+function saveJsonSync<T>(path: string, data: T): void {
     saveFileSync(path, JSON.stringify(data));
 }
 
 /**
- * loadJson loads JSON from file.
- * @param path path to load from.
+ * loads JSON from file.
+ * @param {string} path path to load from.
  */
-async function loadJson(path: string, callback?: (data: unknown) => void): Promise<unknown> {
-    const data = JSON.parse(await loadFile(path));
+async function loadJson<T>(path: string, callback?: (data: T) => void): Promise<T> {
+    const data: T = JSON.parse(await loadFile(path));
     if (callback != undefined) callback(data);
     return data;
 }
 
 /**
- * saveJson saves JSON data to file.
- * @param path path to save to.
- * @param data data to save.
+ * saves JSON data to file.
+ * @param {string} path path to save to.
+ * @param {T} data data to save.
  */
-async function saveJson(path: string, data: unknown, callback?: VoidFunction): Promise<void> {
+async function saveJson<T>(path: string, data: T, callback?: VoidFunction): Promise<void> {
     await saveFile(path, JSON.stringify(data));
     if (callback != undefined) callback();
 }
