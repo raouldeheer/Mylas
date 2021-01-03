@@ -6,10 +6,6 @@ const testJsonPath = "./tests/testdata.json";
 const testJsonPathSync = "./tests/testfilesync.json";
 const testJsonPathAsync = "./tests/testfileasync.json";
 
-interface myobt {
-    Test: string
-}
-
 beforeAll(() => {
     fs.writeFileSync(testJsonPath, JSON.stringify(testJson), "utf8");
 });
@@ -94,7 +90,7 @@ describe("Load jsonfile from test folder using Json", () => {
         expect(data).toStrictEqual(testJson);
     })
     it("Should load the data from the filesystem async", async () => {
-        const data = await Json.load<myobt[]>(testJsonPath);
+        const data = await Json.load(testJsonPath);
         expect(data).toStrictEqual(testJson);
     })
     test("Should load the data from the filesystem async with callback", done => {
