@@ -1,4 +1,5 @@
 import fs, { promises as fsPromises } from "fs";
+import { booleanCallback, voidCallback } from "@raouldeheer/tstypes";
 import Path from "path";
 import { checkP as checkPath, checkPS as checkPathSync } from "./fileHandler";
 
@@ -14,10 +15,10 @@ export {
 /**
  * makes fs dir
  * @param {string} path path to dir
- * @param {VoidFunction} callback function to call when done.
+ * @param {voidCallback} callback function to call when done.
  * @return {Promise<void>}
  */
-async function mkDir(path: string, callback?: VoidFunction): Promise<void> {
+async function mkDir(path: string, callback?: voidCallback): Promise<void> {
     if (await checkPath(path)) {
         await fsPromises.mkdir(path, { recursive: true });
     }
@@ -38,10 +39,10 @@ function mkDirSync(path: string): void {
 /**
  * removes fs dir
  * @param {string} path path to dir
- * @param {VoidFunction} callback function to call when done. 
+ * @param {voidCallback} callback function to call when done. 
  * @return {Promise<void>}
  */
-async function rmDir(path: string, callback?: VoidFunction): Promise<void> {
+async function rmDir(path: string, callback?: voidCallback): Promise<void> {
     if (await checkPath(path)) {
         await fsPromises.rmdir(path);
     }
@@ -62,10 +63,10 @@ function rmDirSync(path: string): void {
 /**
  * checks if dir exists.
  * @param {string} path path path to dir.
- * @param {(result: boolean) => void} callback function to call when done.
+ * @param {booleanCallback} callback function to call when done.
  * @return {Promise<boolean>}
  */
-async function checkDir(path: string, callback?: (result: boolean) => void): Promise<boolean> {
+async function checkDir(path: string, callback?: booleanCallback): Promise<boolean> {
     if (Path.parse(path).ext !== "") throw new Error("Cannot check file!");
     if (callback != undefined) callback(fs.existsSync(path));
     return fs.existsSync(path);
