@@ -1,5 +1,6 @@
 import fs, { promises as fsPromises } from "fs";
 import Path from "path";
+import { stringCallback, voidCallback } from "@raouldeheer/tstypes";
 
 export {
     loadFileSync as loadS,
@@ -99,10 +100,10 @@ function saveFileSync(path: string, data: string): void {
 /**
  * loads string data from file.
  * @param {string} path path to load from.
- * @param {VoidFunction} callback function to call when done. 
+ * @param {stringCallback} callback function to call when done. 
  * @return {Promise<string>}
  */
-async function loadFile(path: string, callback?: FunctionStringCallback): Promise<string> {
+async function loadFile(path: string, callback?: stringCallback): Promise<string> {
     if (await checkPath(path) == true) {
         const data = await fsPromises.readFile(path, "utf8");
         if (callback != undefined) callback(data);
@@ -116,10 +117,10 @@ async function loadFile(path: string, callback?: FunctionStringCallback): Promis
  * saves string to file.
  * @param {string} path path to save to.
  * @param {string} data data to save.
- * @param {VoidFunction} callback function to call when done. 
+ * @param {voidCallback} callback function to call when done. 
  * @return {Promise<void>}
  */
-async function saveFile(path: string, data: string, callback?: VoidFunction): Promise<void> {
+async function saveFile(path: string, data: string, callback?: voidCallback): Promise<void> {
     if (await checkPath(path) == true) {
         await fsPromises.writeFile(path, data, "utf8");
         if (callback != undefined) callback();
