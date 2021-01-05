@@ -141,7 +141,7 @@ const loadFile = async (
 ): Promise<string> => {
     if (await checkPath(path) == true) {
         const data = await fsPromises.readFile(path, "utf8");
-        if (callback != undefined) callback(data);
+        callback?.(data);
         return data;
     } else {
         throw new Error(`Can't read from ${path}`);
@@ -162,7 +162,7 @@ const saveFile = async (
 ): Promise<void> => {
     if (await checkPath(path) == true) {
         await fsPromises.writeFile(path, data, "utf8");
-        if (callback != undefined) callback();
+        callback?.();
     } else {
         throw new Error(`Can't write to ${path}`);
     }

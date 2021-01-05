@@ -51,7 +51,7 @@ const loadJson = async <T>(
     callback?: objectCallback<T>
 ): Promise<T> => {
     const data: T = JSON.parse(await loadFile(path));
-    if (callback != undefined) callback(data);
+    callback?.(data);
     return data;
 }
 
@@ -68,5 +68,5 @@ const saveJson = async <T>(
     callback?: voidCallback
 ): Promise<void> => {
     await saveFile(path, JSON.stringify(data));
-    if (callback != undefined) callback();
+    callback?.();
 }

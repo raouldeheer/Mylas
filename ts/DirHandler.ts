@@ -33,7 +33,7 @@ const mkDir = async (
     if (await checkPath(path)) {
         await fsPromises.mkdir(path, { recursive: true });
     }
-    if (callback != undefined) callback();
+    callback?.();
 }
 
 /**
@@ -62,7 +62,7 @@ const rmDir = async (
     if (await checkPath(path)) {
         await fsPromises.rmdir(path);
     }
-    if (callback != undefined) callback();
+    callback?.();
 }
 
 /**
@@ -89,7 +89,7 @@ const checkDir = async (
     callback?: booleanCallback
 ): Promise<boolean> => {
     if (Path.parse(path).ext !== "") throw new Error("Cannot check file!");
-    if (callback != undefined) callback(fs.existsSync(path));
+    callback?.(fs.existsSync(path));
     return fs.existsSync(path);
 }
 
