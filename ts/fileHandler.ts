@@ -49,7 +49,7 @@ const checkPath = async (
 }
 
 /**
- * checks if the path.dir exist. if it doesn't exist checkDir will make the dir.
+ * checks if the path.dir exist. if false make dir.
  * @param {string} path path for dir to check.
  * @return {boolean}
  */
@@ -79,11 +79,21 @@ const checkPerm = async (
     /** check permissions */
     const parsedPath = Path.parse(path);
     if (fs.existsSync(path)) {
-        await fsPromises.access(path, fs.constants.R_OK | fs.constants.W_OK)
-            .catch(() => { throw new Error("Permissions error") })
+        await fsPromises.access(
+            path, 
+            fs.constants.R_OK | 
+            fs.constants.W_OK
+        ).catch(() => { 
+            throw new Error("Permissions error") 
+        })
     }
-    await fsPromises.access(parsedPath.dir, fs.constants.R_OK | fs.constants.W_OK)
-        .catch(() => { throw new Error("Permissions error") })
+    await fsPromises.access(
+        parsedPath.dir, 
+        fs.constants.R_OK | 
+        fs.constants.W_OK
+    ).catch(() => { 
+        throw new Error("Permissions error") 
+    })
     return true;
 }
 
