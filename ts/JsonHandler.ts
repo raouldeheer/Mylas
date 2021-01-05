@@ -1,4 +1,7 @@
-import { objectCallback, voidCallback } from "@raouldeheer/tstypes";
+import {
+    objectCallback,
+    voidCallback
+} from "@raouldeheer/tstypes";
 import {
     loadS as loadFileSync,
     saveS as saveFileSync,
@@ -18,7 +21,9 @@ export {
  * @param {string} path path to load from.
  * @return {T}
  */
-function loadJsonSync<T>(path: string): T {
+const loadJsonSync = <T>(
+    path: string
+): T => {
     return JSON.parse(loadFileSync(path));
 }
 
@@ -28,7 +33,10 @@ function loadJsonSync<T>(path: string): T {
  * @param {T} data data to save.
  * @return {void}
  */
-function saveJsonSync<T>(path: string, data: T): void {
+const saveJsonSync = <T>(
+    path: string,
+    data: T
+): void => {
     saveFileSync(path, JSON.stringify(data));
 }
 
@@ -38,7 +46,10 @@ function saveJsonSync<T>(path: string, data: T): void {
  * @param {objectCallback<T>} callback function to call when done. 
  * @return {Promise<T>}
  */
-async function loadJson<T>(path: string, callback?: objectCallback<T>): Promise<T> {
+const loadJson = async <T>(
+    path: string,
+    callback?: objectCallback<T>
+): Promise<T> => {
     const data: T = JSON.parse(await loadFile(path));
     if (callback != undefined) callback(data);
     return data;
@@ -51,7 +62,11 @@ async function loadJson<T>(path: string, callback?: objectCallback<T>): Promise<
  * @param {voidCallback} callback function to call when done. 
  * @return {Promise<void>}
  */
-async function saveJson<T>(path: string, data: T, callback?: voidCallback): Promise<void> {
+const saveJson = async <T>(
+    path: string,
+    data: T,
+    callback?: voidCallback
+): Promise<void> => {
     await saveFile(path, JSON.stringify(data));
     if (callback != undefined) callback();
 }
