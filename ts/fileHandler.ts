@@ -1,6 +1,11 @@
-import fs, { promises as fsPromises } from "fs";
+import fs, {
+    promises as fsPromises
+} from "fs";
 import Path from "path";
-import { stringCallback, voidCallback } from "@raouldeheer/tstypes";
+import {
+    stringCallback,
+    voidCallback
+} from "@raouldeheer/tstypes";
 
 export {
     loadFileSync as loadS,
@@ -16,8 +21,11 @@ export {
  * @param {string} path path to check.
  * @return {boolean}
  */
-function checkPathSync(path: string): boolean {
-    if (Path.isAbsolute(path)) throw new Error("Cannot use absolute path"); //check if path is absolute.
+const checkPathSync = (
+    path: string
+): boolean => {
+    if (Path.isAbsolute(path)) //check if path is absolute.
+        throw new Error("Cannot use absolute path");
     /** check if dir exists */
     if (checkDir(path) != true) return false;
     return true; // all checks good return true
@@ -28,8 +36,11 @@ function checkPathSync(path: string): boolean {
  * @param {string} path path to check.
  * @return {Promise<boolean>}
  */
-async function checkPath(path: string): Promise<boolean> {
-    if (Path.isAbsolute(path)) throw new Error("Cannot use absolute path"); //check if path is absolute.
+const checkPath = async (
+    path: string
+): Promise<boolean> => {
+    if (Path.isAbsolute(path)) //check if path is absolute.
+        throw new Error("Cannot use absolute path");
     /** check if dir exists */
     if (checkDir(path) != true) return false;
     /** check permissions */
@@ -38,18 +49,22 @@ async function checkPath(path: string): Promise<boolean> {
 }
 
 /**
- * checks if the path.dir exist. if it doesn't exist checkDir will make the dir.
+ * checks if the path.dir exist. if false make dir.
  * @param {string} path path for dir to check.
  * @return {boolean}
  */
-function checkDir(path: string): boolean {
+const checkDir = (
+    path: string
+): boolean => {
     /** check if dir exists */
     const parsedPath = Path.parse(path);
     const dir = parsedPath.dir;
-    if (!((dir == '') || (fs.existsSync(dir)))) { //check if path doesn't have dir or if path exists
-        fs.mkdirSync(parsedPath.dir, { recursive: true });
-    }
-    if (!fs.existsSync(dir)) return false; // check if path doesn't exists
+    if (!(//check if path doesn't have dir or if path exists
+        (dir == '') ||
+        (fs.existsSync(dir))
+    )) fs.mkdirSync(parsedPath.dir, { recursive: true });
+    if (!fs.existsSync(dir)) // check if path doesn't exists
+        return false;
     return true;
 }
 
@@ -58,15 +73,27 @@ function checkDir(path: string): boolean {
  * @param {string} path path to check permissions of.
  * @return {Promise<boolean>}
  */
-async function checkPerm(path: string): Promise<boolean> {
+const checkPerm = async (
+    path: string
+): Promise<boolean> => {
     /** check permissions */
     const parsedPath = Path.parse(path);
     if (fs.existsSync(path)) {
-        await fsPromises.access(path, fs.constants.R_OK | fs.constants.W_OK)
-            .catch(() => { throw new Error("Permissions error") })
+        await fsPromises.access(
+            path, 
+            fs.constants.R_OK | 
+            fs.constants.W_OK
+        ).catch(() => { 
+            throw new Error("Permissions error") 
+        })
     }
-    await fsPromises.access(parsedPath.dir, fs.constants.R_OK | fs.constants.W_OK)
-        .catch(() => { throw new Error("Permissions error") })
+    await fsPromises.access(
+        parsedPath.dir, 
+        fs.constants.R_OK | 
+        fs.constants.W_OK
+    ).catch(() => { 
+        throw new Error("Permissions error") 
+    })
     return true;
 }
 
@@ -75,7 +102,9 @@ async function checkPerm(path: string): Promise<boolean> {
  * @param {string} path path to load from.
  * @return {string}
  */
-function loadFileSync(path: string): string {
+const loadFileSync = (
+    path: string
+): string => {
     if (checkPathSync(path) == true) {
         return fs.readFileSync(path, "utf8");
     } else {
@@ -89,7 +118,10 @@ function loadFileSync(path: string): string {
  * @param {string} data data to save.
  * @return {void}
  */
-function saveFileSync(path: string, data: string): void {
+const saveFileSync = (
+    path: string,
+    data: string
+): void => {
     if (checkPathSync(path) == true) {
         fs.writeFileSync(path, data, "utf8");
     } else {
@@ -103,7 +135,10 @@ function saveFileSync(path: string, data: string): void {
  * @param {stringCallback} callback function to call when done. 
  * @return {Promise<string>}
  */
-async function loadFile(path: string, callback?: stringCallback): Promise<string> {
+const loadFile = async (
+    path: string,
+    callback?: stringCallback
+): Promise<string> => {
     if (await checkPath(path) == true) {
         const data = await fsPromises.readFile(path, "utf8");
         if (callback != undefined) callback(data);
@@ -120,7 +155,11 @@ async function loadFile(path: string, callback?: stringCallback): Promise<string
  * @param {voidCallback} callback function to call when done. 
  * @return {Promise<void>}
  */
-async function saveFile(path: string, data: string, callback?: voidCallback): Promise<void> {
+const saveFile = async (
+    path: string,
+    data: string,
+    callback?: voidCallback
+): Promise<void> => {
     if (await checkPath(path) == true) {
         await fsPromises.writeFile(path, data, "utf8");
         if (callback != undefined) callback();
