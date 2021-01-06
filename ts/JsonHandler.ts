@@ -43,7 +43,7 @@ const saveJsonSync = <T>(
 /**
  * loads JSON from file.
  * @param {string} path path to load from.
- * @param {objectCallback<T>} callback function to call when done. 
+ * @param {objectCallback<T>} callback callback to call. 
  * @return {Promise<T>}
  */
 const loadJson = async <T>(
@@ -59,7 +59,7 @@ const loadJson = async <T>(
  * saves JSON data to file.
  * @param {string} path path to save to.
  * @param {T} data data to save.
- * @param {voidCallback} callback function to call when done. 
+ * @param {voidCallback} callback callback to call. 
  * @return {Promise<void>}
  */
 const saveJson = async <T>(

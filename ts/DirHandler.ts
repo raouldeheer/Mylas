@@ -1,14 +1,14 @@
-import fs, { 
-    promises as fsPromises 
+import fs, {
+    promises as fsPromises
 } from "fs";
-import { 
-    booleanCallback, 
-    voidCallback 
+import {
+    booleanCallback,
+    voidCallback
 } from "@raouldeheer/tstypes";
 import Path from "path";
-import { 
-    checkP as checkPath, 
-    checkPS as checkPathSync 
+import {
+    checkP as checkPath,
+    checkPS as checkPathSync
 } from "./fileHandler";
 
 export {
@@ -23,16 +23,15 @@ export {
 /**
  * makes fs dir
  * @param {string} path path to dir
- * @param {voidCallback} callback function to call when done.
+ * @param {voidCallback} callback callback to call.
  * @return {Promise<void>}
  */
 const mkDir = async (
     path: string,
     callback?: voidCallback
 ): Promise<void> => {
-    if (await checkPath(path)) {
+    if (await checkPath(path))
         await fsPromises.mkdir(path, { recursive: true });
-    }
     callback?.();
 }
 
@@ -44,24 +43,22 @@ const mkDir = async (
 const mkDirSync = (
     path: string
 ): void => {
-    if (checkPathSync(path)) {
+    if (checkPathSync(path))
         fs.mkdirSync(path, { recursive: true });
-    }
 }
 
 /**
  * removes fs dir
  * @param {string} path path to dir
- * @param {voidCallback} callback function to call when done. 
+ * @param {voidCallback} callback callback to call. 
  * @return {Promise<void>}
  */
 const rmDir = async (
     path: string,
     callback?: voidCallback
 ): Promise<void> => {
-    if (await checkPath(path)) {
+    if (await checkPath(path))
         await fsPromises.rmdir(path);
-    }
     callback?.();
 }
 
@@ -73,22 +70,22 @@ const rmDir = async (
 const rmDirSync = (
     path: string
 ): void => {
-    if (checkPathSync(path)) {
+    if (checkPathSync(path))
         fs.rmdirSync(path);
-    }
 }
 
 /**
  * checks if dir exists.
  * @param {string} path path path to dir.
- * @param {booleanCallback} callback function to call when done.
+ * @param {booleanCallback} callback callback to call.
  * @return {Promise<boolean>}
  */
 const checkDir = async (
     path: string,
     callback?: booleanCallback
 ): Promise<boolean> => {
-    if (Path.parse(path).ext !== "") throw new Error("Cannot check file!");
+    if (Path.parse(path).ext !== "")
+        throw new Error("Cannot check file!");
     callback?.(fs.existsSync(path));
     return fs.existsSync(path);
 }
@@ -101,6 +98,7 @@ const checkDir = async (
 const checkDirSync = (
     path: string
 ): boolean => {
-    if (Path.parse(path).ext !== "") throw new Error("Cannot check file!");
+    if (Path.parse(path).ext !== "")
+        throw new Error("Cannot check file!");
     return fs.existsSync(path);
 }
