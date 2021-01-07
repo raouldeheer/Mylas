@@ -132,7 +132,7 @@ const saveFileSync = (
 /**
  * loads string data from file.
  * @param {string} path path to load from.
- * @param {stringCallback} callback function to call when done. 
+ * @param {stringCallback} callback callback to call. 
  * @return {Promise<string>}
  */
 const loadFile = async (
@@ -141,7 +141,7 @@ const loadFile = async (
 ): Promise<string> => {
     if (await checkPath(path) == true) {
         const data = await fsPromises.readFile(path, "utf8");
-        if (callback != undefined) callback(data);
+        callback?.(data);
         return data;
     } else {
         throw new Error(`Can't read from ${path}`);
@@ -152,7 +152,7 @@ const loadFile = async (
  * saves string to file.
  * @param {string} path path to save to.
  * @param {string} data data to save.
- * @param {voidCallback} callback function to call when done. 
+ * @param {voidCallback} callback callback to call. 
  * @return {Promise<void>}
  */
 const saveFile = async (
@@ -162,7 +162,7 @@ const saveFile = async (
 ): Promise<void> => {
     if (await checkPath(path) == true) {
         await fsPromises.writeFile(path, data, "utf8");
-        if (callback != undefined) callback();
+        callback?.();
     } else {
         throw new Error(`Can't write to ${path}`);
     }
