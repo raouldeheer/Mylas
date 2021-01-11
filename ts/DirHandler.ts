@@ -5,7 +5,6 @@ import {
     booleanCallback,
     voidCallback
 } from "@raouldeheer/tstypes";
-import Path from "path";
 import {
     checkP as checkPath,
     checkPS as checkPathSync
