@@ -84,10 +84,9 @@ const checkDir = async (
     path: string,
     callback?: booleanCallback
 ): Promise<boolean> => {
-    if (Path.parse(path).ext !== "")
-        throw new Error("Cannot check file!");
-    callback?.(fs.existsSync(path));
-    return fs.existsSync(path);
+    const response = fs.existsSync(path);
+    callback?.(response);
+    return response;
 }
 
 /**
@@ -98,7 +97,5 @@ const checkDir = async (
 const checkDirSync = (
     path: string
 ): boolean => {
-    if (Path.parse(path).ext !== "")
-        throw new Error("Cannot check file!");
     return fs.existsSync(path);
 }
