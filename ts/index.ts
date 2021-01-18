@@ -43,24 +43,17 @@ function nodeEndpoint(nep: any) {
 
 import { Worker } from "worker_threads";
 import * as Comlink from "comlink";
-import { MyClass as mijClass } from "./worker";
+import { funcs as func } from "./worker";
 
-let instance1: any, instance2: any;
-async function showState() {
-    console.log(`instance1.counter = ${await instance1.counter},
-      instance2.counter = ${await instance2.counter}`);
-}
 
 async function init() {
     const work = new Worker("./build/worker.js");
     const endpoint = nodeEndpoint(work);
-    const MyClass: any = Comlink.wrap<mijClass>(endpoint);
-    instance1 = await new MyClass();
-    instance2 = await new MyClass(42);
-    await showState();
-    await instance1.increment();
-    await instance2.increment(23);
-    await showState();
+    const MyClass = Comlink.wrap<func>(endpoint);
+    console.log(await MyClass.loadJsonSync("hoi"));
+    console.log(await MyClass.saveJsonSync(7));
+    console.log(await MyClass.loadJson(6));
+    console.log(await MyClass.saveJson(8));
 }
 
 init();

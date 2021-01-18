@@ -1,12 +1,12 @@
 import { parentPort } from "worker_threads";
 import * as Comlink from "comlink";
 
-function nodeEndpoint(nep:any) {
+function nodeEndpoint(nep: any) {
     const listeners = new WeakMap();
     return {
         postMessage: nep.postMessage.bind(nep),
-        addEventListener: (_:any, eh:any) => {
-            const l = (data:any) => {
+        addEventListener: (_: any, eh: any) => {
+            const l = (data: any) => {
                 if ("handleEvent" in eh) {
                     eh.handleEvent({ data });
                 }
@@ -17,7 +17,7 @@ function nodeEndpoint(nep:any) {
             nep.on("message", l);
             listeners.set(eh, l);
         },
-        removeEventListener: (_:any, eh:any) => {
+        removeEventListener: (_: any, eh: any) => {
             const l = listeners.get(eh);
             if (!l) {
                 return;
@@ -30,21 +30,28 @@ function nodeEndpoint(nep:any) {
 }
 
 
-export class MyClass {
-    _counter: number;
-    
-    constructor(init = 0) {
-      console.log(init);
-      this._counter = init;
+export class funcs {
+    loadJsonSync = (string: String): String => {
+        return string;
     }
-  
-    get counter() {
-      return this._counter;
+
+    saveJsonSync = (string: number) => {
+        return string;
     }
-  
-    increment(delta = 1) {
-      this._counter += delta;
+
+    loadJson = (string: number) => {
+        return string + 10;
     }
-  }
-  
-  Comlink.expose(MyClass, nodeEndpoint(parentPort));
+
+    saveJson = (string: number) => {
+        return string + 25;
+    }
+
+}
+
+
+
+const func = new funcs();
+
+
+Comlink.expose(func, nodeEndpoint(parentPort));
