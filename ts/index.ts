@@ -43,17 +43,21 @@ function nodeEndpoint(nep: any) {
 
 import { Worker } from "worker_threads";
 import * as Comlink from "comlink";
-import { funcs as func } from "./worker";
+import { fileWorker as func } from "./workers/fileWorker";
 
+
+const work = new Worker("./build/workers/fileWorker.js");
+const endpoint = nodeEndpoint(work);
 
 async function init() {
-    const work = new Worker("./build/worker.js");
-    const endpoint = nodeEndpoint(work);
     const MyClass = Comlink.wrap<func>(endpoint);
-    console.log(await MyClass.loadJsonSync("hoi"));
-    console.log(await MyClass.saveJsonSync(7));
-    console.log(await MyClass.loadJson(6));
-    console.log(await MyClass.saveJson(8));
+    const result = await MyClass.loadJson(69);
+    MyClass[Comlink.releaseProxy]();
+    return result;
 }
 
-init();
+async function go() {
+    console.log(await init());
+}
+
+go();
