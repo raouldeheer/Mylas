@@ -1,18 +1,14 @@
-import { worker } from "./worker";
+import { nodeEndpoint } from "./worker";
 import { parentPort } from "worker_threads";
 import * as Comlink from "comlink";
 
-export class fileWorker extends worker {
-
-    public loadJson = async (string: number) => {
-        return string + 10;
-    }
-
-    public saveJson = async (string: number) => {
-        return string + 25;
-    }
-
+const loadJson = async (string: number) => {
+    return string + 10;
 }
 
-const func = new fileWorker();
-Comlink.expose(func, fileWorker.nodeEndpoint(parentPort));
+const saveJson = async (string: number) => {
+    return string + 25;
+}
+
+export default { loadJson, saveJson };
+Comlink.expose({ loadJson, saveJson }, nodeEndpoint(parentPort));
