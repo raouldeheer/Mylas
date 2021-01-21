@@ -75,7 +75,7 @@ const loadJson = async (
 /**
  * saves JSON data to file.
  * @param {string} path path to save to.
- * @param {T} data data to save.
+ * @param {unknown} data data to save.
  * @param {voidCallback} callback callback to call. 
  */
 const saveJson = async (
