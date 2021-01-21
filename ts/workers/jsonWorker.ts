@@ -1,44 +1,27 @@
-// import { worker } from "./worker";
-// import { parentPort } from "worker_threads";
-// import * as Comlink from "comlink";
-// import {
-//     objectCallback,
-//     voidCallback
-//  } from "@raouldeheer/tstypes";
+import { nodeEndpoint } from "./worker";
+import { parentPort } from "worker_threads";
+import * as Comlink from "comlink";
+import fileWorker from "./fileWorker";
 
-// export class jsonWorker extends worker {
+const loadJson = async(
+    path: string,
+): Promise<unknown> => {
+    const data = JSON.parse(await fileWorker.loadFile(path));
+    return data;
+}
 
-//     /**
-//      * loads JSON from file.
-//      * @param {string} path path to load from.
-//      * @param {objectCallback<T>} callback callback to call. 
-//      * @return {Promise<T>}
-//      */
-//     public static loadJson = async <T>(
-//         path: string,
-//         callback?: objectCallback<T>
-//     ): Promise<T> => {
-//         const data: T = JSON.parse(await loadFile(path));
-//         callback?.(data);
-//         return data;
-//     }
+const saveJson = async(
+    path: string,
+    data: unknown,
+): Promise<void> => {
+    await fileWorker.saveFile(path, JSON.stringify(data));
+}
 
-//     /**
-//      * saves JSON data to file.
-//      * @param {string} path path to save to.
-//      * @param {T} data data to save.
-//      * @param {voidCallback} callback callback to call. 
-//      * @return {Promise<void>}
-//      */
-//     public static saveJson = async <T>(
-//         path: string,
-//         data: T,
-//         callback?: voidCallback
-//     ): Promise<void> => {
-//         await saveFile(path, JSON.stringify(data));
-//         callback?.();
-//     }
-
-// }
-
-// Comlink.expose(jsonWorker, jsonWorker.nodeEndpoint(parentPort));
+export default {
+    loadJson,
+    saveJson,
+};
+Comlink.expose({
+    loadJson,
+    saveJson,
+}, nodeEndpoint(parentPort));
