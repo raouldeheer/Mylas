@@ -11,7 +11,7 @@ import {
 import {
     loadJson as loadW,
     saveJson as saveW,
-} from "./workers/Handlers";
+} from "./workers/workerHandlers";
 
 export {
     loadJsonSync as loadS,

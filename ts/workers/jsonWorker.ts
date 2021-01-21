@@ -1,4 +1,4 @@
-import { endpoint } from "./worker";
+import make from "./worker";
 import { parentPort } from "worker_threads";
 import * as Comlink from "comlink";
 import { load, save } from "../fileHandler";
@@ -25,4 +25,4 @@ export default {
 Comlink.expose({
     loadJson,
     saveJson,
-}, endpoint(parentPort));
+}, make(parentPort));

@@ -2,7 +2,7 @@ import { Worker } from "worker_threads";
 import * as Comlink from "comlink";
 import fileWorker from "./fileWorker";
 import jsonWorker from "./jsonWorker";
-import { endpoint } from "./worker";
+import make from "./worker";
 import {
     objectCallback,
     stringCallback,
@@ -20,7 +20,7 @@ const loadFile = async (
     callback?: stringCallback
 ): Promise<string> => {
     const worker = Comlink.wrap<typeof fileWorker>(
-        endpoint(
+        make(
             new Worker("./build/workers/fileWorker.js")));
     try {
         const data = await worker.loadFile(path);
@@ -44,7 +44,7 @@ const saveFile = async (
     callback?: voidCallback,
 ): Promise<void> => {
     const worker = Comlink.wrap<typeof fileWorker>(
-        endpoint(
+        make(
             new Worker("./build/workers/fileWorker.js")));
     try {
         await worker.saveFile(path, data);
@@ -64,7 +64,7 @@ const loadJson = async (
     callback?: objectCallback<unknown>
 ): Promise<unknown> => {
     const worker = Comlink.wrap<typeof jsonWorker>(
-        endpoint(
+        make(
             new Worker("./build/workers/jsonWorker.js")));
     const data = await worker.loadJson(path);
     worker[Comlink.releaseProxy]();
@@ -84,7 +84,7 @@ const saveJson = async (
     callback?: voidCallback
 ): Promise<void> => {
     const worker = Comlink.wrap<typeof jsonWorker>(
-        endpoint(
+        make(
             new Worker("./build/workers/jsonWorker.js")));
     await worker.saveJson(path, data);
     worker[Comlink.releaseProxy]();

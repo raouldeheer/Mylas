@@ -9,7 +9,7 @@ import {
 import {
     loadFile as loadW,
     saveFile as saveW,
-} from "./workers/Handlers";
+} from "./workers/workerHandlers";
 
 
 export {
