@@ -1,20 +1,21 @@
-import { nodeEndpoint } from "./worker";
+import { endpoint } from "./worker";
 import { parentPort } from "worker_threads";
 import * as Comlink from "comlink";
-import fileWorker from "./fileWorker";
+import { load, save } from "../fileHandler";
 
-const loadJson = async(
+const loadJson = async (
     path: string,
 ): Promise<unknown> => {
-    const data = JSON.parse(await fileWorker.loadFile(path));
+    const data = JSON.parse(await load(path));
     return data;
 }
 
-const saveJson = async(
+const saveJson = async (
     path: string,
     data: unknown,
 ): Promise<void> => {
-    await fileWorker.saveFile(path, JSON.stringify(data));
+    await save(path, JSON.stringify(data));
+    return;
 }
 
 export default {
@@ -24,4 +25,4 @@ export default {
 Comlink.expose({
     loadJson,
     saveJson,
-}, nodeEndpoint(parentPort));
+}, endpoint(parentPort));

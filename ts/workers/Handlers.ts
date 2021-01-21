@@ -1,13 +1,13 @@
 import { Worker } from "worker_threads";
 import * as Comlink from "comlink";
 import fileWorker from "./fileWorker";
-import { nodeEndpoint } from "./worker";
+import jsonWorker from "./jsonWorker";
+import { endpoint } from "./worker";
 import {
     objectCallback,
     stringCallback,
     voidCallback,
 } from "@raouldeheer/tstypes";
-import jsonWorker from "./jsonWorker";
 
 /**
  * loads string data from file.
@@ -20,7 +20,7 @@ const loadFile = async (
     callback?: stringCallback
 ): Promise<string> => {
     const worker = Comlink.wrap<typeof fileWorker>(
-        nodeEndpoint(
+        endpoint(
             new Worker("./build/workers/fileWorker.js")));
     try {
         const data = await worker.loadFile(path);
@@ -44,7 +44,7 @@ const saveFile = async (
     callback?: voidCallback,
 ): Promise<void> => {
     const worker = Comlink.wrap<typeof fileWorker>(
-        nodeEndpoint(
+        endpoint(
             new Worker("./build/workers/fileWorker.js")));
     try {
         await worker.saveFile(path, data);
@@ -58,22 +58,18 @@ const saveFile = async (
  * loads JSON from file.
  * @param {string} path path to load from.
  * @param {objectCallback<unknown>} callback callback to call. 
- * @return {Promise<unknown>}
  */
 const loadJson = async (
     path: string,
     callback?: objectCallback<unknown>
 ): Promise<unknown> => {
     const worker = Comlink.wrap<typeof jsonWorker>(
-        nodeEndpoint(
+        endpoint(
             new Worker("./build/workers/jsonWorker.js")));
-    try {
-        const data = await worker.loadJson(path);
-        callback?.(data);
-        return data;
-    } finally {
-        worker[Comlink.releaseProxy]();
-    }
+    const data = await worker.loadJson(path);
+    worker[Comlink.releaseProxy]();
+    callback?.(data);
+    return data;
 }
 
 /**
@@ -81,22 +77,23 @@ const loadJson = async (
  * @param {string} path path to save to.
  * @param {T} data data to save.
  * @param {voidCallback} callback callback to call. 
- * @return {Promise<void>}
  */
-const saveJson = async <T>(
+const saveJson = async (
     path: string,
-    data: T,
+    data: unknown,
     callback?: voidCallback
 ): Promise<void> => {
     const worker = Comlink.wrap<typeof jsonWorker>(
-        nodeEndpoint(
+        endpoint(
             new Worker("./build/workers/jsonWorker.js")));
-    try {
-        await worker.saveJson(path, data);
-        callback?.();
-    } finally {
-        worker[Comlink.releaseProxy]();
-    }
+    await worker.saveJson(path, data);
+    worker[Comlink.releaseProxy]();
+    callback?.();
 }
 
-export { loadFile, saveFile, loadJson, saveJson };
+export {
+    loadJson,
+    saveJson,
+    loadFile,
+    saveFile,
+};

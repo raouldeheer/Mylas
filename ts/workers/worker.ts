@@ -1,4 +1,4 @@
-export function nodeEndpoint(nep: any) {
+export function endpoint(nep: any) {
     const listeners = new WeakMap();
     return {
         postMessage: nep.postMessage.bind(nep),

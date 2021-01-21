@@ -1,4 +1,4 @@
-import { nodeEndpoint } from "./worker";
+import { endpoint } from "./worker";
 import { parentPort } from "worker_threads";
 import * as Comlink from "comlink";
 import fs, {
@@ -88,4 +88,4 @@ Comlink.expose({
     loadFile,
     saveFile,
     checkPath,
-}, nodeEndpoint(parentPort));
+}, endpoint(parentPort));

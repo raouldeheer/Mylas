@@ -1,11 +1,16 @@
 import fs, {
-    promises as fsPromises
+    promises as fsPromises,
 } from "fs";
 import Path from "path";
 import {
     stringCallback,
-    voidCallback
+    voidCallback,
 } from "@raouldeheer/tstypes";
+import {
+    loadFile as loadW,
+    saveFile as saveW,
+} from "./workers/Handlers";
+
 
 export {
     loadFileSync as loadS,
@@ -13,7 +18,9 @@ export {
     loadFile as load,
     saveFile as save,
     checkPath as checkP,
-    checkPathSync as checkPS
+    checkPathSync as checkPS,
+    loadW,
+    saveW,
 };
 
 /**
