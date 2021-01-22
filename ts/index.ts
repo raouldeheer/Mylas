@@ -1,10 +1,7 @@
 /** import all modules */
-import * as File from "./fileHandler";
-import * as json from "./JsonHandler";
 import * as dir from "./DirHandler";
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { checkP, checkPS, ...file } = File;
+import file from "./handlers/fileHandler";
+import json from "./handlers/jsonHandler";
 
 /** export modules */
 export default { ...file, file, dir, json };

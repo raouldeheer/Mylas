@@ -1,14 +1,16 @@
 import fs, {
-    promises as fsPromises
+    promises as fsPromises,
 } from "fs";
 import {
     booleanCallback,
-    voidCallback
+    voidCallback,
 } from "@raouldeheer/tstypes";
 import {
-    checkP as checkPath,
-    checkPS as checkPathSync
-} from "./fileHandler";
+    checkPath,
+} from "./async/checksAsync";
+import {
+    checkPathSync,
+} from "./sync/checksSync";
 
 export {
     mkDir as mk,

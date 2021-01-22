@@ -1,7 +1,7 @@
 import make from "./worker";
 import { parentPort } from "worker_threads";
 import * as Comlink from "comlink";
-import { load, save } from "../fileHandler";
+import { load, save } from "../async/fileAsync";
 
 const loadJson = async (
     path: string,
