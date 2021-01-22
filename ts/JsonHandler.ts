@@ -1,19 +1,25 @@
 import {
     objectCallback,
-    voidCallback
+    voidCallback,
 } from "@raouldeheer/tstypes";
 import {
     loadS as loadFileSync,
     saveS as saveFileSync,
     load as loadFile,
-    save as saveFile
+    save as saveFile,
 } from "./fileHandler";
+import {
+    loadJson as loadW,
+    saveJson as saveW,
+} from "./workers/workerHandlers";
 
 export {
     loadJsonSync as loadS,
     saveJsonSync as saveS,
     loadJson as load,
-    saveJson as save
+    saveJson as save,
+    loadW,
+    saveW,
 };
 
 /**
