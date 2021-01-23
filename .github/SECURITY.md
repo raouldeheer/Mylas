@@ -14,6 +14,15 @@
 | 1.0.1   | :white_check_mark: |
 | 1.0.0   | :x:                |
 
+## Supported Node Versions
+
+| Version | Supported          |
+| ------- | ------------------ |
+| 15      | :white_check_mark: |
+| 14      | :white_check_mark: |
+| 12      | :white_check_mark: |
+| 10      | :x:                |
+
 ## Reporting a Vulnerability
 
 To report a Vulnerability open a issue on Github.
