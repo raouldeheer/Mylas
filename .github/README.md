@@ -1,4 +1,11 @@
-# Mylas
+# Mylas 
+![npm](https://img.shields.io/npm/dt/@raouldeheer/mylas)
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@raouldeheer/mylas)
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@raouldeheer/mylas)
+![GitHub](https://img.shields.io/github/license/raouldeheer/Mylas)
+![npm (scoped)](https://img.shields.io/npm/v/@raouldeheer/mylas)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/raouldeheer/Mylas)
+![node-lts (scoped)](https://img.shields.io/node/v-lts/@raouldeheer/mylas)   
 Mylas is a npm package to make the loading and storing of data from fs easy and reliable.
 
 ## Features
