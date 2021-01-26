@@ -1,6 +1,6 @@
 {
   "name": "@raouldeheer/mylas",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Mylas is a npm package to make the loading and storing of data from fs easy and reliable.",
   "main": "build/index.js",
   "typings": "build/index",
@@ -47,6 +47,6 @@
     "comlink": "^4.3.0"
   },
   "engines": {
-    "node": ">=12"
+    "node": ">= 0.12.0"
   }
 }
