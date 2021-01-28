@@ -8,7 +8,7 @@
 ![node-current (scoped)](https://img.shields.io/node/v/@raouldeheer/mylas)
 ![node-lts (scoped)](https://img.shields.io/node/v-lts/@raouldeheer/mylas)   
 Mylas is a npm package to make the loading and storing of data from fs easy and reliable.
-![Logo](./.github/logo.svg | width=100)
+![Logo](./.github/logo.svg =100x20)
 
 ## Features
 
