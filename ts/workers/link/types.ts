@@ -1,3 +1,4 @@
+/* eslint-disable */
 export const proxyMarker = Symbol("Comlink.proxy");
 export const createEndpoint = Symbol("Comlink.endpoint");
 export const releaseProxy = Symbol("Comlink.releaseProxy");

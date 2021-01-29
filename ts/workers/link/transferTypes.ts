@@ -1,12 +1,6 @@
-import {
-    expose,
-    wrap,
-} from "./link";
-import {
-    ProxyMarked,
-    proxyMarker,
-    throwMarker,
-} from "./types";
+/* eslint-disable */
+import { expose, wrap, } from "./link";
+import { ProxyMarked, proxyMarker, throwMarker, } from "./types";
 
 interface TransferHandler<T, S> {
     canHandle(value: unknown): value is T;

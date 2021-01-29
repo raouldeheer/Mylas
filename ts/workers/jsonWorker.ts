@@ -1,6 +1,5 @@
-import { nodeEndpoint as make } from "./worker";
+import { expose } from "./worker";
 import { parentPort } from "worker_threads";
-import * as Comlink from "./link/link";
 import {
     load,
     save,
@@ -19,11 +18,10 @@ const saveJson = async (
     await save(path, data);
 }
 
-export default {
+const thisClass = {
     loadJson,
     saveJson,
 };
-Comlink.expose({
-    loadJson,
-    saveJson,
-}, make(parentPort));
+
+export default thisClass
+expose(thisClass, parentPort);

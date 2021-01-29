@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { WireValue, WireValueType } from "./protocol";
 import { transferHandlers } from "./transferTypes";
 
