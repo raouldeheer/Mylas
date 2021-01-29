@@ -1,7 +1,11 @@
-import { Endpoint } from "comlink";
+import {
+    Endpoint,
+} from "./link/link";
+
+
 
 /* eslint-disable */
-export default function(nep: any): Endpoint {
+export function nodeEndpoint(nep: any): Endpoint {
     const listeners = new WeakMap();
     return {
         postMessage: nep.postMessage.bind(nep),

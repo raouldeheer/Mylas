@@ -1,8 +1,8 @@
 import { Worker } from "worker_threads";
-import * as Comlink from "comlink";
+import * as Comlink from "./link/link";
 import fileWorker from "./fileWorker";
 import jsonWorker from "./jsonWorker";
-import make from "./worker";
+import { nodeEndpoint as make } from "./worker";
 import {
     objectCallback,
     stringCallback,
