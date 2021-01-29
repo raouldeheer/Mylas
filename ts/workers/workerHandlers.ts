@@ -1,8 +1,7 @@
-import { Worker } from "worker_threads";
-import * as Comlink from "comlink";
+import * as Comlink from "./link/link";
 import fileWorker from "./fileWorker";
 import jsonWorker from "./jsonWorker";
-import make from "./worker";
+import { makeWorker } from "./worker";
 import {
     objectCallback,
     stringCallback,
@@ -19,9 +18,10 @@ const loadFile = async (
     path: string,
     callback?: stringCallback
 ): Promise<string> => {
-    const worker = Comlink.wrap<typeof fileWorker>(
-        make(
-            new Worker("./build/workers/fileWorker.js")));
+    const worker = makeWorker<typeof fileWorker>("fileWorker");
+    // const worker = Comlink.wrap<typeof fileWorker>(
+    //     make(
+    //         new Worker("./build/workers/fileWorker.js")));
     try {
         const data = await worker.loadFile(path);
         callback?.(data);
@@ -43,9 +43,7 @@ const saveFile = async (
     data: string,
     callback?: voidCallback,
 ): Promise<void> => {
-    const worker = Comlink.wrap<typeof fileWorker>(
-        make(
-            new Worker("./build/workers/fileWorker.js")));
+    const worker = makeWorker<typeof fileWorker>("fileWorker");
     try {
         await worker.saveFile(path, data);
         callback?.();
@@ -63,9 +61,7 @@ const loadJson = async (
     path: string,
     callback?: objectCallback<unknown>
 ): Promise<unknown> => {
-    const worker = Comlink.wrap<typeof jsonWorker>(
-        make(
-            new Worker("./build/workers/jsonWorker.js")));
+    const worker = makeWorker<typeof jsonWorker>("jsonWorker");
     const data = await worker.loadJson(path);
     worker[Comlink.releaseProxy]();
     callback?.(data);
@@ -83,9 +79,7 @@ const saveJson = async (
     data: unknown,
     callback?: voidCallback
 ): Promise<void> => {
-    const worker = Comlink.wrap<typeof jsonWorker>(
-        make(
-            new Worker("./build/workers/jsonWorker.js")));
+    const worker = makeWorker<typeof jsonWorker>("jsonWorker");
     await worker.saveJson(path, data);
     worker[Comlink.releaseProxy]();
     callback?.();

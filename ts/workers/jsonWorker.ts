@@ -1,28 +1,27 @@
-import make from "./worker";
+import { expose } from "./worker";
 import { parentPort } from "worker_threads";
-import * as Comlink from "comlink";
-import { load, save } from "../async/fileAsync";
+import {
+    load,
+    save,
+} from "../async/jsonAsync";
 
 const loadJson = async (
     path: string,
 ): Promise<unknown> => {
-    const data = JSON.parse(await load(path));
-    return data;
+    return await load(path);
 }
 
 const saveJson = async (
     path: string,
     data: unknown,
 ): Promise<void> => {
-    await save(path, JSON.stringify(data));
-    return;
+    await save(path, data);
 }
 
-export default {
+const thisClass = {
     loadJson,
     saveJson,
 };
-Comlink.expose({
-    loadJson,
-    saveJson,
-}, make(parentPort));
+
+export default thisClass
+expose(thisClass, parentPort);
