@@ -1,27 +1,15 @@
-import { expose } from "./worker";
+import { exposeNode } from "./link/link";
 import { parentPort } from "worker_threads";
-import {
-    load,
-    save,
-} from "../async/fileAsync";
+import { load, save, } from "../async/fileAsync";
 
-const loadFile = async (
-    path: string,
-): Promise<string> => {
-    return await load(path);
-}
-
-const saveFile = async (
-    path: string,
-    data: string,
-): Promise<void> => {
-    await save(path, data);
-}
-
-const thisClass = {
-    loadFile,
-    saveFile,
+const fileWorker = {
+    loadFile: async (path: string): Promise<string> => {
+        return await load(path);
+    },
+    saveFile: async (path: string, data: string): Promise<void> => {
+        await save(path, data);
+    }
 };
 
-export default thisClass
-expose(thisClass, parentPort);
+export default fileWorker
+exposeNode(fileWorker, parentPort);
