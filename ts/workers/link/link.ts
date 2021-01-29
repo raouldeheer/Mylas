@@ -25,7 +25,8 @@ function expose(obj: any, ep: Endpoint = self as any) {
             ...(ev.data as Message),
         };
         const argumentList = (ev.data.argumentList || []).map(fromWireValue);
-        const returnValue: unknown = getReturnValue(obj, path, type, ev, argumentList);
+        const returnValue: unknown =
+            getReturnValue(obj, path, type, ev, argumentList);
         Promise.resolve(returnValue)
             .catch((value) => {
                 return { value, [throwMarker]: 0 };
