@@ -1,32 +1,23 @@
 /* eslint-disable */
 import { Worker } from "worker_threads";
 import {
-    closeEndPoint, createProxy,
-    fromWireValue, nodeEndpoint, toWireValue,
-    transfer,
+    closeEndPoint, createProxy, NEP,
+    fromWireValue, toWireValue, transfer,
 } from "./proxy";
 import {
-    ProxyMarked, proxyMarker,
-    Remote, throwMarker,
-    releaseProxy,
-    Message, MessageType,
-    Endpoint,
-} from "./protocol";
+    proxyMarker, Remote, throwMarker,
+    release, Message, MessageType, Endpoint,
+} from "./types";
 export {
-    Endpoint, releaseProxy,
+    Endpoint, release,
     expose, wrap,
     exposeNode, makeWorker,
-    proxy,
 };
 
-function exposeNode(obj: any, parentPort: any) {
-    expose(obj, nodeEndpoint(parentPort));
-}
+function exposeNode(obj: any, pp: any) { expose(obj, NEP(pp)) }
 
 function makeWorker<T>(filename: string): Remote<T> {
-    return wrap<T>(
-        nodeEndpoint(
-            new Worker(`./build/workers/${filename}.js`)));
+    return wrap<T>(NEP(new Worker(`./build/workers/${filename}.js`)));
 }
 
 function expose(obj: any, ep: Endpoint = self as any) {
@@ -57,7 +48,7 @@ function expose(obj: any, ep: Endpoint = self as any) {
 function getReturnValue(
     obj: any, path: string[],
     type: MessageType, ev: MessageEvent<any>,
-    argumentList: any
+    al: any
 ): unknown {
     try {
         const parent = path.slice(0, -1).reduce(
@@ -72,10 +63,10 @@ function getReturnValue(
                     fromWireValue(ev.data.value);
                 return true;
             case MessageType.APPLY:
-                return rawValue.apply(parent, argumentList);
+                return rawValue.apply(parent, al);
             case MessageType.CONSTRUCT:
-                const value = new rawValue(...argumentList);
-                return proxy(value);
+                const value = new rawValue(...al);
+                return Object.assign(value, { [proxyMarker]: true }) as any;
             case MessageType.ENDPOINT:
                 const { port1, port2 } = new MessageChannel();
                 expose(obj, port2);
@@ -90,8 +81,4 @@ function getReturnValue(
 
 function wrap<T>(ep: Endpoint, target?: any): Remote<T> {
     return createProxy<T>(ep, [], target) as any;
-}
-
-function proxy<T>(obj: T): T & ProxyMarked {
-    return Object.assign(obj, { [proxyMarker]: true }) as any;
 }

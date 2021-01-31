@@ -2,7 +2,7 @@
 import {
     Endpoint,
     expose,
-    releaseProxy,
+    release,
     wrap,
 } from "./link";
 import {
@@ -15,10 +15,12 @@ import {
     ProxyMarked,
     proxyMarker,
     throwMarker,
-} from "./protocol";
+} from "./types";
 
 export function closeEndPoint(endpoint: Endpoint) {
-    if (isMessagePort(endpoint)) endpoint.close();
+    const isMP = (endpoint: Endpoint): endpoint is MessagePort => 
+        endpoint.constructor.name === "MessagePort";
+    if (isMP(endpoint)) endpoint.close();
 }
 
 export function createProxy<T>(
@@ -29,8 +31,8 @@ export function createProxy<T>(
     let isProxyReleased = false;
     const proxy = new Proxy(target, {
         get(_target, prop) {
-            throwIfProxyReleased(isProxyReleased);
-            if (prop === releaseProxy)
+            if (isProxyReleased) throw new Error("Proxy released");
+            if (prop === release)
                 return () => {
                     return requestResponseMessage(ep, {
                         type: MessageType.RELEASE,
@@ -51,7 +53,7 @@ export function createProxy<T>(
             return createProxy(ep, [...path, prop]);
         },
         set(_target, prop, rawValue) {
-            throwIfProxyReleased(isProxyReleased);
+            if (isProxyReleased) throw new Error("Proxy released");
             const [value, transferables] = toWireValue(rawValue);
             return requestResponseMessage(ep, {
                 type: MessageType.SET,
@@ -60,7 +62,7 @@ export function createProxy<T>(
             }, transferables).then(fromWireValue) as any;
         },
         apply(_target, _thisArg, rawArgumentList) {
-            throwIfProxyReleased(isProxyReleased);
+            if (isProxyReleased) throw new Error("Proxy released");
             const last = path[path.length - 1];
             if ((last as any) === createEndpoint)
                 return requestResponseMessage(ep, {
@@ -75,7 +77,7 @@ export function createProxy<T>(
             }, transferables).then(fromWireValue);
         },
         construct(_target, rawArgumentList) {
-            throwIfProxyReleased(isProxyReleased);
+            if (isProxyReleased) throw new Error("Proxy released");
             const [argumentList, transferables] = processArguments(rawArgumentList);
             return requestResponseMessage(ep, {
                 type: MessageType.CONSTRUCT,
@@ -87,18 +89,11 @@ export function createProxy<T>(
     return proxy as any;
 }
 
-function throwIfProxyReleased(isReleased: boolean) {
-    if (isReleased) {
-        throw new Error("Proxy has been released and is not useable");
-    }
-}
 function processArguments(argumentList: any[]):
     [WireValue[], Transferable[]] {
     const processed = argumentList.map(toWireValue);
-    return [processed.map((v) => v[0]), myFlat(processed.map((v) => v[1]))];
-}
-function myFlat<T>(arr: (T | T[])[]): T[] {
-    return Array.prototype.concat.apply([], arr);
+    return [processed.map((v) => v[0]),
+    Array.prototype.concat.apply([], processed.map((v) => v[1]))];
 }
 function requestResponseMessage(
     ep: Endpoint,
@@ -123,9 +118,6 @@ function requestResponseMessage(
         }
         ep.postMessage({ id, ...msg }, transfers);
     });
-}
-function isMessagePort(endpoint: Endpoint): endpoint is MessagePort {
-    return endpoint.constructor.name === "MessagePort";
 }
 
 const transferCache = new WeakMap<any, Transferable[]>();
@@ -238,7 +230,7 @@ const transferHandlers = new Map<
     ["throw", throwTransferHandler],
 ]);
 
-export function nodeEndpoint(nep: any): Endpoint {
+export function NEP(nep: any): Endpoint {
     const listeners = new WeakMap();
     return {
         postMessage: nep.postMessage.bind(nep),
