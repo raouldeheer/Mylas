@@ -1,12 +1,12 @@
 /* eslint-disable */
 import { Worker } from "worker_threads";
 import {
-    closeEndPoint, createProxy, NEP,
-    fromWireValue, toWireValue, transfer,
+    cEP, cP, NEP,
+    FWV, TWV, transfer as tr,
 } from "./proxy";
 import {
     proxyMarker, Remote, throwMarker,
-    release, Message, MessageType, Endpoint,
+    release, Message, MessageType as MT, Endpoint,
 } from "./types";
 export {
     Endpoint, release,
@@ -16,8 +16,8 @@ export {
 
 function exposeNode(obj: any, pp: any) { expose(obj, NEP(pp)) }
 
-function makeWorker<T>(filename: string): Remote<T> {
-    return wrap<T>(NEP(new Worker(`./build/workers/${filename}.js`)));
+function makeWorker<T>(f: string): Remote<T> {
+    return wrap<T>(NEP(new Worker(`./build/workers/${f}.js`)));
 }
 
 function expose(obj: any, ep: Endpoint = self as any) {
@@ -27,58 +27,44 @@ function expose(obj: any, ep: Endpoint = self as any) {
             path: [] as string[],
             ...(ev.data as Message),
         };
-        const argumentList = (ev.data.argumentList || []).map(fromWireValue);
-        const returnValue: unknown =
-            getReturnValue(obj, path, type, ev, argumentList);
-        Promise.resolve(returnValue)
-            .catch((value) => {
-                return { value, [throwMarker]: 0 };
-            })
-            .then((returnValue) => {
-                const [wireValue, transferables] = toWireValue(returnValue);
-                ep.postMessage({ ...wireValue, id }, transferables);
-                if (type === MessageType.RELEASE) {
+        const aL = (ev.data.argumentList || []).map(FWV);
+        const rV: unknown =
+            grV(obj, path, type, ev, aL);
+        Promise.resolve(rV)
+            .catch((value) => { return { value, [throwMarker]: 0 }; })
+            .then((rV) => {
+                const [wV, tfs] = TWV(rV);
+                ep.postMessage({ ...wV, id }, tfs);
+                if (type === MT.RELEASE) {
                     ep.removeEventListener("message", callback as any);
-                    closeEndPoint(ep);
+                    cEP(ep);
                 }
             });
     } as any);
     if (ep.start) ep.start();
 }
-function getReturnValue(
+function grV(
     obj: any, path: string[],
-    type: MessageType, ev: MessageEvent<any>,
+    type: MT, ev: MessageEvent<any>,
     al: any
 ): unknown {
     try {
-        const parent = path.slice(0, -1).reduce(
-            (obj, prop) => obj[prop], obj);
-        const rawValue = path.reduce(
-            (obj, prop) => obj[prop], obj);
+        const pa = path.slice(0, -1).reduce((obj, prop) => obj[prop], obj);
+        const rv = path.reduce((obj, prop) => obj[prop], obj);
         switch (type) {
-            case MessageType.GET:
-                return rawValue;
-            case MessageType.SET:
-                parent[path.slice(-1)[0]!] =
-                    fromWireValue(ev.data.value);
+            case MT.GET: return rv;
+            case MT.SET: pa[path.slice(-1)[0]!] = FWV(ev.data.value);
                 return true;
-            case MessageType.APPLY:
-                return rawValue.apply(parent, al);
-            case MessageType.CONSTRUCT:
-                const value = new rawValue(...al);
-                return Object.assign(value, { [proxyMarker]: true }) as any;
-            case MessageType.ENDPOINT:
-                const { port1, port2 } = new MessageChannel();
-                expose(obj, port2);
-                return transfer(port1, [port1]);
-            case MessageType.RELEASE:
-                return undefined;
+            case MT.APPLY: return rv.apply(pa, al);
+            case MT.CONSTRUCT: return Object.assign(new rv(...al),
+                { [proxyMarker]: true }) as any;
+            case MT.ENDPOINT: const { port1, port2 } = new MessageChannel();
+                expose(obj, port2); return tr(port1, [port1]);
+            case MT.RELEASE: return undefined;
         }
-    } catch (value) {
-        return { value, [throwMarker]: 0 };
-    }
+    } catch (value) { return { value, [throwMarker]: 0 }; }
 }
 
 function wrap<T>(ep: Endpoint, target?: any): Remote<T> {
-    return createProxy<T>(ep, [], target) as any;
+    return cP<T>(ep, [], target) as any;
 }
