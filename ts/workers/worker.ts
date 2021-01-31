@@ -1,43 +1,22 @@
-/* eslint-disable */
-import { Worker } from "worker_threads";
-import { Endpoint, expose, wrap } from "./link/link";
-import { Remote } from "./link/types";
+import { exposeNode } from "./link/link";
+import { parentPort } from "worker_threads";
+import { load as loadFile, save as saveFile } from "../async/fileAsync";
+import { load as loadJson, save as saveJson, } from "../async/jsonAsync";
 
-export { exposeNode as expose, nodeEndpoint, makeWorker };
+const worker = {
+    loadFile: async (path: string): Promise<string> => {
+        return await loadFile(path);
+    },
+    saveFile: async (path: string, data: string): Promise<void> => {
+        await saveFile(path, data);
+    },
+    loadJson: async (path: string,): Promise<unknown> => {
+        return await loadJson(path);
+    },
+    saveJson: async (path: string, data: unknown,): Promise<void> => {
+        await saveJson(path, data);
+    }
+};
 
-function exposeNode(obj: any, parentPort: any) {
-    expose(obj, nodeEndpoint(parentPort));
-}
-
-function makeWorker<T>(filename: string): Remote<T> {
-    return wrap<T>(
-        nodeEndpoint(
-            new Worker(`./build/workers/${filename}.js`)));
-}
-
-function nodeEndpoint(nep: any): Endpoint {
-    const listeners = new WeakMap();
-    return {
-        postMessage: nep.postMessage.bind(nep),
-        addEventListener: (_, eh) => {
-            const l = (data: unknown) => {
-                if ("handleEvent" in eh) {
-                    eh.handleEvent({ data } as MessageEvent);
-                } else {
-                    eh({ data } as MessageEvent);
-                }
-            };
-            nep.on("message", l);
-            listeners.set(eh, l);
-        },
-        removeEventListener: (_, eh) => {
-            const l = listeners.get(eh);
-            if (!l) {
-                return;
-            }
-            nep.off("message", l);
-            listeners.delete(eh);
-        },
-        start: nep.start && nep.start.bind(nep),
-    };
-}
+export default worker;
+exposeNode(worker, parentPort);

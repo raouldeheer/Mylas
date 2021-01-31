@@ -1,7 +1,5 @@
-import * as Comlink from "./link/link";
-import fileWorker from "./fileWorker";
-import jsonWorker from "./jsonWorker";
-import { makeWorker } from "./worker";
+import * as link from "./link/link";
+import workerObj from "./worker";
 import {
     objectCallback,
     stringCallback,
@@ -18,16 +16,13 @@ const loadFile = async (
     path: string,
     callback?: stringCallback
 ): Promise<string> => {
-    const worker = makeWorker<typeof fileWorker>("fileWorker");
-    // const worker = Comlink.wrap<typeof fileWorker>(
-    //     make(
-    //         new Worker("./build/workers/fileWorker.js")));
+    const worker = link.makeWorker<typeof workerObj>("worker");
     try {
         const data = await worker.loadFile(path);
         callback?.(data);
         return data;
     } finally {
-        worker[Comlink.releaseProxy]();
+        worker[link.releaseProxy]();
     }
 }
 
@@ -43,12 +38,12 @@ const saveFile = async (
     data: string,
     callback?: voidCallback,
 ): Promise<void> => {
-    const worker = makeWorker<typeof fileWorker>("fileWorker");
+    const worker = link.makeWorker<typeof workerObj>("worker");
     try {
         await worker.saveFile(path, data);
         callback?.();
     } finally {
-        worker[Comlink.releaseProxy]();
+        worker[link.releaseProxy]();
     }
 }
 
@@ -61,9 +56,9 @@ const loadJson = async (
     path: string,
     callback?: objectCallback<unknown>
 ): Promise<unknown> => {
-    const worker = makeWorker<typeof jsonWorker>("jsonWorker");
+    const worker = link.makeWorker<typeof workerObj>("worker");
     const data = await worker.loadJson(path);
-    worker[Comlink.releaseProxy]();
+    worker[link.releaseProxy]();
     callback?.(data);
     return data;
 }
@@ -79,9 +74,9 @@ const saveJson = async (
     data: unknown,
     callback?: voidCallback
 ): Promise<void> => {
-    const worker = makeWorker<typeof jsonWorker>("jsonWorker");
+    const worker = link.makeWorker<typeof workerObj>("worker");
     await worker.saveJson(path, data);
-    worker[Comlink.releaseProxy]();
+    worker[link.releaseProxy]();
     callback?.();
 }
 
