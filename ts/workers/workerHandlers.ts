@@ -1,5 +1,5 @@
-import * as link from "./link/link";
-import workerObj from "./worker";
+import { makeWorker, release } from "./link/link";
+import { worker } from "./worker";
 import {
     objectCallback,
     stringCallback,
@@ -16,13 +16,13 @@ const loadFile = async (
     path: string,
     callback?: stringCallback
 ): Promise<string> => {
-    const worker = link.makeWorker<typeof workerObj>("worker");
+    const thread = makeWorker<worker>("worker");
     try {
-        const data = await worker.loadFile(path);
+        const data = await thread.loadFile(path);
         callback?.(data);
         return data;
     } finally {
-        worker[link.releaseProxy]();
+        thread[release]();
     }
 }
 
@@ -38,12 +38,12 @@ const saveFile = async (
     data: string,
     callback?: voidCallback,
 ): Promise<void> => {
-    const worker = link.makeWorker<typeof workerObj>("worker");
+    const thread = makeWorker<worker>("worker");
     try {
-        await worker.saveFile(path, data);
+        await thread.saveFile(path, data);
         callback?.();
     } finally {
-        worker[link.releaseProxy]();
+        thread[release]();
     }
 }
 
@@ -56,9 +56,9 @@ const loadJson = async (
     path: string,
     callback?: objectCallback<unknown>
 ): Promise<unknown> => {
-    const worker = link.makeWorker<typeof workerObj>("worker");
-    const data = await worker.loadJson(path);
-    worker[link.releaseProxy]();
+    const thread = makeWorker<worker>("worker");
+    const data = await thread.loadJson(path);
+    thread[release]();
     callback?.(data);
     return data;
 }
@@ -74,9 +74,9 @@ const saveJson = async (
     data: unknown,
     callback?: voidCallback
 ): Promise<void> => {
-    const worker = link.makeWorker<typeof workerObj>("worker");
-    await worker.saveJson(path, data);
-    worker[link.releaseProxy]();
+    const thread = makeWorker<worker>("worker");
+    await thread.saveJson(path, data);
+    thread[release]();
     callback?.();
 }
 

@@ -2,188 +2,141 @@
 import {
     Endpoint,
     expose,
-    releaseProxy,
+    release,
     wrap,
 } from "./link";
 import {
     Message,
-    MessageType,
+    MessageType as MT,
     WireValue,
     Remote,
     createEndpoint,
-    WireValueType,
+    WireValueType as WVT,
     ProxyMarked,
     proxyMarker,
     throwMarker,
-} from "./protocol";
+} from "./types";
 
-export function closeEndPoint(endpoint: Endpoint) {
-    if (isMessagePort(endpoint)) endpoint.close();
+export function cEP(e: Endpoint) {
+    const isMP = (p: Endpoint): p is MessagePort =>
+        p.constructor.name === "MessagePort";
+    if (isMP(e)) e.close();
 }
 
-export function createProxy<T>(
+export function cP<T>(
     ep: Endpoint,
-    path: (string | number | symbol)[] = [],
-    target: object = function () { }
+    pa: (string | number | symbol)[] = [],
+    ta: object = function () { }
 ): Remote<T> {
-    let isProxyReleased = false;
-    const proxy = new Proxy(target, {
-        get(_target, prop) {
-            throwIfProxyReleased(isProxyReleased);
-            if (prop === releaseProxy)
+    let iPR = false;
+    const proxy = new Proxy(ta, {
+        get(_target, pr) {
+            if (iPR) throw new Error("Proxy released");
+            if (pr === release)
                 return () => {
-                    return requestResponseMessage(ep, {
-                        type: MessageType.RELEASE,
-                        path: path.map((p) => p.toString()),
-                    }).then(() => {
-                        closeEndPoint(ep);
-                        isProxyReleased = true;
-                    });
+                    return rRM(ep, {
+                        type: MT.RELEASE, path: pa.map((p) => p.toString()),
+                    }).then(() => { cEP(ep); iPR = true; });
                 };
-            if (prop === "then") {
-                if (path.length === 0) return { then: () => proxy };
-                const r = requestResponseMessage(ep, {
-                    type: MessageType.GET,
-                    path: path.map((p) => p.toString()),
-                }).then(fromWireValue);
+            if (pr === "then") {
+                if (pa.length === 0) return { then: () => proxy };
+                const r = rRM(ep, {
+                    type: MT.GET, path: pa.map((p) => p.toString()),
+                }).then(FWV);
                 return r.then.bind(r);
             }
-            return createProxy(ep, [...path, prop]);
+            return cP(ep, [...pa, pr]);
         },
-        set(_target, prop, rawValue) {
-            throwIfProxyReleased(isProxyReleased);
-            const [value, transferables] = toWireValue(rawValue);
-            return requestResponseMessage(ep, {
-                type: MessageType.SET,
-                path: [...path, prop].map((p) => p.toString()),
+        set(_t, pr, r) {
+            if (iPR) throw new Error("Proxy released");
+            const [value, tfs] = TWV(r);
+            return rRM(ep, {
+                type: MT.SET, path: [...pa, pr].map((p) => p.toString()),
                 value,
-            }, transferables).then(fromWireValue) as any;
+            }, tfs).then(FWV) as any;
         },
-        apply(_target, _thisArg, rawArgumentList) {
-            throwIfProxyReleased(isProxyReleased);
-            const last = path[path.length - 1];
-            if ((last as any) === createEndpoint)
-                return requestResponseMessage(ep, {
-                    type: MessageType.ENDPOINT,
-                }).then(fromWireValue);
-            if (last === "bind") return createProxy(ep, path.slice(0, -1));
-            const [argumentList, transferables] = processArguments(rawArgumentList);
-            return requestResponseMessage(ep, {
-                type: MessageType.APPLY,
-                path: path.map((p) => p.toString()),
-                argumentList,
-            }, transferables).then(fromWireValue);
+        apply(_t, _th, rAL) {
+            if (iPR) throw new Error("Proxy released");
+            const l = pa[pa.length - 1];
+            if ((l as any) === createEndpoint)
+                return rRM(ep, { type: MT.ENDPOINT }).then(FWV);
+            if (l === "bind") return cP(ep, pa.slice(0, -1));
+            const [al, tfs] = pA(rAL);
+            return rRM(ep, {
+                type: MT.APPLY, path: pa.map((p) => p.toString()),
+                argumentList: al,
+            }, tfs).then(FWV);
         },
-        construct(_target, rawArgumentList) {
-            throwIfProxyReleased(isProxyReleased);
-            const [argumentList, transferables] = processArguments(rawArgumentList);
-            return requestResponseMessage(ep, {
-                type: MessageType.CONSTRUCT,
-                path: path.map((p) => p.toString()),
-                argumentList,
-            }, transferables).then(fromWireValue);
+        construct(_t, rAL) {
+            if (iPR) throw new Error("Proxy released");
+            const [al, tfs] = pA(rAL);
+            return rRM(ep, {
+                type: MT.CONSTRUCT, path: pa.map((p) => p.toString()),
+                argumentList: al,
+            }, tfs).then(FWV);
         },
     });
     return proxy as any;
 }
 
-function throwIfProxyReleased(isReleased: boolean) {
-    if (isReleased) {
-        throw new Error("Proxy has been released and is not useable");
-    }
-}
-function processArguments(argumentList: any[]):
+function pA(al: any[]):
     [WireValue[], Transferable[]] {
-    const processed = argumentList.map(toWireValue);
-    return [processed.map((v) => v[0]), myFlat(processed.map((v) => v[1]))];
+    return [al.map(TWV).map((v) => v[0]),
+    Array.prototype.concat.apply([], al.map(TWV).map((v) => v[1]))];
 }
-function myFlat<T>(arr: (T | T[])[]): T[] {
-    return Array.prototype.concat.apply([], arr);
-}
-function requestResponseMessage(
-    ep: Endpoint,
-    msg: Message,
-    transfers?: Transferable[]
-): Promise<WireValue> {
+function rRM(ep: Endpoint, msg: Message, t?: Transferable[])
+    : Promise<WireValue> {
     return new Promise((resolve) => {
         const id = new Array(4)
-            .fill(0)
-            .map(() => Math.floor(
+            .fill(0).map(() => Math.floor(
                 Math.random() * Number.MAX_SAFE_INTEGER).toString(16))
             .join("-");
         ep.addEventListener("message", function l(ev: MessageEvent) {
-            if (!ev.data || !ev.data.id || ev.data.id !== id) {
-                return;
-            }
+            if (!ev.data || !ev.data.id || ev.data.id !== id) return;
             ep.removeEventListener("message", l as any);
             resolve(ev.data);
         } as any);
-        if (ep.start) {
-            ep.start();
-        }
-        ep.postMessage({ id, ...msg }, transfers);
+        if (ep.start) ep.start();
+        ep.postMessage({ id, ...msg }, t);
     });
 }
-function isMessagePort(endpoint: Endpoint): endpoint is MessagePort {
-    return endpoint.constructor.name === "MessagePort";
-}
 
-const transferCache = new WeakMap<any, Transferable[]>();
+const transferC = new WeakMap<any, Transferable[]>();
 
 export function transfer(obj: any, transfers: Transferable[]) {
-    transferCache.set(obj, transfers);
+    transferC.set(obj, transfers);
     return obj;
 }
 
-export function toWireValue(value: any): [WireValue, Transferable[]] {
-    for (const [name, handler] of transferHandlers) {
-        if (handler.canHandle(value)) {
-            const [serializedValue, transferables] = handler.serialize(value);
-            return [
-                {
-                    type: WireValueType.HANDLER,
-                    name,
-                    value: serializedValue,
-                },
-                transferables,
-            ];
+export function TWV(v: any): [WireValue, Transferable[]] {
+    for (const [name, handler] of tHs) {
+        if (handler.canHandle(v)) {
+            const [sV, tf] = handler.serialize(v);
+            return [{ type: WVT.HANDLER, name, value: sV, }, tf];
         }
     }
-    return [
-        {
-            type: WireValueType.RAW,
-            value,
-        },
-        transferCache.get(value) || [],
-    ];
+    return [{ type: WVT.RAW, value: v, }, transferC.get(v) || []];
 }
 
-export function fromWireValue(value: WireValue): any {
-    switch (value.type) {
-        case WireValueType.HANDLER:
-            return transferHandlers.get(value.name)!.deserialize(value.value);
-        case WireValueType.RAW:
-            return value.value;
+export function FWV(v: WireValue): any {
+    switch (v.type) {
+        case WVT.HANDLER: return tHs.get(v.name)!.deserialize(v.value);
+        case WVT.RAW: return v.value;
     }
 }
 
-interface TransferHandler<T, S> {
+interface TH<T, S> {
     canHandle(value: unknown): value is T;
     serialize(value: T): [S, Transferable[]];
     deserialize(value: S): T;
 }
-interface ThrownValue {
-    [throwMarker]: unknown;
-    value: unknown;
-}
-type SerializedThrownValue =
-    | { isError: true; value: Error }
-    | { isError: false; value: unknown };
+interface TV { [throwMarker]: unknown; value: unknown; }
+type S = { isError: true; value: Error } | { isError: false; value: unknown }
 
-const isObject = (val: unknown): val is object =>
-    (typeof val === "object" && val !== null) || typeof val === "function";
+const isObject = (v: unknown): v is object =>
+    (typeof v === "object" && v !== null) || typeof v === "function";
 
-const proxyTransferHandler: TransferHandler<object, MessagePort> = {
+const pTH: TH<object, MessagePort> = {
     canHandle: (val): val is ProxyMarked =>
         isObject(val) && (val as ProxyMarked)[proxyMarker],
     serialize(obj) {
@@ -197,69 +150,45 @@ const proxyTransferHandler: TransferHandler<object, MessagePort> = {
     },
 };
 
-const throwTransferHandler: TransferHandler<
-    ThrownValue,
-    SerializedThrownValue
-> = {
-    canHandle: (value): value is ThrownValue =>
+const tTH: TH<TV, S> = {
+    canHandle: (value): value is TV =>
         isObject(value) && throwMarker in value,
     serialize({ value }) {
-        let serialized: SerializedThrownValue;
-        if (value instanceof Error) {
-            serialized = {
-                isError: true,
-                value: {
-                    message: value.message,
-                    name: value.name,
-                    stack: value.stack,
-                },
-            };
-        } else {
-            serialized = { isError: false, value };
-        }
-        return [serialized, []];
+        let s: S = (value instanceof Error) ? {
+            isError: true, value: {
+                message: value.message,
+                name: value.name, stack: value.stack,
+            },
+        } : { isError: false, value };
+        return [s, []];
     },
-    deserialize(serialized) {
-        if (serialized.isError) {
-            throw Object.assign(
-                new Error(serialized.value.message),
-                serialized.value
-            );
-        }
-        throw serialized.value;
+    deserialize(s) {
+        throw s.isError ? Object.assign(new Error(s.value.message), s.value)
+            : s.value;
     },
 };
 
-const transferHandlers = new Map<
-    string,
-    TransferHandler<unknown, unknown>
->([
-    ["proxy", proxyTransferHandler],
-    ["throw", throwTransferHandler],
-]);
+const tHs = new Map<string, TH<unknown, unknown>>(
+    [["proxy", pTH], ["throw", tTH]]);
 
-export function nodeEndpoint(nep: any): Endpoint {
-    const listeners = new WeakMap();
+export function NEP(nep: any): Endpoint {
+    const lisn = new WeakMap();
     return {
         postMessage: nep.postMessage.bind(nep),
         addEventListener: (_, eh) => {
             const l = (data: unknown) => {
-                if ("handleEvent" in eh) {
+                if ("handleEvent" in eh)
                     eh.handleEvent({ data } as MessageEvent);
-                } else {
-                    eh({ data } as MessageEvent);
-                }
+                else eh({ data } as MessageEvent);
             };
             nep.on("message", l);
-            listeners.set(eh, l);
+            lisn.set(eh, l);
         },
         removeEventListener: (_, eh) => {
-            const l = listeners.get(eh);
-            if (!l) {
-                return;
-            }
+            const l = lisn.get(eh);
+            if (!l) return;
             nep.off("message", l);
-            listeners.delete(eh);
+            lisn.delete(eh);
         },
         start: nep.start && nep.start.bind(nep),
     };
