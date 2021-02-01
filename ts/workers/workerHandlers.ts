@@ -21,9 +21,7 @@ const loadFile = async (
         const data = await thread.loadFile(path);
         callback?.(data);
         return data;
-    } finally {
-        thread[release]();
-    }
+    } finally { thread[release](); }
 }
 
 /**
@@ -42,9 +40,7 @@ const saveFile = async (
     try {
         await thread.saveFile(path, data);
         callback?.();
-    } finally {
-        thread[release]();
-    }
+    } finally { thread[release](); }
 }
 
 /**
