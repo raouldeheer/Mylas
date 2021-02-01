@@ -4,6 +4,12 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 1.1.6   | :white_check_mark: |
+| 1.1.5   | :white_check_mark: |
+| 1.1.4   | :white_check_mark: |
+| 1.1.3   | :white_check_mark: |
+| 1.1.2   | :white_check_mark: |
+| 1.1.1   | :white_check_mark: |
 | 1.1.0   | :white_check_mark: |
 | 1.0.7   | :white_check_mark: |
 | 1.0.6   | :white_check_mark: |
