@@ -5,16 +5,16 @@
 - Mylas.loadW: Loads file from fs returns a string promise or calls callback. (multithreaded/worker)
 - Mylas.loadS: Loads file from fs returns a string. (sync)
 - Mylas.save: Saves file to fs returns void promise or calls callback. (async)
-- Mylas.save: Saves file to fs returns void promise or calls callback. (multithreaded/worker)
-- Mylas.savesS: Saves file to fs returns void. (sync)
+- Mylas.saveW: Saves file to fs returns void promise or calls callback. (multithreaded/worker)
+- Mylas.saveS: Saves file to fs returns void. (sync)
 - Mylas.file or import {file}: functions above.
 
 ### Json
 - Mylas.json.load: Loads JSON from fs returns json promise or calls callback. (async)
-- Mylas.json.load: Loads JSON from fs returns json promise or calls callback. (multithreaded/worker)
+- Mylas.json.loadW: Loads JSON from fs returns json promise or calls callback. (multithreaded/worker)
 - Mylas.json.loadS: Loads JSON from fs returns json. (sync)
 - Mylas.json.save: Saves JSON to fs returns void promise or calls callback. (async)
-- Mylas.json.save: Saves JSON to fs returns void promise or calls callback. (multithreaded/worker)
+- Mylas.json.saveW: Saves JSON to fs returns void promise or calls callback. (multithreaded/worker)
 - Mylas.json.savesS: Saves JSON to fs returns void. (sync)
 - import {json}: functions above.
 
