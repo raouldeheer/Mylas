@@ -1,12 +1,27 @@
-import { exposeNode } from "./link/link";
 import { parentPort } from "worker_threads";
-import { load as lF, save as sF } from "../async/fileAsync";
-import { load as lJ, save as sJ, } from "../async/jsonAsync";
-const worker = {
-    loadFile: async (p: string): Promise<string> => await lF(p),
-    loadJson: async (p: string,): Promise<unknown> => await lJ(p),
-    saveFile: async (p: string, d: string): Promise<void> => await sF(p, d),
-    saveJson: async (p: string, d: unknown,): Promise<void> => await sJ(p, d)
-};
-export type worker = typeof worker;
-exposeNode(worker, parentPort);
+import { load as loadF, save as saveF, } from "../async/fileAsync";
+import { load as loadJ, save as saveJ, } from "../async/jsonAsync";
+import { Method, WorkerRequest } from "./workerActions";
+
+parentPort!.on('message', async (workerRequest: WorkerRequest) => {
+    const { method, path, data } = workerRequest;
+    switch (method) {
+        case Method.loadFile:
+            parentPort!.postMessage(await loadF(path));
+            break;
+        case Method.saveFile:
+            try {
+                await saveF(path, data);
+            } catch (error) { process.exit(1); }
+            break;
+        case Method.loadJson:
+            parentPort!.postMessage(await loadJ(path));
+            break;
+        case Method.saveJson:
+            try {
+                await saveJ(path, data);
+            } catch (error) { process.exit(1); }
+            break;
+    }
+    setTimeout(process.exit(0), 10);
+});
