@@ -1,10 +1,31 @@
-import { makeWorker, release } from "./link/link";
-import { worker } from "./worker";
+import { Worker } from 'worker_threads';
 import {
     objectCallback,
     stringCallback,
     voidCallback,
 } from "@raouldeheer/tstypes";
+
+export enum Method {
+    loadFile,
+    saveFile,
+    loadJson,
+    saveJson,
+}
+export interface WorkerRequest {
+    method: Method,
+    path: string,
+    data?: any,
+}
+
+const action = <T>(request: WorkerRequest): Promise<T> => {
+    return new Promise((resolve, reject) => {
+        const worker = new Worker('./build/workers/worker.js');
+        let data: T;
+        worker.on('message', result => data = result);
+        worker.on('exit', code => code == 0 ? resolve(data) : reject(code));
+        worker.postMessage(request);
+    });
+}
 
 /**
  * loads string data from file.
@@ -16,12 +37,9 @@ const loadFile = async (
     path: string,
     callback?: stringCallback
 ): Promise<string> => {
-    const thread = makeWorker<worker>("worker");
-    try {
-        const data = await thread.loadFile(path);
-        callback?.(data);
-        return data;
-    } finally { thread[release](); }
+    const data: string = await action({ method: Method.loadFile, path: path });
+    callback?.(data);
+    return data;
 }
 
 /**
@@ -36,11 +54,8 @@ const saveFile = async (
     data: string,
     callback?: voidCallback,
 ): Promise<void> => {
-    const thread = makeWorker<worker>("worker");
-    try {
-        await thread.saveFile(path, data);
-        callback?.();
-    } finally { thread[release](); }
+    await action({ method: Method.saveFile, path: path, data: data });
+    callback?.();
 }
 
 /**
@@ -48,13 +63,11 @@ const saveFile = async (
  * @param {string} path path to load from.
  * @param {objectCallback<unknown>} callback callback to call. 
  */
-const loadJson = async (
+const loadJson = async <T>(
     path: string,
-    callback?: objectCallback<unknown>
-): Promise<unknown> => {
-    const thread = makeWorker<worker>("worker");
-    const data = await thread.loadJson(path);
-    thread[release]();
+    callback?: objectCallback<T>
+): Promise<T> => {
+    const data: T = await action({ method: Method.loadJson, path: path });
     callback?.(data);
     return data;
 }
@@ -70,9 +83,7 @@ const saveJson = async (
     data: unknown,
     callback?: voidCallback
 ): Promise<void> => {
-    const thread = makeWorker<worker>("worker");
-    await thread.saveJson(path, data);
-    thread[release]();
+    await action({ method: Method.saveJson, path: path, data: data });
     callback?.();
 }
 
