@@ -1,7 +1,7 @@
 import { parentPort } from "worker_threads";
-import { load as loadF, save as saveF } from "../async/fileAsync";
+import { load as loadF, save as saveF, } from "../async/fileAsync";
 import { load as loadJ, save as saveJ, } from "../async/jsonAsync";
-import { Method, WorkerRequest } from "./workerHandlers";
+import { Method, WorkerRequest } from "./workerActions";
 
 parentPort!.on('message', async (workerRequest: WorkerRequest) => {
     const { method, path, data } = workerRequest;
@@ -22,8 +22,6 @@ parentPort!.on('message', async (workerRequest: WorkerRequest) => {
                 await saveJ(path, data);
             } catch (error) { process.exit(1); }
             break;
-        default:
-            break;
     }
-    setTimeout(() => { process.exit(0); }, 10);
+    setTimeout(process.exit(0), 10);
 });

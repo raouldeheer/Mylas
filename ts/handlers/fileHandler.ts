@@ -3,7 +3,7 @@ import { fileS } from "../sync/syncHandlers";
 import {
     loadFile as loadW,
     saveFile as saveW,
-} from "../workers/workerHandlers";
+} from "../workers/workerActions";
 
 const { load, save } = file;
 const { loadS, saveS } = fileS;

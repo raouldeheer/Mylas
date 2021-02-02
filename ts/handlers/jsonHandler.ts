@@ -3,7 +3,7 @@ import { jsonS } from "../sync/syncHandlers";
 import {
     loadJson as loadW,
     saveJson as saveW,
-} from "../workers/workerHandlers";
+} from "../workers/workerActions";
 
 const { load, save } = json;
 const { loadS, saveS } = jsonS;
