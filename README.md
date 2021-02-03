@@ -1,6 +1,6 @@
 # Mylas 
 ![npm](https://img.shields.io/npm/dt/@raouldeheer/mylas)
-![install size](https://packagephobia.com/badge?p=@raouldeheer/mylas@1.1.5)
+![install size](https://badgen.net/packagephobia/install/@raouldeheer/mylas)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@raouldeheer/mylas)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@raouldeheer/mylas)
 ![GitHub](https://img.shields.io/github/license/raouldeheer/Mylas)
