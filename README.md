@@ -1,15 +1,14 @@
 # Mylas 
-![npm](https://img.shields.io/npm/dt/@raouldeheer/mylas)
-![install size](https://badgen.net/packagephobia/install/@raouldeheer/mylas)
-![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/@raouldeheer/mylas)
-![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/@raouldeheer/mylas)
+![npm](https://img.shields.io/npm/dt/mylas)
+![install size](https://badgen.net/packagephobia/install/mylas)
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/mylas)
+![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/mylas)
 ![GitHub](https://img.shields.io/github/license/raouldeheer/Mylas)
-![npm (scoped)](https://img.shields.io/npm/v/@raouldeheer/mylas)
+![npm (scoped)](https://img.shields.io/npm/v/mylas)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/raouldeheer/Mylas)
-![node-current (scoped)](https://img.shields.io/node/v/@raouldeheer/mylas)
-![node-lts (scoped)](https://img.shields.io/node/v-lts/@raouldeheer/mylas)   
-Mylas is a npm package to make the loading and storing of data from fs easy and reliable.
-[New package location!](https://www.npmjs.com/package/mylas)  
+![node-current (scoped)](https://img.shields.io/node/v/mylas)
+![node-lts (scoped)](https://img.shields.io/node/v-lts/mylas)   
+Mylas is a npm package to make the loading and storing of data from fs easy and reliable. 
 <img src="./.github/logo.png" width="600"> 
 
 ## Features
