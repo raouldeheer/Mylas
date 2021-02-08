@@ -18,32 +18,53 @@ npm i mylas
 ```
 
 ## Examples
-Save data/string to file
+Synchronous functions:
 ```
 const Mylas = require("mylas");
 
-const [path, data] = ["./text.txt", "Hello world!"];
-Mylas.saveS(path, data); // saves sync
-await Mylas.save(path, data[, callback]); // saves async
-await Mylas.saveW(path, data[, callback]); // saves with worker
+//Save string to file
+Mylas.saveS("./text.txt", "Hello world!");
 
-const loadedData = Mylas.loadS(path); //loads sync
-const loadedData = await Mylas.load(path[, callback]); //loads async
-const loadedData = await Mylas.loadW(path[, callback]); //loads with worker
+//Load string from file
+const loadedData = Mylas.loadS("./text.txt");
+
+//Save JSON to file
+Mylas.json.saveS("./text.json", [{test: "Hello world"}]);
+
+//Load JSON from file
+const loadedJSON = Mylas.json.loadS("./text.json");
 ```
-Save JSON to file
+ASync, Promises & Callback:
 ```
 const Mylas = require("mylas");
 
-const JSONobject = {name: "test", data: "Hello world!"};
-const [path, data] = ["./text.txt", JSONobject];
-Mylas.json.saveS(path, data); // saves sync
-await Mylas.json.save(path, data[, callback]); // saves async
-await Mylas.json.saveW(path, data[, callback]); // saves with worker
+//Save string to file async
+await Mylas.save("./text.txt", "Hello world!", () => {console.log("Saved!")});
 
-const loadedJSON = Mylas.json.loadS(path); //loads sync
-const loadedJSON = await Mylas.json.load(path[, callback]); //loads async
-const loadedJSON = await Mylas.json.loadW(path[, callback]); //loads with worker
+//Load string from file async
+const loadedData = await Mylas.load("./text.txt", (data) => {console.log(`Loaded: ${data}`)});
+
+//Save JSON to file async
+await Mylas.json.save("./text.json", [{test: "Hello world"}], () => {console.log("Saved!")});
+
+//Load JSON from file async
+const loadedJSON = await Mylas.json.load("./text.json", (data) => {console.log(`Loaded: ${data}`)});
+```
+Multithreaded / Worker:
+```
+const Mylas = require("mylas");
+
+//Save string to file with worker
+await Mylas.saveW("./text.txt", "Hello world!", () => {console.log("Saved!")});
+
+//Load string from file with worker
+const loadedData = await Mylas.loadW("./text.txt", (data) => {console.log(`Loaded: ${data}`)});
+
+//Save JSON to file with worker
+await Mylas.json.saveW("./text.json", [{test: "Hello world"}], () => {console.log("Saved!")});
+
+//Load JSON from file with worker
+const loadedJSON = await Mylas.json.loadW("./text.json", (data) => {console.log(`Loaded: ${data}`)});
 ```
 
 ## Features
