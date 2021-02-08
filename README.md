@@ -15,6 +15,8 @@ Mylas is a npm package to make the loading and storing of data from fs easy and 
 Install Mylas from NPM
 ```
 npm i mylas
+//Or
+yarn add mylas
 ```
 
 ## Examples
