@@ -1,6 +1,6 @@
 {
   "name": "mylas",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Mylas is a npm package to make the loading and storing of data from fs easy and reliable.",
   "main": "build/index.js",
   "typings": "build/index",
@@ -41,7 +41,6 @@
     "eslint": "^7.18.0",
     "jest": "^26.6.3",
     "ts-jest": "^26.4.4",
-    "tslib": "^2.1.0",
     "typescript": "^4.1.3"
   },
   "engines": {
