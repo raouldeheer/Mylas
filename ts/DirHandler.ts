@@ -4,7 +4,7 @@ import fs, {
 import {
     booleanCallback,
     voidCallback,
-} from "@raouldeheer/tstypes";
+} from "./types";
 import {
     checkPath,
 } from "./async/checksAsync";

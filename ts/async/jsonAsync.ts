@@ -1,7 +1,7 @@
 import {
     objectCallback,
     voidCallback,
-} from "@raouldeheer/tstypes";
+} from "../types";
 import {
     load as loadFile,
     save as saveFile,

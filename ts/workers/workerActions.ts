@@ -3,7 +3,7 @@ import {
     objectCallback,
     stringCallback,
     voidCallback,
-} from "@raouldeheer/tstypes";
+} from "../types";
 
 export enum Method {
     loadFile,

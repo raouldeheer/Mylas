@@ -4,7 +4,7 @@ import {
 import {
     stringCallback,
     voidCallback,
-} from "@raouldeheer/tstypes";
+} from "../types";
 import { checkPath } from "./checksAsync";
 
 export {
