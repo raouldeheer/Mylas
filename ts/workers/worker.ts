@@ -1,8 +1,8 @@
 import { parentPort as PP } from "worker_threads";
 import { load as loadF, save as saveF, } from "../async/fileAsync";
 import { load as loadJ, save as saveJ, } from "../async/jsonAsync";
-import { Method, WorkerRequest } from "./workerActions";
-
+import { Method, WorkerRequest } from "../types";
+/* eslint-disable */
 PP?.on('message', async ({ method, path, data }: WorkerRequest) => {
     try {
         if (method === Method.loadFile) PP!.postMessage(await loadF(path));

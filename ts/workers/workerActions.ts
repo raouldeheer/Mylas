@@ -1,21 +1,11 @@
 import { Worker } from 'worker_threads';
 import {
+    Method,
     objectCallback,
     stringCallback,
     voidCallback,
+    WorkerRequest,
 } from "../types";
-
-export enum Method {
-    loadFile,
-    saveFile,
-    loadJson,
-    saveJson,
-}
-export interface WorkerRequest {
-    method: Method,
-    path: string,
-    data?: any,
-}
 
 const action = <T>(request: WorkerRequest): Promise<T> => {
     return new Promise((resolve, reject) => {
@@ -75,12 +65,12 @@ const loadJson = async <T>(
 /**
  * saves JSON data to file.
  * @param {string} path path to save to.
- * @param {T} data data to save.
+ * @param {unknown} data data to save.
  * @param {voidCallback} callback callback to call. 
  */
-const saveJson = async <T>(
+const saveJson = async (
     path: string,
-    data: T,
+    data: unknown,
     callback?: voidCallback
 ): Promise<void> => {
     await action({ method: Method.saveJson, path: path, data: data });
