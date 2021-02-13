@@ -1,27 +1,14 @@
-import { parentPort } from "worker_threads";
+import { parentPort as PP } from "worker_threads";
 import { load as loadF, save as saveF, } from "../async/fileAsync";
 import { load as loadJ, save as saveJ, } from "../async/jsonAsync";
 import { Method, WorkerRequest } from "./workerActions";
 
-parentPort!.on('message', async (workerRequest: WorkerRequest) => {
-    const { method, path, data } = workerRequest;
-    switch (method) {
-        case Method.loadFile:
-            parentPort!.postMessage(await loadF(path));
-            break;
-        case Method.saveFile:
-            try {
-                await saveF(path, data);
-            } catch (error) { process.exit(1); }
-            break;
-        case Method.loadJson:
-            parentPort!.postMessage(await loadJ(path));
-            break;
-        case Method.saveJson:
-            try {
-                await saveJ(path, data);
-            } catch (error) { process.exit(1); }
-            break;
-    }
-    setTimeout(process.exit(0), 10);
+PP?.on('message', async ({ method, path, data }: WorkerRequest) => {
+    try {
+        if (method === Method.loadFile) PP!.postMessage(await loadF(path));
+        if (method === Method.saveFile) await saveF(path, data);
+        if (method === Method.loadJson) PP!.postMessage(await loadJ(path));
+        if (method === Method.saveJson) await saveJ(path, data);
+        setTimeout(process.exit(0), 10);
+    } catch (error) { process.exit(1); }
 });

@@ -75,12 +75,12 @@ const loadJson = async <T>(
 /**
  * saves JSON data to file.
  * @param {string} path path to save to.
- * @param {unknown} data data to save.
+ * @param {T} data data to save.
  * @param {voidCallback} callback callback to call. 
  */
-const saveJson = async (
+const saveJson = async <T>(
     path: string,
-    data: unknown,
+    data: T,
     callback?: voidCallback
 ): Promise<void> => {
     await action({ method: Method.saveJson, path: path, data: data });
