@@ -1,3 +1,3 @@
-import * as File from "../async/dirAsync";
-import * as FileS from "../sync/dirSync";
-export default { ...File, ...FileS };
+import { mk, rm, check } from "../async/dirAsync";
+import { mkS, rmS, checkS } from "../sync/dirSync";
+export default { mk, mkS, rm, rmS, check, checkS };
