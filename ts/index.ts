@@ -1,5 +1,5 @@
 /** import all modules */
-import * as dir from "./DirHandler";
+import dir from "./handlers/dirHandler";
 import file from "./handlers/fileHandler";
 import json from "./handlers/jsonHandler";
 
