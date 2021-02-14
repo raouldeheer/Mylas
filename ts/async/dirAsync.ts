@@ -4,21 +4,15 @@ import fs, {
 import {
     booleanCallback,
     voidCallback,
-} from "./types";
+} from "../types";
 import {
     checkPath,
-} from "./async/checksAsync";
-import {
-    checkPathSync,
-} from "./sync/checksSync";
+} from "./checksAsync";
 
 export {
     mkDir as mk,
-    mkDirSync as mkS,
     rmDir as rm,
-    rmDirSync as rmS,
     checkDir as check,
-    checkDirSync as checkS
 };
 
 /**
@@ -37,18 +31,6 @@ const mkDir = async (
 }
 
 /**
- * makes fs dir sync
- * @param {string} path path to dir
- * @return {void}
- */
-const mkDirSync = (
-    path: string
-): void => {
-    if (checkPathSync(path))
-        fs.mkdirSync(path, { recursive: true });
-}
-
-/**
  * removes fs dir
  * @param {string} path path to dir
  * @param {voidCallback} callback callback to call. 
@@ -64,18 +46,6 @@ const rmDir = async (
 }
 
 /**
- * removes fs dir sync
- * @param {string} path path to dir
- * @return {void}
- */
-const rmDirSync = (
-    path: string
-): void => {
-    if (checkPathSync(path))
-        fs.rmdirSync(path);
-}
-
-/**
  * checks if dir exists.
  * @param {string} path path path to dir.
  * @param {booleanCallback} callback callback to call.
@@ -88,15 +58,4 @@ const checkDir = async (
     const response = fs.existsSync(path);
     callback?.(response);
     return response;
-}
-
-/**
- * checks if dir exists sync.
- * @param {string} path path to dir.
- * @return {boolean}
- */
-const checkDirSync = (
-    path: string
-): boolean => {
-    return fs.existsSync(path);
 }
