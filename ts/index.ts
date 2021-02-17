@@ -9,12 +9,6 @@ import * as dirS from "./sync/dirSync";
 
 /** Make namespaces */
 namespace mylas {
-    export const loadS = fileS.loadFileSync;
-    export const saveS = fileS.saveFileSync;
-    export const load = fileA.loadFile;
-    export const save = fileA.saveFile;
-    export const loadW = workers.loadFile;
-    export const saveW = workers.saveFile;
     export namespace json {
         export const loadS = jsonS.loadJsonSync;
         export const saveS = jsonS.saveJsonSync;
@@ -39,6 +33,12 @@ namespace mylas {
         export const check = dirA.checkDir;
         export const checkS = dirS.checkDirSync;
     }
+    export const loadS = file.loadS;
+    export const saveS = file.saveS;
+    export const load = file.load;
+    export const save = file.save;
+    export const loadW = file.loadW;
+    export const saveW = file.saveW;
 }
 
 /** Export namespaces */
