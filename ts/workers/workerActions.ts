@@ -23,7 +23,7 @@ const action = <T>(request: WorkerRequest): Promise<T> => {
  * @param {stringCallback} callback callback to call. 
  * @return {Promise<string>}
  */
-const loadFile = async (
+export const loadFile = async (
     path: string,
     callback?: stringCallback
 ): Promise<string> => {
@@ -39,7 +39,7 @@ const loadFile = async (
  * @param {voidCallback} callback callback to call. 
  * @return {Promise<void>}
  */
-const saveFile = async (
+export const saveFile = async (
     path: string,
     data: string,
     callback?: voidCallback,
@@ -53,7 +53,7 @@ const saveFile = async (
  * @param {string} path path to load from.
  * @param {objectCallback<unknown>} callback callback to call. 
  */
-const loadJson = async <T>(
+export const loadJson = async <T>(
     path: string,
     callback?: objectCallback<T>
 ): Promise<T> => {
@@ -68,7 +68,7 @@ const loadJson = async <T>(
  * @param {unknown} data data to save.
  * @param {voidCallback} callback callback to call. 
  */
-const saveJson = async (
+export const saveJson = async (
     path: string,
     data: unknown,
     callback?: voidCallback
@@ -76,10 +76,3 @@ const saveJson = async (
     await action({ method: Method.saveJson, path: path, data: data });
     callback?.();
 }
-
-export {
-    loadJson,
-    saveJson,
-    loadFile,
-    saveFile,
-};

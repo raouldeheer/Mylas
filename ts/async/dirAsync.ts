@@ -9,19 +9,13 @@ import {
     checkPath,
 } from "./checksAsync";
 
-export {
-    mkDir as mk,
-    rmDir as rm,
-    checkDir as check,
-};
-
 /**
  * makes fs dir
  * @param {string} path path to dir
  * @param {voidCallback} callback callback to call.
  * @return {Promise<void>}
  */
-const mkDir = async (
+export const mkDir = async (
     path: string,
     callback?: voidCallback
 ): Promise<void> => {
@@ -36,7 +30,7 @@ const mkDir = async (
  * @param {voidCallback} callback callback to call. 
  * @return {Promise<void>}
  */
-const rmDir = async (
+export const rmDir = async (
     path: string,
     callback?: voidCallback
 ): Promise<void> => {
@@ -51,7 +45,7 @@ const rmDir = async (
  * @param {booleanCallback} callback callback to call.
  * @return {Promise<boolean>}
  */
-const checkDir = async (
+export const checkDir = async (
     path: string,
     callback?: booleanCallback
 ): Promise<boolean> => {

@@ -1,6 +1,6 @@
 import { parentPort as PP } from "worker_threads";
-import { load as loadF, save as saveF, } from "../async/fileAsync";
-import { load as loadJ, save as saveJ, } from "../async/jsonAsync";
+import { loadFile as loadF, saveFile as saveF, } from "../async/fileAsync";
+import { loadJson as loadJ, saveJson as saveJ, } from "../async/jsonAsync";
 import { Method, WorkerRequest } from "../types";
 /* eslint-disable */
 PP?.on('message', async ({ method, path, data }: WorkerRequest) => {

@@ -1,17 +1,12 @@
 import fs from "fs";
 import Path from "path";
 
-export {
-    checkPathSync,
-    checkDir,
-};
-
 /**
  * checks if dirPath exists.
  * @param {string} path path to check.
  * @return {boolean}
  */
-const checkPathSync = (
+export const checkPathSync = (
     path: string
 ): boolean => {
     if (Path.isAbsolute(path)) //check if path is absolute.
@@ -26,7 +21,7 @@ const checkPathSync = (
  * @param {string} path path for dir to check.
  * @return {boolean}
  */
-const checkDir = (
+export const checkDir = (
     path: string
 ): boolean => {
     /** check if dir exists */

@@ -5,12 +5,9 @@ import {
     stringCallback,
     voidCallback,
 } from "../types";
-import { checkPath } from "./checksAsync";
-
-export {
-    loadFile as load,
-    saveFile as save,
-};
+import { 
+    checkPath 
+} from "./checksAsync";
 
 /**
  * loads string data from file.
@@ -18,7 +15,7 @@ export {
  * @param {stringCallback} callback callback to call. 
  * @return {Promise<string>}
  */
-const loadFile = async (
+export const loadFile = async (
     path: string,
     callback?: stringCallback
 ): Promise<string> => {
@@ -38,7 +35,7 @@ const loadFile = async (
  * @param {voidCallback} callback callback to call. 
  * @return {Promise<void>}
  */
-const saveFile = async (
+export const saveFile = async (
     path: string,
     data: string,
     callback?: voidCallback

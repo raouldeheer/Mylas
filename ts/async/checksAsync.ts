@@ -2,19 +2,16 @@ import fs, {
     promises as fsPromises,
 } from "fs";
 import Path from "path";
-import { checkDir } from "../sync/checksSync";
-
-export {
-    checkPath,
-    checkPerm,
-}
+import { 
+    checkDir 
+} from "../sync/checksSync";
 
 /**
  * checks if dirPath exists.
  * @param {string} path path to check.
  * @return {Promise<boolean>}
  */
-const checkPath = async (
+export const checkPath = async (
     path: string
 ): Promise<boolean> => {
     if (Path.isAbsolute(path)) //check if path is absolute.
@@ -31,7 +28,7 @@ const checkPath = async (
  * @param {string} path path to check permissions of.
  * @return {Promise<boolean>}
  */
-const checkPerm = async (
+export const checkPerm = async (
     path: string
 ): Promise<boolean> => {
     /** check permissions */
