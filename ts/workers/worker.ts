@@ -3,7 +3,7 @@ import { loadFile as loadF, saveFile as saveF, } from "../async/fileAsync";
 import { loadJson as loadJ, saveJson as saveJ, } from "../async/jsonAsync";
 import { Method, Request } from "../types";
 /* eslint-disable */
-PP?.on('message', async ({ method, path, data }: Request) => {
+PP?.once('message', async ({ method, path, data }: Request) => {
     try {
         if (method === Method.loadFile) PP!.postMessage(await loadF(path));
         if (method === Method.saveFile) await saveF(path, data);
