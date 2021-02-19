@@ -8,8 +8,9 @@ export enum Method {
     loadJson,
     saveJson,
 }
-export interface WorkerRequest {
+export interface Request<T = unknown> {
     method: Method,
     path: string,
     data?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
+    callback?: objectCallback<T>,
 }
