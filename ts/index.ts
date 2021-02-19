@@ -1,37 +1,37 @@
 /** Import all methods */
-import * as jsonA from "./async/jsonAsync";
-import * as jsonS from "./sync/jsonSync";
-import * as fileA from "./async/fileAsync";
-import * as fileS from "./sync/fileSync";
-import * as workers from "./workers/workerActions";
-import * as dirA from "./async/dirAsync";
-import * as dirS from "./sync/dirSync";
+import { loadJson, saveJson } from "./async/jsonAsync";
+import { loadJsonSync, saveJsonSync } from "./sync/jsonSync";
+import { loadFile, saveFile } from "./async/fileAsync";
+import { loadFileSync, saveFileSync } from "./sync/fileSync";
+import { loadFileWorker, loadJsonWorker, saveFileWorker, saveJsonWorker } from "./workers/workerActions";
+import { mkDir, rmDir, checkDir } from "./async/dirAsync";
+import { mkDirSync, rmDirSync, checkDirSync } from "./sync/dirSync";
 
 /** Make namespaces */
-namespace mylas {
+namespace Mylas {
     export namespace json {
-        export const loadS = jsonS.loadJsonSync;
-        export const saveS = jsonS.saveJsonSync;
-        export const load = jsonA.loadJson;
-        export const save = jsonA.saveJson;
-        export const loadW = workers.loadJson;
-        export const saveW = workers.saveJson;
+        export const loadS = loadJsonSync;
+        export const saveS = saveJsonSync;
+        export const load = loadJson;
+        export const save = saveJson;
+        export const loadW = loadJsonWorker;
+        export const saveW = saveJsonWorker;
     }
     export namespace file {
-        export const loadS = fileS.loadFileSync;
-        export const saveS = fileS.saveFileSync;
-        export const load = fileA.loadFile;
-        export const save = fileA.saveFile;
-        export const loadW = workers.loadFile;
-        export const saveW = workers.saveFile;
+        export const loadS = loadFileSync;
+        export const saveS = saveFileSync;
+        export const load = loadFile;
+        export const save = saveFile;
+        export const loadW = loadFileWorker;
+        export const saveW = saveFileWorker;
     }
     export namespace dir {
-        export const mk = dirA.mkDir;
-        export const mkS = dirS.mkDirSync;
-        export const rm = dirA.rmDir;
-        export const rmS = dirS.rmDirSync;
-        export const check = dirA.checkDir;
-        export const checkS = dirS.checkDirSync;
+        export const mk = mkDir;
+        export const mkS = mkDirSync;
+        export const rm = rmDir;
+        export const rmS = rmDirSync;
+        export const check = checkDir;
+        export const checkS = checkDirSync;
     }
     export const loadS = file.loadS;
     export const saveS = file.saveS;
@@ -42,8 +42,8 @@ namespace mylas {
 }
 
 /** Export namespaces */
-export default mylas;
-import Json = mylas.json;
-import Dir = mylas.dir;
-import File = mylas.file;
+export default Mylas;
+import Json = Mylas.json;
+import Dir = Mylas.dir;
+import File = Mylas.file;
 export { Json, Dir, File };
