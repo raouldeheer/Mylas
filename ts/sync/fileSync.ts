@@ -1,6 +1,6 @@
 import fs from "fs";
-import { 
-    checkPathSync 
+import {
+    checkPathSync,
 } from "./checksSync";
 
 /**

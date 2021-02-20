@@ -2,8 +2,8 @@ import fs, {
     promises as fsPromises,
 } from "fs";
 import Path from "path";
-import { 
-    checkDir 
+import {
+    checkDir,
 } from "../sync/checksSync";
 
 /**
@@ -35,19 +35,19 @@ export const checkPerm = async (
     const parsedPath = Path.parse(path);
     if (fs.existsSync(path)) {
         await fsPromises.access(
-            path, 
-            fs.constants.R_OK | 
+            path,
+            fs.constants.R_OK |
             fs.constants.W_OK
-        ).catch(() => { 
-            throw new Error("Permissions error") 
+        ).catch(() => {
+            throw new Error("Permissions error")
         })
     }
     await fsPromises.access(
-        parsedPath.dir, 
-        fs.constants.R_OK | 
+        parsedPath.dir,
+        fs.constants.R_OK |
         fs.constants.W_OK
-    ).catch(() => { 
-        throw new Error("Permissions error") 
+    ).catch(() => {
+        throw new Error("Permissions error")
     })
     return true;
 }

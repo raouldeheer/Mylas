@@ -1,11 +1,36 @@
 /** Import all methods */
-import { loadJson, saveJson } from "./async/jsonAsync";
-import { loadJsonSync, saveJsonSync } from "./sync/jsonSync";
-import { loadFile, saveFile } from "./async/fileAsync";
-import { loadFileSync, saveFileSync } from "./sync/fileSync";
-import { loadFileWorker, loadJsonWorker, saveFileWorker, saveJsonWorker } from "./workers/workerActions";
-import { mkDir, rmDir, checkDir } from "./async/dirAsync";
-import { mkDirSync, rmDirSync, checkDirSync } from "./sync/dirSync";
+import {
+    loadJson,
+    saveJson,
+} from "./async/jsonAsync";
+import {
+    loadJsonSync,
+    saveJsonSync,
+} from "./sync/jsonSync";
+import {
+    loadFile,
+    saveFile,
+} from "./async/fileAsync";
+import {
+    loadFileSync,
+    saveFileSync,
+} from "./sync/fileSync";
+import {
+    loadFileWorker,
+    loadJsonWorker,
+    saveFileWorker,
+    saveJsonWorker,
+} from "./workers/workerActions";
+import {
+    mkDir,
+    rmDir,
+    checkDir,
+} from "./async/dirAsync";
+import {
+    mkDirSync,
+    rmDirSync,
+    checkDirSync,
+} from "./sync/dirSync";
 
 /** Make namespaces */
 namespace Mylas {

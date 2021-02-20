@@ -1,4 +1,6 @@
-import { Worker } from 'worker_threads';
+import {
+    Worker,
+} from 'worker_threads';
 import {
     Method,
     objectCallback,
@@ -7,7 +9,8 @@ import {
     Request,
 } from "../types";
 
-const action = <T>({ callback, ...req }: Request<T>
+const action = <T>(
+    { callback, ...req }: Request<T>
 ): Promise<T> => new Promise<T>((res, rej) => {
     let d: T;
     new Worker('./build/workers/worker.js')

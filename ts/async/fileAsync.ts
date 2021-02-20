@@ -5,8 +5,8 @@ import {
     stringCallback,
     voidCallback,
 } from "../types";
-import { 
-    checkPath 
+import {
+    checkPath,
 } from "./checksAsync";
 
 /**
