@@ -4,22 +4,10 @@ import fs, {
 import {
     booleanCallback,
     voidCallback,
-} from "@raouldeheer/tstypes";
+} from "../types";
 import {
     checkPath,
-} from "./async/checksAsync";
-import {
-    checkPathSync,
-} from "./sync/checksSync";
-
-export {
-    mkDir as mk,
-    mkDirSync as mkS,
-    rmDir as rm,
-    rmDirSync as rmS,
-    checkDir as check,
-    checkDirSync as checkS
-};
+} from "./checksAsync";
 
 /**
  * makes fs dir
@@ -27,7 +15,7 @@ export {
  * @param {voidCallback} callback callback to call.
  * @return {Promise<void>}
  */
-const mkDir = async (
+export const mkDir = async (
     path: string,
     callback?: voidCallback
 ): Promise<void> => {
@@ -37,24 +25,12 @@ const mkDir = async (
 }
 
 /**
- * makes fs dir sync
- * @param {string} path path to dir
- * @return {void}
- */
-const mkDirSync = (
-    path: string
-): void => {
-    if (checkPathSync(path))
-        fs.mkdirSync(path, { recursive: true });
-}
-
-/**
  * removes fs dir
  * @param {string} path path to dir
  * @param {voidCallback} callback callback to call. 
  * @return {Promise<void>}
  */
-const rmDir = async (
+export const rmDir = async (
     path: string,
     callback?: voidCallback
 ): Promise<void> => {
@@ -64,39 +40,16 @@ const rmDir = async (
 }
 
 /**
- * removes fs dir sync
- * @param {string} path path to dir
- * @return {void}
- */
-const rmDirSync = (
-    path: string
-): void => {
-    if (checkPathSync(path))
-        fs.rmdirSync(path);
-}
-
-/**
  * checks if dir exists.
  * @param {string} path path path to dir.
  * @param {booleanCallback} callback callback to call.
  * @return {Promise<boolean>}
  */
-const checkDir = async (
+export const checkDir = async (
     path: string,
     callback?: booleanCallback
 ): Promise<boolean> => {
     const response = fs.existsSync(path);
     callback?.(response);
     return response;
-}
-
-/**
- * checks if dir exists sync.
- * @param {string} path path to dir.
- * @return {boolean}
- */
-const checkDirSync = (
-    path: string
-): boolean => {
-    return fs.existsSync(path);
 }

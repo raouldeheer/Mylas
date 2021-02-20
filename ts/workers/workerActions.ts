@@ -1,76 +1,68 @@
-import { Worker } from 'worker_threads';
 import {
+    Worker,
+} from 'worker_threads';
+import {
+    Method,
     objectCallback,
     stringCallback,
     voidCallback,
-} from "@raouldeheer/tstypes";
+    Request,
+} from "../types";
 
-export enum Method {
-    loadFile,
-    saveFile,
-    loadJson,
-    saveJson,
-}
-export interface WorkerRequest {
-    method: Method,
-    path: string,
-    data?: any,
-}
-
-const action = <T>(request: WorkerRequest): Promise<T> => {
-    return new Promise((resolve, reject) => {
-        const worker = new Worker('./build/workers/worker.js');
-        let data: T;
-        worker.on('message', result => data = result);
-        worker.on('exit', code => code == 0 ? resolve(data) : reject(code));
-        worker.postMessage(request);
-    });
-}
+const action = <T>(
+    { callback, ...req }: Request<T>
+): Promise<T> => new Promise<T>((res, rej) => {
+    let d: T;
+    new Worker('./build/workers/worker.js')
+        .once('message', m => d = m).once('exit', c => c == 0 ? res(d) : rej(c))
+        .once('error', e => rej(e)).once('messageerror', e => rej(e))
+        .postMessage(req);
+}).then(v => { callback?.(v); return v; }, e => { throw new Error(e); });
 
 /**
  * loads string data from file.
  * @param {string} path path to load from.
  * @param {stringCallback} callback callback to call. 
- * @return {Promise<string>}
  */
-const loadFile = async (
+export const loadFileWorker = (
     path: string,
     callback?: stringCallback
-): Promise<string> => {
-    const data: string = await action({ method: Method.loadFile, path: path });
-    callback?.(data);
-    return data;
-}
+): Promise<string> => action<string>({
+    method: Method.loadFile,
+    path: path,
+    callback: callback,
+});
 
 /**
  * saves string to file.
  * @param {string} path path to save to.
  * @param {string} data data to save.
  * @param {voidCallback} callback callback to call. 
- * @return {Promise<void>}
  */
-const saveFile = async (
+export const saveFileWorker = (
     path: string,
     data: string,
     callback?: voidCallback,
-): Promise<void> => {
-    await action({ method: Method.saveFile, path: path, data: data });
-    callback?.();
-}
+): Promise<void> => action({
+    method: Method.saveFile,
+    path: path,
+    data: data,
+    callback: callback
+});
 
 /**
  * loads JSON from file.
  * @param {string} path path to load from.
- * @param {objectCallback<unknown>} callback callback to call. 
+ * @param {objectCallback<T>} callback callback to call. 
  */
-const loadJson = async <T>(
+export const loadJsonWorker = <T>(
     path: string,
     callback?: objectCallback<T>
-): Promise<T> => {
-    const data: T = await action({ method: Method.loadJson, path: path });
-    callback?.(data);
-    return data;
-}
+): Promise<T> => action<T>({
+    method: Method.loadJson,
+    path: path,
+    callback: callback,
+});
 
 /**
  * saves JSON data to file.
@@ -78,18 +70,13 @@ const loadJson = async <T>(
  * @param {T} data data to save.
  * @param {voidCallback} callback callback to call. 
  */
-const saveJson = async <T>(
+export const saveJsonWorker = <T>(
     path: string,
     data: T,
     callback?: voidCallback
-): Promise<void> => {
-    await action({ method: Method.saveJson, path: path, data: data });
-    callback?.();
-}
-
-export {
-    loadJson,
-    saveJson,
-    loadFile,
-    saveFile,
-};
+): Promise<void> => action({
+    method: Method.saveJson,
+    path: path,
+    data: data,
+    callback: callback,
+});

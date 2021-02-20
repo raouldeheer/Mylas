@@ -1,17 +1,14 @@
 import fs from "fs";
-import { checkPathSync } from "./checksSync";
-
-export {
-    loadFileSync as loadS,
-    saveFileSync as saveS,
-};
+import {
+    checkPathSync,
+} from "./checksSync";
 
 /**
  * loads string data from file.
  * @param {string} path path to load from.
  * @return {string}
  */
-const loadFileSync = (
+export const loadFileSync = (
     path: string
 ): string => {
     if (checkPathSync(path) == true) {
@@ -27,7 +24,7 @@ const loadFileSync = (
  * @param {string} data data to save.
  * @return {void}
  */
-const saveFileSync = (
+export const saveFileSync = (
     path: string,
     data: string
 ): void => {
