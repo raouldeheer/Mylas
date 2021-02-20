@@ -21,10 +21,10 @@ const action = <T>({ callback, ...req }: Request<T>
  * @param {string} path path to load from.
  * @param {stringCallback} callback callback to call. 
  */
-export const loadFileWorker = async (
+export const loadFileWorker = (
     path: string,
     callback?: stringCallback
-): Promise<string> => await action<string>({
+): Promise<string> => action<string>({
     method: Method.loadFile,
     path: path,
     callback: callback,
@@ -36,11 +36,11 @@ export const loadFileWorker = async (
  * @param {string} data data to save.
  * @param {voidCallback} callback callback to call. 
  */
-export const saveFileWorker = async (
+export const saveFileWorker = (
     path: string,
     data: string,
     callback?: voidCallback,
-): Promise<void> => await action({
+): Promise<void> => action({
     method: Method.saveFile,
     path: path,
     data: data,
@@ -52,10 +52,10 @@ export const saveFileWorker = async (
  * @param {string} path path to load from.
  * @param {objectCallback<T>} callback callback to call. 
  */
-export const loadJsonWorker = async <T>(
+export const loadJsonWorker = <T>(
     path: string,
     callback?: objectCallback<T>
-): Promise<T> => await action<T>({
+): Promise<T> => action<T>({
     method: Method.loadJson,
     path: path,
     callback: callback,
@@ -67,11 +67,11 @@ export const loadJsonWorker = async <T>(
  * @param {T} data data to save.
  * @param {voidCallback} callback callback to call. 
  */
-export const saveJsonWorker = async <T>(
+export const saveJsonWorker = <T>(
     path: string,
     data: T,
     callback?: voidCallback
-): Promise<void> => await action({
+): Promise<void> => action({
     method: Method.saveJson,
     path: path,
     data: data,
