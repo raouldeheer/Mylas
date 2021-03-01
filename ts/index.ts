@@ -72,3 +72,17 @@ import Json = Mylas.json;
 import Dir = Mylas.dir;
 import File = Mylas.file;
 export { Json, Dir, File };
+
+/** Add to prototypes */
+JSON.loadS = loadJsonSync;
+JSON.saveS = saveJsonSync;
+JSON.load = loadJson;
+JSON.save = saveJson;
+JSON.loadW = loadJsonWorker;
+JSON.saveW = saveJsonWorker;
+String.loadS = loadFileSync;
+String.saveS = saveFileSync;
+String.load = loadFile;
+String.save = saveFile;
+String.loadW = loadFileWorker;
+String.saveW = saveFileWorker;

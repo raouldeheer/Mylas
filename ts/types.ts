@@ -14,3 +14,21 @@ export interface Request<T = unknown> {
     data?: any, // eslint-disable-line @typescript-eslint/no-explicit-any
     callback?: objectCallback<T>,
 }
+declare global {
+    interface JSON {
+        loadS: <T>(path: string) => T;
+        saveS: <T>(path: string, data: T) => void;
+        load: <T>(path: string, callback?: objectCallback<T>) => Promise<T>;
+        save: <T>(path: string, data: T, callback?: voidCallback) => Promise<void>;
+        loadW: <T>(path: string, callback?: objectCallback<T>) => Promise<T>;
+        saveW: <T>(path: string, data: T, callback?: voidCallback) => Promise<void>;
+    }
+    interface StringConstructor {
+        loadS: (path: string) => string;
+        saveS: (path: string, data: string) => void;
+        load: (path: string, callback?: stringCallback) => Promise<string>;
+        save: (path: string, data: string, callback?: voidCallback) => Promise<void>;
+        loadW: (path: string, callback?: stringCallback) => Promise<string>;
+        saveW: (path: string, data: string, callback?: voidCallback) => Promise<void>;
+    }
+}
