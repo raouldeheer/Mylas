@@ -2,18 +2,8 @@
 require("./async/jsonAsync");
 require("./sync/jsonSync");
 require("./workers/workerActions");
-import {
-    loadFile,
-    saveFile,
-} from "./async/fileAsync";
-import {
-    loadFileSync,
-    saveFileSync,
-} from "./sync/fileSync";
-import {
-    loadFileWorker,
-    saveFileWorker,
-} from "./workers/workerActions";
+require("./async/fileAsync");
+require("./sync/fileSync");
 import {
     mkDir,
     rmDir,
@@ -36,12 +26,12 @@ namespace Mylas {
         export const saveW = JSON.saveW;
     }
     export namespace file {
-        export const loadS = loadFileSync;
-        export const saveS = saveFileSync;
-        export const load = loadFile;
-        export const save = saveFile;
-        export const loadW = loadFileWorker;
-        export const saveW = saveFileWorker;
+        export const loadS = String.loadS;
+        export const saveS = String.saveS;
+        export const load = String.load;
+        export const save = String.save;
+        export const loadW = String.loadW;
+        export const saveW = String.saveW;
     }
     export namespace dir {
         export const mk = mkDir;
@@ -65,11 +55,3 @@ import Json = Mylas.json;
 import Dir = Mylas.dir;
 import File = Mylas.file;
 export { Json, Dir, File };
-
-/** Add to prototypes */
-String.loadS = loadFileSync;
-String.saveS = saveFileSync;
-String.load = loadFile;
-String.save = saveFile;
-String.loadW = loadFileWorker;
-String.saveW = saveFileWorker;

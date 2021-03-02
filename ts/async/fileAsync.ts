@@ -47,3 +47,9 @@ export const saveFile = async (
         throw new Error(`Can't write to ${path}`);
     }
 }
+
+String.load = loadFile;
+String.save = saveFile;
+String.prototype.load = loadFile;
+String.prototype.save = async (path: string, callback?: voidCallback) =>
+    await saveFile(path, String(this), callback);
