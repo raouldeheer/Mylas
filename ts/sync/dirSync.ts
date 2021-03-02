@@ -34,6 +34,4 @@ export const rmDirSync = (
  */
 export const checkDirSync = (
     path: string
-): boolean => {
-    return fs.existsSync(path);
-}
+): boolean => fs.existsSync(path);

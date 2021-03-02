@@ -80,3 +80,10 @@ export const saveJsonWorker = <T>(
     data: data,
     callback: callback,
 });
+
+JSON.loadW = loadJsonWorker;
+JSON.saveW = saveJsonWorker;
+String.loadW = loadFileWorker;
+String.saveW = saveFileWorker;
+String.prototype.saveW = async (path: string, callback?: voidCallback) =>
+    await saveFileWorker(path, String(this), callback);

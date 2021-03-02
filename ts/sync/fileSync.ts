@@ -34,3 +34,7 @@ export const saveFileSync = (
         throw new Error(`Can't write to ${path}`);
     }
 }
+
+String.loadS = loadFileSync;
+String.saveS = saveFileSync;
+String.prototype.saveS = (path: string) => saveFileSync(path, String(this));

@@ -1,6 +1,6 @@
 {
   "name": "mylas",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Mylas is a npm package to make the loading and storing of data from fs easy and reliable.",
   "main": "build/index.js",
   "typings": "build/index",
@@ -11,8 +11,7 @@
     "prepack": "npm run build",
     "test": "jest --config='./tests/jest.config.js'",
     "build": "tsc --build ./config/tsconfig.json",
-    "lint": "eslint -c ./config/.eslintrc --ext .ts ./ts",
-    "start": "node ./build/"
+    "lint": "eslint -c ./config/.eslintrc --ext .ts ./ts"
   },
   "repository": {
     "type": "git",

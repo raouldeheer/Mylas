@@ -1,26 +1,9 @@
 /** Import all methods */
-import {
-    loadJson,
-    saveJson,
-} from "./async/jsonAsync";
-import {
-    loadJsonSync,
-    saveJsonSync,
-} from "./sync/jsonSync";
-import {
-    loadFile,
-    saveFile,
-} from "./async/fileAsync";
-import {
-    loadFileSync,
-    saveFileSync,
-} from "./sync/fileSync";
-import {
-    loadFileWorker,
-    loadJsonWorker,
-    saveFileWorker,
-    saveJsonWorker,
-} from "./workers/workerActions";
+require("./async/fileAsync");
+require("./sync/fileSync");
+require("./async/jsonAsync");
+require("./sync/jsonSync");
+require("./workers/workerActions");
 import {
     mkDir,
     rmDir,
@@ -35,20 +18,20 @@ import {
 /** Make namespaces */
 namespace Mylas {
     export namespace json {
-        export const loadS = loadJsonSync;
-        export const saveS = saveJsonSync;
-        export const load = loadJson;
-        export const save = saveJson;
-        export const loadW = loadJsonWorker;
-        export const saveW = saveJsonWorker;
+        export const loadS = JSON.loadS;
+        export const saveS = JSON.saveS;
+        export const load = JSON.load;
+        export const save = JSON.save;
+        export const loadW = JSON.loadW;
+        export const saveW = JSON.saveW;
     }
     export namespace file {
-        export const loadS = loadFileSync;
-        export const saveS = saveFileSync;
-        export const load = loadFile;
-        export const save = saveFile;
-        export const loadW = loadFileWorker;
-        export const saveW = saveFileWorker;
+        export const loadS = String.loadS;
+        export const saveS = String.saveS;
+        export const load = String.load;
+        export const save = String.save;
+        export const loadW = String.loadW;
+        export const saveW = String.saveW;
     }
     export namespace dir {
         export const mk = mkDir;
