@@ -1,9 +1,9 @@
 /** Import all methods */
+require("./async/fileAsync");
+require("./sync/fileSync");
 require("./async/jsonAsync");
 require("./sync/jsonSync");
 require("./workers/workerActions");
-require("./async/fileAsync");
-require("./sync/fileSync");
 import {
     mkDir,
     rmDir,

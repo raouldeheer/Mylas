@@ -1,7 +1,4 @@
-import {
-    loadFileSync,
-    saveFileSync,
-} from "./fileSync";
+require("./fileSync");
 
 /**
  * loads JSON from file sync.
@@ -10,9 +7,7 @@ import {
  */
 export const loadJsonSync = <T>(
     path: string
-): T => {
-    return JSON.parse(loadFileSync(path));
-}
+): T => JSON.parse(String.loadS(path));
 
 /**
  * saves JSON data to file sync.
@@ -23,9 +18,7 @@ export const loadJsonSync = <T>(
 export const saveJsonSync = <T>(
     path: string,
     data: T
-): void => {
-    saveFileSync(path, JSON.stringify(data));
-}
+): void => String.saveS(path, JSON.stringify(data));
 
 JSON.loadS = loadJsonSync;
 JSON.saveS = saveJsonSync;

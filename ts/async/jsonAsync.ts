@@ -2,10 +2,7 @@ import {
     objectCallback,
     voidCallback,
 } from "../types";
-import {
-    loadFile,
-    saveFile,
-} from "./fileAsync";
+require("./fileAsync");
 
 /**
  * loads JSON from file.
@@ -17,7 +14,7 @@ export const loadJson = async <T>(
     path: string,
     callback?: objectCallback<T>
 ): Promise<T> => {
-    const data: T = JSON.parse(await loadFile(path));
+    const data: T = JSON.parse(await String.load(path));
     callback?.(data);
     return data;
 }
@@ -34,7 +31,7 @@ export const saveJson = async <T>(
     data: T,
     callback?: voidCallback
 ): Promise<void> => {
-    await saveFile(path, JSON.stringify(data));
+    await String.save(path, JSON.stringify(data));
     callback?.();
 }
 
