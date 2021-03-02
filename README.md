@@ -3,6 +3,7 @@
 ![install size](https://badgen.net/packagephobia/install/mylas)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/min/mylas)
 ![npm bundle size (scoped)](https://img.shields.io/bundlephobia/minzip/mylas)
+![dependencie count](https://img.shields.io/badge/dependencies-0-brightgreen)
 ![GitHub](https://img.shields.io/github/license/raouldeheer/Mylas)
 ![npm (scoped)](https://img.shields.io/npm/v/mylas)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/raouldeheer/Mylas)
