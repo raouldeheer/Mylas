@@ -37,3 +37,6 @@ export const saveJson = async <T>(
     await saveFile(path, JSON.stringify(data));
     callback?.();
 }
+
+JSON.load = loadJson;
+JSON.save = saveJson;

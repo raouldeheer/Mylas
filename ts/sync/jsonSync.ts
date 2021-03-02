@@ -26,3 +26,6 @@ export const saveJsonSync = <T>(
 ): void => {
     saveFileSync(path, JSON.stringify(data));
 }
+
+JSON.loadS = loadJsonSync;
+JSON.saveS = saveJsonSync;

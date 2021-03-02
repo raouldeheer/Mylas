@@ -1,12 +1,7 @@
 /** Import all methods */
-import {
-    loadJson,
-    saveJson,
-} from "./async/jsonAsync";
-import {
-    loadJsonSync,
-    saveJsonSync,
-} from "./sync/jsonSync";
+require("./async/jsonAsync");
+require("./sync/jsonSync");
+require("./workers/workerActions");
 import {
     loadFile,
     saveFile,
@@ -17,9 +12,7 @@ import {
 } from "./sync/fileSync";
 import {
     loadFileWorker,
-    loadJsonWorker,
     saveFileWorker,
-    saveJsonWorker,
 } from "./workers/workerActions";
 import {
     mkDir,
@@ -35,12 +28,12 @@ import {
 /** Make namespaces */
 namespace Mylas {
     export namespace json {
-        export const loadS = loadJsonSync;
-        export const saveS = saveJsonSync;
-        export const load = loadJson;
-        export const save = saveJson;
-        export const loadW = loadJsonWorker;
-        export const saveW = saveJsonWorker;
+        export const loadS = JSON.loadS;
+        export const saveS = JSON.saveS;
+        export const load = JSON.load;
+        export const save = JSON.save;
+        export const loadW = JSON.loadW;
+        export const saveW = JSON.saveW;
     }
     export namespace file {
         export const loadS = loadFileSync;
@@ -74,12 +67,6 @@ import File = Mylas.file;
 export { Json, Dir, File };
 
 /** Add to prototypes */
-JSON.loadS = loadJsonSync;
-JSON.saveS = saveJsonSync;
-JSON.load = loadJson;
-JSON.save = saveJson;
-JSON.loadW = loadJsonWorker;
-JSON.saveW = saveJsonWorker;
 String.loadS = loadFileSync;
 String.saveS = saveFileSync;
 String.load = loadFile;

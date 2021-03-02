@@ -80,3 +80,6 @@ export const saveJsonWorker = <T>(
     data: data,
     callback: callback,
 });
+
+JSON.loadW = loadJsonWorker;
+JSON.saveW = saveJsonWorker;
