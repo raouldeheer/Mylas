@@ -50,6 +50,5 @@ export const saveFile = async (
 
 String.load = loadFile;
 String.save = saveFile;
-String.prototype.load = loadFile;
 String.prototype.save = async (path: string, callback?: voidCallback) =>
     await saveFile(path, String(this), callback);

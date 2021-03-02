@@ -11,8 +11,7 @@
     "prepack": "npm run build",
     "test": "jest --config='./tests/jest.config.js'",
     "build": "tsc --build ./config/tsconfig.json",
-    "lint": "eslint -c ./config/.eslintrc --ext .ts ./ts",
-    "start": "node ./build/"
+    "lint": "eslint -c ./config/.eslintrc --ext .ts ./ts"
   },
   "repository": {
     "type": "git",

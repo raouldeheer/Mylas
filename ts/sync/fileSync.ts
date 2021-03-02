@@ -37,5 +37,4 @@ export const saveFileSync = (
 
 String.loadS = loadFileSync;
 String.saveS = saveFileSync;
-String.prototype.loadS = loadFileSync;
 String.prototype.saveS = (path: string) => saveFileSync(path, String(this));

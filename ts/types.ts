@@ -32,11 +32,8 @@ declare global {
         saveW: (path: string, data: string, callback?: voidCallback) => Promise<void>;
     }
     interface String {
-        loadS: (path: string) => string;
         saveS: (path: string) => void;
-        load: (path: string, callback?: stringCallback) => Promise<string>;
         save: (path: string, callback?: voidCallback) => Promise<void>;
-        loadW: (path: string, callback?: stringCallback) => Promise<string>;
         saveW: (path: string, callback?: voidCallback) => Promise<void>;
     }
 }

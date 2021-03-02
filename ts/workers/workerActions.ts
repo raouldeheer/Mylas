@@ -85,6 +85,5 @@ JSON.loadW = loadJsonWorker;
 JSON.saveW = saveJsonWorker;
 String.loadW = loadFileWorker;
 String.saveW = saveFileWorker;
-String.prototype.loadW = loadFileWorker;
 String.prototype.saveW = async (path: string, callback?: voidCallback) =>
     await saveFileWorker(path, String(this), callback);
