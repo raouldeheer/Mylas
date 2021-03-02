@@ -33,7 +33,7 @@ declare global {
     }
     interface String {
         loadS: (path: string) => string;
-        saveS: (path: string, data: string) => void;
+        saveS: (path: string) => void;
         load: (path: string, callback?: stringCallback) => Promise<string>;
         save: (path: string, callback?: voidCallback) => Promise<void>;
         loadW: (path: string, callback?: stringCallback) => Promise<string>;
