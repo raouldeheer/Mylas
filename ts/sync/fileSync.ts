@@ -35,6 +35,10 @@ export const saveFileSync = (
     }
 }
 
+export default {
+    loadS: loadFileSync,
+    saveS: saveFileSync,
+}
 String.loadS = loadFileSync;
 String.saveS = saveFileSync;
 String.prototype.saveS = (path: string) => saveFileSync(path, String(this));
