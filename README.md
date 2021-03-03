@@ -32,10 +32,10 @@ Mylas.saveS("./text.txt", "Hello world!");
 const loadedData = Mylas.loadS("./text.txt");
 
 //Save JSON to file
-Mylas.json.saveS("./text.json", [{test: "Hello world"}]);
+JSON.saveS("./text.json", [{test: "Hello world"}]);
 
 //Load JSON from file
-const loadedJSON = Mylas.json.loadS("./text.json");
+const loadedJSON = JSON.loadS("./text.json");
 ```
 ASync, Promises & Callback:
 ```
@@ -48,10 +48,10 @@ await Mylas.save("./text.txt", "Hello world!", () => {console.log("Saved!")});
 const loadedData = await Mylas.load("./text.txt", (data) => {console.log(`Loaded: ${data}`)});
 
 //Save JSON to file async
-await Mylas.json.save("./text.json", [{test: "Hello world"}], () => {console.log("Saved!")});
+await JSON.save("./text.json", [{test: "Hello world"}], () => {console.log("Saved!")});
 
 //Load JSON from file async
-const loadedJSON = await Mylas.json.load("./text.json", (data) => {console.log(`Loaded: ${data}`)});
+const loadedJSON = await JSON.load("./text.json", (data) => {console.log(`Loaded: ${data}`)});
 ```
 Multithreaded / Worker:
 ```
@@ -64,10 +64,10 @@ await Mylas.saveW("./text.txt", "Hello world!", () => {console.log("Saved!")});
 const loadedData = await Mylas.loadW("./text.txt", (data) => {console.log(`Loaded: ${data}`)});
 
 //Save JSON to file with worker
-await Mylas.json.saveW("./text.json", [{test: "Hello world"}], () => {console.log("Saved!")});
+await JSON.saveW("./text.json", [{test: "Hello world"}], () => {console.log("Saved!")});
 
 //Load JSON from file with worker
-const loadedJSON = await Mylas.json.loadW("./text.json", (data) => {console.log(`Loaded: ${data}`)});
+const loadedJSON = await JSON.loadW("./text.json", (data) => {console.log(`Loaded: ${data}`)});
 ```
 
 ## Features

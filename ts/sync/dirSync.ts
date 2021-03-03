@@ -35,3 +35,9 @@ export const rmDirSync = (
 export const checkDirSync = (
     path: string
 ): boolean => fs.existsSync(path);
+
+export default {
+    mkS: mkDirSync,
+    rmS: rmDirSync,
+    checkS: checkDirSync,
+}

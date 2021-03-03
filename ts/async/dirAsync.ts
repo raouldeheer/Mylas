@@ -41,7 +41,7 @@ export const rmDir = async (
 
 /**
  * checks if dir exists.
- * @param {string} path path path to dir.
+ * @param {string} path path to dir.
  * @param {booleanCallback} callback callback to call.
  * @return {Promise<boolean>}
  */
@@ -52,4 +52,10 @@ export const checkDir = async (
     const response = fs.existsSync(path);
     callback?.(response);
     return response;
+}
+
+export default {
+    mk: mkDir,
+    rm: rmDir,
+    check: checkDir,
 }

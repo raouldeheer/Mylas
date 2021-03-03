@@ -81,6 +81,14 @@ export const saveJsonWorker = <T>(
     callback: callback,
 });
 
+export const jsonWorker = {
+    loadW: loadJsonWorker,
+    saveW: saveJsonWorker,
+}
+export const fileWorker = {
+    loadW: loadFileWorker,
+    saveW: saveFileWorker,
+}
 JSON.loadW = loadJsonWorker;
 JSON.saveW = saveJsonWorker;
 String.loadW = loadFileWorker;

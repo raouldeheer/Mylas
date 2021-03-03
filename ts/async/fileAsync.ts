@@ -48,6 +48,10 @@ export const saveFile = async (
     }
 }
 
+export default {
+    load: loadFile,
+    save: saveFile,
+}
 String.load = loadFile;
 String.save = saveFile;
 String.prototype.save = async (path: string, callback?: voidCallback) =>
