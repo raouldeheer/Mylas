@@ -10,7 +10,7 @@
 ![node-current (scoped)](https://img.shields.io/node/v/mylas)
 ![node-lts (scoped)](https://img.shields.io/node/v-lts/mylas)   
 Mylas is a npm package that makes the loading and storing of data from fs easy and reliable. And it supports multithreading.   
-<img src="./.github/logo.png" width="600"> 
+<img src="https://raw.githubusercontent.com/raouldeheer/Mylas/HEAD/.github/logo.png" width="600"> 
 
 ## Installation
 Install Mylas from NPM
