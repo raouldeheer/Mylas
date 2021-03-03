@@ -1,5 +1,3 @@
-require("./fileSync");
-
 /**
  * loads JSON from file sync.
  * @param {string} path path to load from.
@@ -20,5 +18,10 @@ export const saveJsonSync = <T>(
     data: T
 ): void => String.saveS(path, JSON.stringify(data));
 
+
+export default {
+    loadS: loadJsonSync,
+    saveS: saveJsonSync,
+}
 JSON.loadS = loadJsonSync;
 JSON.saveS = saveJsonSync;

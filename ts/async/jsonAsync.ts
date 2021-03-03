@@ -2,7 +2,6 @@ import {
     objectCallback,
     voidCallback,
 } from "../types";
-require("./fileAsync");
 
 /**
  * loads JSON from file.
@@ -35,5 +34,9 @@ export const saveJson = async <T>(
     callback?.();
 }
 
+export default {
+    load: loadJson,
+    save: saveJson,
+}
 JSON.load = loadJson;
 JSON.save = saveJson;
