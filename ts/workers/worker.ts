@@ -1,12 +1,11 @@
 import {
     parentPort as PP,
 } from "worker_threads";
-require("../async/fileAsync");
-require("../async/jsonAsync");
 import {
     Method,
     Request,
 } from "../types";
+require("../prototypes");
 /* eslint-disable */
 PP?.once('message', async ({ method, path, data }: Request) => {
     try {
