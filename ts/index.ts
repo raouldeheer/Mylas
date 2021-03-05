@@ -9,19 +9,23 @@ import {
 } from "./workers/workerActions";
 import dirAsync from "./async/dirAsync";
 import dirSync from "./sync/dirSync";
+require("./prototypes");
 
 /** Make modules */
 const Mylas = {
+    /** JSON functions */
     json: {
         ...jsonSync,
         ...jsonAsync,
         ...jsonWorker,
     },
+    /** File functions */
     file: {
         ...fileSync,
         ...fileAsync,
         ...fileWorker,
     },
+    /** Directory functions */
     dir: {
         ...dirSync,
         ...dirAsync,
