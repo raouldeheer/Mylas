@@ -17,7 +17,7 @@
     "outDir": "../build/",                        /* Redirect output structure to the directory. */
     "rootDir": "../ts/",                       /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     "composite": false,                     /* Enable project compilation */
-    "tsBuildInfoFile": "../build/tsconfig.tsbuildinfo",               /* Specify file to store incremental compilation information */
+    "tsBuildInfoFile": "./tsconfig.tsbuildinfo",               /* Specify file to store incremental compilation information */
     "removeComments": true,                /* Do not emit comments to output. */
     // "noEmit": true,                        /* Do not emit outputs. */
     "importHelpers": false,                 /* Import emit helpers from 'tslib'. */
