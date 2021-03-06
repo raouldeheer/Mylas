@@ -7,7 +7,7 @@
       "outDir": "../build/",                        
       "rootDir": "../ts/",                      
       "composite": false,                  
-      "tsBuildInfoFile": "../build/tsconfig2.tsbuildinfo",            
+      "tsBuildInfoFile": "./tsconfig2.tsbuildinfo",            
       "removeComments": false,                
       "noEmit": false,                       
       "importHelpers": false,         
