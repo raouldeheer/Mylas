@@ -21,7 +21,7 @@ export const checkPath = async (
     /** check permissions */
     if (await checkPerm(path) != true) return false;
     return true; // all checks good return true
-}
+};
 
 /**
  * checks the permissions of a path.
@@ -39,15 +39,15 @@ export const checkPerm = async (
             fs.constants.R_OK |
             fs.constants.W_OK
         ).catch(() => {
-            throw new Error("Permissions error")
-        })
+            throw new Error("Permissions error");
+        });
     }
     await fsPromises.access(
         parsedPath.dir,
         fs.constants.R_OK |
         fs.constants.W_OK
     ).catch(() => {
-        throw new Error("Permissions error")
-    })
+        throw new Error("Permissions error");
+    });
     return true;
-}
+};

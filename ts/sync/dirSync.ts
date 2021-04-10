@@ -29,4 +29,4 @@ export default {
     */
     checkS: (path: string): boolean =>
         fs.existsSync(path),
-}
+};

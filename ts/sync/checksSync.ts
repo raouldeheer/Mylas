@@ -14,7 +14,7 @@ export const checkPathSync = (
     /** check if dir exists */
     if (checkDir(path) != true) return false;
     return true; // all checks good return true
-}
+};
 
 /**
  * checks if the path.dir exist. if false make dir.
@@ -34,4 +34,4 @@ export const checkDir = (
     if (!fs.existsSync(dir)) // check if path doesn't exists
         return false;
     return true;
-}
+};

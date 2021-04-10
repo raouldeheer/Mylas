@@ -17,24 +17,24 @@ const Json = {
     ...jsonSync,
     ...jsonAsync,
     ...jsonWorker,
-}
+};
 /** File functions */
 const File = {
     ...fileSync,
     ...fileAsync,
     ...fileWorker,
-}
+};
 /** Directory functions */
 const Dir = {
     ...dirSync,
     ...dirAsync,
-}
+};
 const Mylas = {
     json: Json,
     file: File,
     dir: Dir,
     ...File
-}
+};
 
 /** Export modules */
 export default Mylas;

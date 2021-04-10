@@ -17,4 +17,4 @@ export default {
         path: string,
         data: T
     ): void => String.saveS(path, JSON.stringify(data)),
-}
+};

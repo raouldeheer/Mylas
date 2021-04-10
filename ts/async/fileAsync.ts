@@ -47,4 +47,4 @@ export default {
             throw new Error(`Can't write to ${path}`);
         }
     },
-}
+};

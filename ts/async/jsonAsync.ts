@@ -33,4 +33,4 @@ export default {
         await String.save(path, JSON.stringify(data));
         callback?.();
     },
-}
+};
