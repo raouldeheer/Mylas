@@ -9,6 +9,9 @@ import Path from "path";
 export const checkPathSync = (
     path: string
 ): boolean => {
+    //check if path is only a filename.
+    if (!path.includes("\\") && !path.includes("/"))
+        return path.includes("\.");
     if (Path.isAbsolute(path)) //check if path is absolute.
         throw new Error("Cannot use absolute path");
     /** check if dir exists */
