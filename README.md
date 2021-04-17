@@ -10,31 +10,31 @@
 ![node-current (scoped)](https://img.shields.io/node/v/mylas)
 ![node-lts (scoped)](https://img.shields.io/node/v-lts/mylas)   
 Mylas is a npm package that makes the loading and storing of data from fs easy and reliable. And it supports multithreading.   
-<img src="./.github/logo.png" width="600"> 
+<img src="https://raw.githubusercontent.com/raouldeheer/Mylas/HEAD/.github/logo.png" width="600"> 
 
 ## Installation
 Install Mylas from NPM
-```
+```ts
 npm i mylas
-//Or
+// Or
 yarn add mylas
 ```
 
 ## Examples
 Synchronous functions:
-```
+```ts
 const Mylas = require("mylas");
 
-//Save string to file
+// Save string to file
 Mylas.saveS("./text.txt", "Hello world!");
 
-//Load string from file
+// Load string from file
 const loadedData = Mylas.loadS("./text.txt");
 
-//Save JSON to file
+// Save JSON to file
 JSON.saveS("./text.json", [{test: "Hello world"}]);
 
-//Load JSON from file
+// Load JSON from file
 const loadedJSON = JSON.loadS("./text.json");
 ```
 [More examples](https://github.com/raouldeheer/Mylas/blob/main/.github/EXAMPLES.md)

@@ -53,4 +53,4 @@ export default {
         callback?.(response);
         return response;
     },
-}
+};

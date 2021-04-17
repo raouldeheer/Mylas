@@ -12,32 +12,30 @@ import dirSync from "./sync/dirSync";
 require("./prototypes");
 
 /** Make modules */
-const Mylas = {
-    /** JSON functions */
-    json: {
-        ...jsonSync,
-        ...jsonAsync,
-        ...jsonWorker,
-    },
-    /** File functions */
-    file: {
-        ...fileSync,
-        ...fileAsync,
-        ...fileWorker,
-    },
-    /** Directory functions */
-    dir: {
-        ...dirSync,
-        ...dirAsync,
-    },
+/** JSON functions */
+const Json = {
+    ...jsonSync,
+    ...jsonAsync,
+    ...jsonWorker,
+};
+/** File functions */
+const File = {
     ...fileSync,
     ...fileAsync,
     ...fileWorker,
-}
+};
+/** Directory functions */
+const Dir = {
+    ...dirSync,
+    ...dirAsync,
+};
+const Mylas = {
+    json: Json,
+    file: File,
+    dir: Dir,
+    ...File
+};
 
 /** Export modules */
 export default Mylas;
-const Json = Mylas.json;
-const Dir = Mylas.dir;
-const File = Mylas.file;
 export { Json, Dir, File };

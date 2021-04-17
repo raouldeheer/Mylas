@@ -11,7 +11,8 @@
     "prepack": "npm run build",
     "test": "jest --config='./tests/jest.config.js'",
     "build": "tsc --build ./config/tsconfig.json & tsc --build ./config/tsconfig2.json",
-    "lint": "eslint -c ./config/.eslintrc --ext .ts ./ts"
+    "lint": "eslint -c ./config/.eslintrc --ext .ts ./ts",
+    "docs": "typedoc --tsconfig config/tsconfig.json"
   },
   "repository": {
     "type": "git",
@@ -38,7 +39,8 @@
     "eslint": "^7.18.0",
     "jest": "^26.6.3",
     "ts-jest": "^26.4.4",
-    "typescript": "^4.1.3"
+    "typescript": "^4.1.3",
+    "typedoc": "^0.20.28"
   },
   "engines": {
     "node": ">=12.0.0"

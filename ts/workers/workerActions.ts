@@ -49,7 +49,7 @@ export const jsonWorker = {
         data: data,
         callback: callback,
     }),
-}
+};
 
 export const fileWorker = {
     /**
@@ -81,5 +81,4 @@ export const fileWorker = {
         data: data,
         callback: callback
     }),
-}
-
+};
