@@ -6,6 +6,7 @@ import fileSync from "./sync/fileSync";
 import {
     jsonWorker,
     fileWorker,
+    bufferWorker,
 } from "./workers/workerActions";
 import dirAsync from "./async/dirAsync";
 import dirSync from "./sync/dirSync";
@@ -24,6 +25,10 @@ const File = {
     ...fileAsync,
     ...fileWorker,
 };
+/** Buffer functions */
+const Buf = {
+    ...bufferWorker,
+};
 /** Directory functions */
 const Dir = {
     ...dirSync,
@@ -33,9 +38,10 @@ const Mylas = {
     json: Json,
     file: File,
     dir: Dir,
+    buf: Buf,
     ...File
 };
 
 /** Export modules */
 export default Mylas;
-export { Json, Dir, File };
+export { Json, Dir, File, Buf };

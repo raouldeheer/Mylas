@@ -7,6 +7,8 @@ export enum Method {
     saveFile,
     loadJson,
     saveJson,
+    loadBuffer,
+    saveBuffer,
 }
 export interface Request<T = unknown> {
     method: Method,

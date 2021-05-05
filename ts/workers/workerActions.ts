@@ -82,3 +82,43 @@ export const fileWorker = {
         callback: callback
     }),
 };
+
+export const bufferWorker = {
+    /**
+     * loads string data from file.
+     * @param {string} path path to load from.
+     * @param {objectCallback<Buffer>} callback callback to call. 
+     */
+    loadW: async (
+        path: string,
+        callback?: objectCallback<Buffer>
+    ): Promise<Buffer> => {
+
+        const array = await action<Uint8Array>({
+            method: Method.loadBuffer,
+            path: path,
+        });
+        callback?.(Buffer.from(array));
+        return Buffer.from(array);
+    },
+    /**
+     * saves string to file.
+     * @param {string} path path to save to.
+     * @param {Buffer} data data to save.
+     * @param {voidCallback} callback callback to call. 
+     */
+    saveW: async (
+        path: string,
+        data: Buffer,
+        callback?: voidCallback,
+    ): Promise<void> => {
+        const sharedUint8Array = new Uint8Array(new SharedArrayBuffer(data.byteLength));
+        sharedUint8Array.set(data);
+        await action({
+            method: Method.saveBuffer,
+            path: path,
+            data: sharedUint8Array,
+            callback: callback
+        });
+    },
+};
