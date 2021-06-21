@@ -14,6 +14,9 @@ import {
 export const checkPath = async (
     path: string
 ): Promise<boolean> => {
+    //check if path is only a filename.
+    if (!path.includes("\\") && !path.includes("/"))
+        return path.includes(".");
     if (Path.isAbsolute(path)) //check if path is absolute.
         throw new Error("Cannot use absolute path");
     /** check if dir exists */
@@ -21,7 +24,7 @@ export const checkPath = async (
     /** check permissions */
     if (await checkPerm(path) != true) return false;
     return true; // all checks good return true
-}
+};
 
 /**
  * checks the permissions of a path.
@@ -39,15 +42,15 @@ export const checkPerm = async (
             fs.constants.R_OK |
             fs.constants.W_OK
         ).catch(() => {
-            throw new Error("Permissions error")
-        })
+            throw new Error("Permissions error");
+        });
     }
     await fsPromises.access(
         parsedPath.dir,
         fs.constants.R_OK |
         fs.constants.W_OK
     ).catch(() => {
-        throw new Error("Permissions error")
-    })
+        throw new Error("Permissions error");
+    });
     return true;
-}
+};

@@ -19,29 +19,29 @@ describe("Save file to test folder", () => {
         await mylas.file.saveW(testDataPathAsync, testData);
         /** data should now be saved */
         const data = await mylas.file.loadW(testDataPathAsync);
-        fs.unlinkSync(testDataPathAsync)
+        fs.unlinkSync(testDataPathAsync);
         expect(data).toStrictEqual(testData);
-    })
+    });
     test("Should save the data to the filesystem async with callback", done => {
         mylas.file.saveW(testDataPathAsync, testData, () => {
             /** data should now be saved */
             mylas.file.loadW(testDataPathAsync, data => {
-                fs.unlinkSync(testDataPathAsync)
+                fs.unlinkSync(testDataPathAsync);
                 expect(data).toStrictEqual(testData);
                 done();
             });
         });
-    })
-})
+    });
+});
 describe("Load file from test folder", () => {
     it("Should load the data from the filesystem async", async () => {
         const data = await mylas.file.loadW(testDataPath);
         expect(data).toStrictEqual(testData);
-    })
+    });
     test("Should load the data from the filesystem async with callback", done => {
         mylas.file.loadW(testDataPath, data => {
             expect(data).toStrictEqual(testData);
             done();
         });
-    })
-})
+    });
+});

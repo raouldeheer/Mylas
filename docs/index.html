@@ -75,66 +75,37 @@
 					<h2>Installation</h2>
 				</a>
 				<p>Install Mylas from NPM</p>
-				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #001080">mylas</span>
-<span style="color: #008000">//Or</span>
+				<pre><code class="language-ts"><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">i</span><span style="color: #000000"> </span><span style="color: #001080">mylas</span>
+<span style="color: #008000">// Or</span>
 <span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> </span><span style="color: #001080">mylas</span>
 </code></pre>
 				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
 					<h2>Examples</h2>
 				</a>
 				<p>Synchronous functions:</p>
-				<pre><code><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">Mylas</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;mylas&quot;</span><span style="color: #000000">);</span>
+				<pre><code class="language-ts"><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">Mylas</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;mylas&quot;</span><span style="color: #000000">);</span>
 
-<span style="color: #008000">//Save string to file</span>
+<span style="color: #008000">// Save string to file</span>
 <span style="color: #001080">Mylas</span><span style="color: #000000">.</span><span style="color: #795E26">saveS</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.txt&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;Hello world!&quot;</span><span style="color: #000000">);</span>
 
-<span style="color: #008000">//Load string from file</span>
+<span style="color: #008000">// Load string from file</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">loadedData</span><span style="color: #000000"> = </span><span style="color: #001080">Mylas</span><span style="color: #000000">.</span><span style="color: #795E26">loadS</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.txt&quot;</span><span style="color: #000000">);</span>
 
-<span style="color: #008000">//Save JSON to file</span>
+<span style="color: #008000">// Save JSON to file</span>
 <span style="color: #267F99">JSON</span><span style="color: #000000">.</span><span style="color: #795E26">saveS</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.json&quot;</span><span style="color: #000000">, [{</span><span style="color: #001080">test:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;Hello world&quot;</span><span style="color: #000000">}]);</span>
 
-<span style="color: #008000">//Load JSON from file</span>
+<span style="color: #008000">// Load JSON from file</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">loadedJSON</span><span style="color: #000000"> = </span><span style="color: #267F99">JSON</span><span style="color: #000000">.</span><span style="color: #795E26">loadS</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.json&quot;</span><span style="color: #000000">);</span>
 </code></pre>
-				<p>ASync, Promises &amp; Callback:</p>
-				<pre><code><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">Mylas</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;mylas&quot;</span><span style="color: #000000">);</span>
-
-<span style="color: #008000">//Save string to file async</span>
-<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">Mylas</span><span style="color: #000000">.</span><span style="color: #795E26">save</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.txt&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;Hello world!&quot;</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Saved!&quot;</span><span style="color: #000000">)});</span>
-
-<span style="color: #008000">//Load string from file async</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">loadedData</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">Mylas</span><span style="color: #000000">.</span><span style="color: #795E26">load</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.txt&quot;</span><span style="color: #000000">, (</span><span style="color: #001080">data</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">`Loaded: </span><span style="color: #0000FF">${</span><span style="color: #001080">data</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">)});</span>
-
-<span style="color: #008000">//Save JSON to file async</span>
-<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #267F99">JSON</span><span style="color: #000000">.</span><span style="color: #795E26">save</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.json&quot;</span><span style="color: #000000">, [{</span><span style="color: #001080">test:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;Hello world&quot;</span><span style="color: #000000">}], () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Saved!&quot;</span><span style="color: #000000">)});</span>
-
-<span style="color: #008000">//Load JSON from file async</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">loadedJSON</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #267F99">JSON</span><span style="color: #000000">.</span><span style="color: #795E26">load</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.json&quot;</span><span style="color: #000000">, (</span><span style="color: #001080">data</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">`Loaded: </span><span style="color: #0000FF">${</span><span style="color: #001080">data</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">)});</span>
-</code></pre>
-				<p>Multithreaded / Worker:</p>
-				<pre><code><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">Mylas</span><span style="color: #000000"> = </span><span style="color: #795E26">require</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;mylas&quot;</span><span style="color: #000000">);</span>
-
-<span style="color: #008000">//Save string to file with worker</span>
-<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">Mylas</span><span style="color: #000000">.</span><span style="color: #795E26">saveW</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.txt&quot;</span><span style="color: #000000">, </span><span style="color: #A31515">&quot;Hello world!&quot;</span><span style="color: #000000">, () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Saved!&quot;</span><span style="color: #000000">)});</span>
-
-<span style="color: #008000">//Load string from file with worker</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">loadedData</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">Mylas</span><span style="color: #000000">.</span><span style="color: #795E26">loadW</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.txt&quot;</span><span style="color: #000000">, (</span><span style="color: #001080">data</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">`Loaded: </span><span style="color: #0000FF">${</span><span style="color: #001080">data</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">)});</span>
-
-<span style="color: #008000">//Save JSON to file with worker</span>
-<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #267F99">JSON</span><span style="color: #000000">.</span><span style="color: #795E26">saveW</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.json&quot;</span><span style="color: #000000">, [{</span><span style="color: #001080">test:</span><span style="color: #000000"> </span><span style="color: #A31515">&quot;Hello world&quot;</span><span style="color: #000000">}], () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Saved!&quot;</span><span style="color: #000000">)});</span>
-
-<span style="color: #008000">//Load JSON from file with worker</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">loadedJSON</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #267F99">JSON</span><span style="color: #000000">.</span><span style="color: #795E26">loadW</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;./text.json&quot;</span><span style="color: #000000">, (</span><span style="color: #001080">data</span><span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">`Loaded: </span><span style="color: #0000FF">${</span><span style="color: #001080">data</span><span style="color: #0000FF">}</span><span style="color: #A31515">`</span><span style="color: #000000">)});</span>
-</code></pre>
+				<p><a href="https://github.com/raouldeheer/Mylas/blob/main/.github/EXAMPLES.md">More examples</a></p>
 				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
 					<h2>Features</h2>
 				</a>
-				<p>All features are listed at the <a href="https://github.com/raouldeheer/Mylas/blob/main/.github/FEATURES.md">Features page</a>.  </p>
+				<p>All features are listed at the <a href="https://github.com/raouldeheer/Mylas/blob/main/.github/FEATURES.md">Features page</a>.<br>More documentation at <a href="https://mylas.js.org/">mylas.js.org</a></p>
 				<a href="#contributing" id="contributing" style="color: inherit; text-decoration: none;">
 					<h2>Contributing</h2>
 				</a>
-				<p>To start contributing read our <a href="https://github.com/raouldeheer/Mylas/blob/main/.github/CONTRIBUTING.md">Contributing page</a>.  </p>
+				<p>We would love more contributors! To start contributing read our <a href="https://github.com/raouldeheer/Mylas/blob/main/.github/CONTRIBUTING.md">Contributing page</a>.  </p>
 				<a href="#supported-versions" id="supported-versions" style="color: inherit; text-decoration: none;">
 					<h2>Supported Versions</h2>
 				</a>
@@ -151,6 +122,9 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#buf" class="tsd-kind-icon">Buf</a>
+					</li>
 					<li class=" tsd-kind-variable">
 						<a href="modules.html#dir" class="tsd-kind-icon">Dir</a>
 					</li>

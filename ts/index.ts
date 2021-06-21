@@ -6,34 +6,42 @@ import fileSync from "./sync/fileSync";
 import {
     jsonWorker,
     fileWorker,
+    bufferWorker,
 } from "./workers/workerActions";
 import dirAsync from "./async/dirAsync";
 import dirSync from "./sync/dirSync";
+require("./prototypes");
 
 /** Make modules */
-const Mylas = {
-    json: {
-        ...jsonSync,
-        ...jsonAsync,
-        ...jsonWorker,
-    },
-    file: {
-        ...fileSync,
-        ...fileAsync,
-        ...fileWorker,
-    },
-    dir: {
-        ...dirSync,
-        ...dirAsync,
-    },
+/** JSON functions */
+const Json = {
+    ...jsonSync,
+    ...jsonAsync,
+    ...jsonWorker,
+};
+/** File functions */
+const File = {
     ...fileSync,
     ...fileAsync,
     ...fileWorker,
-}
+};
+/** Buffer functions */
+const Buf = {
+    ...bufferWorker,
+};
+/** Directory functions */
+const Dir = {
+    ...dirSync,
+    ...dirAsync,
+};
+const Mylas = {
+    json: Json,
+    file: File,
+    dir: Dir,
+    buf: Buf,
+    ...File
+};
 
 /** Export modules */
 export default Mylas;
-const Json = Mylas.json;
-const Dir = Mylas.dir;
-const File = Mylas.file;
-export { Json, Dir, File };
+export { Json, Dir, File, Buf };

@@ -1,16 +1,12 @@
 import mylas, { Dir } from "../ts/index";
 import fs from "fs";
 
-
-
 const testDataPathDir = "./tests/testdir/";
 const testDataPathDirAsync = "./tests/testdirasync/";
 const testDataPathDirSync = "./tests/testdirsync/";
 const testDataPathDir2 = "./tests/testdir2/";
 const testDataPathDirAsync2 = "./tests/testdirasync2/";
 const testDataPathDirSync2 = "./tests/testdirsync2/";
-
-
 
 describe("Make and remove dir on fs", () => {
     test("Should create and remove dir", done => {
@@ -23,12 +19,12 @@ describe("Make and remove dir on fs", () => {
                     mylas.dir.check(testDataPathDir, (result2) => {
                         expect(result2).toBeFalsy();
                         done();
-                    })
-                })
-            })
-            
-        })
-    })
+                    });
+                });
+            });
+
+        });
+    });
     it("Should create and remove dir", async () => {
         await mylas.dir.mk(testDataPathDirAsync);
         expect(fs.existsSync(testDataPathDirAsync)).toBeTruthy();
@@ -36,16 +32,16 @@ describe("Make and remove dir on fs", () => {
         await mylas.dir.rm(testDataPathDirAsync);
         expect(fs.existsSync(testDataPathDirAsync)).toBeFalsy();
         expect(await mylas.dir.check(testDataPathDirAsync)).toBeFalsy();
-    })
+    });
     it("Should create and remove dir", () => {
-        mylas.dir.mkS(testDataPathDirSync)
+        mylas.dir.mkS(testDataPathDirSync);
         expect(fs.existsSync(testDataPathDirSync)).toBeTruthy();
         expect(mylas.dir.checkS(testDataPathDirSync)).toBeTruthy();
-        mylas.dir.rmS(testDataPathDirSync)
+        mylas.dir.rmS(testDataPathDirSync);
         expect(fs.existsSync(testDataPathDirSync)).toBeFalsy();
         expect(mylas.dir.checkS(testDataPathDirSync)).toBeFalsy();
-    })
-})
+    });
+});
 
 describe("Make and remove dir on fs", () => {
     test("Should create and remove dir", done => {
@@ -58,12 +54,12 @@ describe("Make and remove dir on fs", () => {
                     Dir.check(testDataPathDir2, (result2) => {
                         expect(result2).toBeFalsy();
                         done();
-                    })
-                })
-            })
-            
-        })
-    })
+                    });
+                });
+            });
+
+        });
+    });
     it("Should create and remove dir", async () => {
         await Dir.mk(testDataPathDirAsync2);
         expect(fs.existsSync(testDataPathDirAsync2)).toBeTruthy();
@@ -71,13 +67,13 @@ describe("Make and remove dir on fs", () => {
         await Dir.rm(testDataPathDirAsync2);
         expect(fs.existsSync(testDataPathDirAsync2)).toBeFalsy();
         expect(await Dir.check(testDataPathDirAsync2)).toBeFalsy();
-    })
+    });
     it("Should create and remove dir", () => {
-        Dir.mkS(testDataPathDirSync2)
+        Dir.mkS(testDataPathDirSync2);
         expect(fs.existsSync(testDataPathDirSync2)).toBeTruthy();
         expect(Dir.checkS(testDataPathDirSync2)).toBeTruthy();
-        Dir.rmS(testDataPathDirSync2)
+        Dir.rmS(testDataPathDirSync2);
         expect(fs.existsSync(testDataPathDirSync2)).toBeFalsy();
         expect(Dir.checkS(testDataPathDirSync2)).toBeFalsy();
-    })
-})
+    });
+});
