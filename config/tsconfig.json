@@ -76,7 +76,7 @@
     "../ts/**/*"
   ],
   "typedocOptions": {
-    "entryPoints": ["ts/index.ts"],
-    "out": "docs"
+    "entryPoints": ["../ts/index.ts"],
+    "out": "../docs"
   }
 }
