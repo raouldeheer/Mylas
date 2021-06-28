@@ -14,11 +14,15 @@ String.loadS = fileSync.loadS;
 String.saveS = fileSync.saveS;
 String.loadW = fileWorker.loadW;
 String.saveW = fileWorker.saveW;
-String.prototype.save = async (path: string, callback?: voidCallback) =>
+String.prototype.save = async function (path: string, callback?: voidCallback) {
     await fileAsync.save(path, String(this), callback);
-String.prototype.saveS = (path: string) => fileSync.saveS(path, String(this));
-String.prototype.saveW = async (path: string, callback?: voidCallback) =>
+};
+String.prototype.saveS = function (path: string) {
+    fileSync.saveS(path, String(this));
+};
+String.prototype.saveW = async function (path: string, callback?: voidCallback) {
     await fileWorker.saveW(path, String(this), callback);
+};
 JSON.load = jsonAsync.load;
 JSON.save = jsonAsync.save;
 JSON.loadS = jsonSync.loadS;
