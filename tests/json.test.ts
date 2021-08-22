@@ -46,6 +46,10 @@ describe("Load jsonfile from test folder", () => {
         const data = mylas.json.loadS(testJsonPath);
         expect(data).toStrictEqual(testJson);
     });
+    it("Should load the jsondata from the filesystem and remove comments", () => {
+        const data = mylas.json.loadS("./config/tsconfig.json", true);
+        expect(data).toBeDefined();
+    });
     it("Should load the data from the filesystem async", async () => {
         const data = await mylas.json.load(testJsonPath);
         expect(data).toStrictEqual(testJson);
