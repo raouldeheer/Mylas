@@ -1,3 +1,4 @@
+import { removeComments } from "../sync/jsonSync";
 import {
     objectCallback,
     voidCallback,
@@ -12,9 +13,10 @@ export default {
     */
     load: async <T>(
         path: string,
-        callback?: objectCallback<T>
+        callback?: objectCallback<T>,
+        hasComments: boolean = false
     ): Promise<T> => {
-        const data: T = JSON.parse(await String.load(path));
+        const data: T = JSON.parse(hasComments? removeComments(await String.load(path)): await String.load(path));
         callback?.(data);
         return data;
     },
