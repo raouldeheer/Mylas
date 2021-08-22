@@ -14,7 +14,7 @@ export default {
     load: async <T>(
         path: string,
         callback?: objectCallback<T>,
-        hasComments: boolean = false
+        hasComments = false
     ): Promise<T> => {
         const data: T = JSON.parse(hasComments? removeComments(await String.load(path)): await String.load(path));
         callback?.(data);

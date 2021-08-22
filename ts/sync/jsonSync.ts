@@ -6,7 +6,7 @@ export default {
     */
     loadS: <T>(
         path: string,
-        hasComments: boolean = false
+        hasComments = false
     ): T => JSON.parse(hasComments? removeComments(String.loadS(path)): String.loadS(path)),
     /**
      * saves JSON data to file sync.
@@ -20,7 +20,7 @@ export default {
     ): void => String.saveS(path, JSON.stringify(data)),
 };
 
-export function removeComments(jsonString: string) {
+export function removeComments(jsonString: string): string {
     const isEscaped = (string: string, quotePosition: number) => {
         let index = quotePosition - 1;
         let backslashCount = 0;
@@ -70,5 +70,5 @@ export function removeComments(jsonString: string) {
             continue;
         }
     }
-    return (result + ((isInsideMComment || isInsideSComment) ? '' : jsonString.slice(offset))).replace(/\,(?!\s*?[\{\[\"\'\w])/g, "");
+    return (result + ((isInsideMComment || isInsideSComment) ? '' : jsonString.slice(offset))).replace(/,(?!\s*?[{["'\w])/g, "");
 }
