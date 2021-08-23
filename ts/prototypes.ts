@@ -1,31 +1,25 @@
-import jsonAsync from "./async/jsonAsync";
-import jsonSync from "./sync/jsonSync";
-import fileAsync from "./async/fileAsync";
-import fileSync from "./sync/fileSync";
-import {
-    jsonWorker,
-    fileWorker,
-} from "./workers/workerActions";
+import { file } from "./file";
+import { json } from "./json";
 import { voidCallback } from "./types";
 
-String.load = fileAsync.load;
-String.save = fileAsync.save;
-String.loadS = fileSync.loadS;
-String.saveS = fileSync.saveS;
-String.loadW = fileWorker.loadW;
-String.saveW = fileWorker.saveW;
+String.load = file.load;
+String.save = file.save;
+String.loadS = file.loadS;
+String.saveS = file.saveS;
+String.loadW = file.loadW;
+String.saveW = file.saveW;
 String.prototype.save = async function (path: string, callback?: voidCallback) {
-    await fileAsync.save(path, String(this), callback);
+    await file.save(path, String(this), callback);
 };
 String.prototype.saveS = function (path: string) {
-    fileSync.saveS(path, String(this));
+    file.saveS(path, String(this));
 };
 String.prototype.saveW = async function (path: string, callback?: voidCallback) {
-    await fileWorker.saveW(path, String(this), callback);
+    await file.saveW(path, String(this), callback);
 };
-JSON.load = jsonAsync.load;
-JSON.save = jsonAsync.save;
-JSON.loadS = jsonSync.loadS;
-JSON.saveS = jsonSync.saveS;
-JSON.loadW = jsonWorker.loadW;
-JSON.saveW = jsonWorker.saveW;
+JSON.load = json.load;
+JSON.save = json.save;
+JSON.loadS = json.loadS;
+JSON.saveS = json.saveS;
+JSON.loadW = json.loadW;
+JSON.saveW = json.saveW;

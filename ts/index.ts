@@ -1,45 +1,17 @@
 /** Import all sub-modules */
-import jsonAsync from "./async/jsonAsync";
-import jsonSync from "./sync/jsonSync";
-import fileAsync from "./async/fileAsync";
-import fileSync from "./sync/fileSync";
-import {
-    jsonWorker,
-    fileWorker,
-    bufferWorker,
-} from "./workers/workerActions";
-import dirAsync from "./async/dirAsync";
-import dirSync from "./sync/dirSync";
+import { buf as Buf } from "./buf";
+import { file as File } from "./file";
+import { json as Json } from "./json";
+import { dir as Dir } from "./dir";
 require("./prototypes");
 
-/** Make modules */
-/** JSON functions */
-const Json = {
-    ...jsonSync,
-    ...jsonAsync,
-    ...jsonWorker,
-};
-/** File functions */
-const File = {
-    ...fileSync,
-    ...fileAsync,
-    ...fileWorker,
-};
-/** Buffer functions */
-const Buf = {
-    ...bufferWorker,
-};
-/** Directory functions */
-const Dir = {
-    ...dirSync,
-    ...dirAsync,
-};
+/** Make module */
 const Mylas = {
     json: Json,
     file: File,
     dir: Dir,
     buf: Buf,
-    ...File
+    ...File,
 };
 
 /** Export modules */
