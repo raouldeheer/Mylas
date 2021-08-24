@@ -1,4 +1,4 @@
-import { Json } from "../ts/index";
+import { Json } from "../build/index";
 import fs from "fs";
 
 const testData = [{ Test: "Data" }];

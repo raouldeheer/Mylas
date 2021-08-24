@@ -1,4 +1,4 @@
-import { File } from "../ts/index";
+import { File } from "../build/index";
 import fs from "fs";
 
 const testData = "Test data";
