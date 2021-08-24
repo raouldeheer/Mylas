@@ -13,7 +13,6 @@ afterAll(() => {
     fs.unlinkSync(testDataPath);
 });
 
-
 /** file tests */
 describe("Save file to test folder", () => {
     it("Should save the data to the filesystem async", async () => {
