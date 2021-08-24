@@ -1,11 +1,9 @@
 import { file } from "./file";
 import { json } from "./json";
-import { voidCallback } from "./types";
+import { voidCallback, stringCallback, objectCallback } from "./types";
 
 // These types are here for tsc to compile.
 // These types are in index.d.ts for release version.
-declare type stringCallback = (arg0: string) => void;
-declare type objectCallback<T> = (arg0: T) => void;
 declare global {
     interface JSON {
         loadS: <T>(path: string) => T;
