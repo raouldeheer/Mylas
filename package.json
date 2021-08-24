@@ -5,13 +5,14 @@
   "main": "build/index.js",
   "typings": "build/index",
   "files": [
-    "build/"
+    "build/",
+    "mylas.d.ts"
   ],
   "sideEffects": false,
   "scripts": {
     "prepack": "npm run build",
     "test": "jest --config='./tests/jest.config.js'",
-    "build": "tsc --build ./config/tsconfig.json & tsc --build ./config/tsconfig2.json",
+    "build": "bash ./config/build.sh",
     "lint": "eslint -c ./config/.eslintrc --ext .ts ./ts",
     "docs": "typedoc --tsconfig config/tsconfig.json"
   },
