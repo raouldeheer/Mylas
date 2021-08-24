@@ -14,6 +14,7 @@ export const json = {
     /**
      * loads JSON from file sync.
      * @param {string} path path to load from.
+     * @param {boolean} hasComments file to load has comments in json.
      * @return {T}
      */
     loadS: <T>(
@@ -36,6 +37,7 @@ export const json = {
      * loads JSON from file.
      * @param {string} path path to load from.
      * @param {objectCallback<T>} callback callback to call. 
+     * @param {boolean} hasComments file to load has comments in json.
      * @return {Promise<T>}
      */
     load: async <T>(
@@ -68,12 +70,14 @@ export const json = {
      * loads JSON from file.
      * @param {string} path path to load from.
      * @param {objectCallback<T>} callback callback to call. 
+     * @param {boolean} hasComments file to load has comments in json.
      */
     loadW: <T>(
         path: string,
-        callback?: objectCallback<T>
+        callback?: objectCallback<T>,
+        hasComments = false
     ): Promise<T> => action<T>({
-        method: Method.loadJson,
+        method: hasComments ? Method.loadJsonComments : Method.loadJson,
         path: path,
         callback: callback,
     }),

@@ -6,6 +6,7 @@ export enum Method {
     loadFile,
     saveFile,
     loadJson,
+    loadJsonComments,
     saveJson,
     loadBuffer,
     saveBuffer,

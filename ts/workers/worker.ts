@@ -14,6 +14,7 @@ PP!.once('message', async ({ method, path, data }: Request) => {
         if (method === Method.loadFile) PP!.postMessage(await file.load(path));
         if (method === Method.saveFile) await file.save(path, data);
         if (method === Method.loadJson) PP!.postMessage(await json.load(path));
+        if (method === Method.loadJsonComments) PP!.postMessage(await json.load(path, undefined, true));
         if (method === Method.saveJson) await json.save(path, data);
         if (method === Method.loadBuffer) {
             const data = await buf.load(path);

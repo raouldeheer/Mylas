@@ -38,6 +38,10 @@ describe("Load file from test folder", () => {
         const data = await Json.loadW(testDataPath);
         expect(data).toEqual(testData);
     });
+    it("Should load the jsondata from the filesystem and remove comments", async () => {
+        const data = await Json.loadW("./config/tsconfig.json", undefined, true);
+        expect(data).toBeDefined();
+    });
     test("Should load the data from the filesystem async with callback", done => {
         Json.loadW(testDataPath, data => {
             expect(data).toEqual(testData);
