@@ -5,9 +5,9 @@ import {
     Method,
     Request,
 } from "../types";
-import { buf } from "../buf";
-import { file } from "../file";
-import { json } from "../json";
+import buf from "../buf";
+import file from "../file";
+import json from "../json";
 /* eslint-disable */
 PP!.once('message', async ({ method, path, data }: Request) => {
     try {

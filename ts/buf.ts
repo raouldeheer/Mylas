@@ -1,6 +1,4 @@
-import {
-    promises as fsPromises,
-} from "fs";
+import fs from "fs";
 import {
     objectCallback,
     voidCallback,
@@ -9,11 +7,9 @@ import {
 import {
     checkPath,
 } from "./checks";
-import {
-    action,
-} from "./workers/workerActions";
+import action from "./workers/workerActions";
 
-export const buf = {
+const buf = {
     /**
      * loads string data from file.
      * @param {string} path path to load from.
@@ -25,7 +21,7 @@ export const buf = {
         callback?: objectCallback<Buffer>
     ): Promise<Buffer> => {
         if (await checkPath(path) == true) {
-            const data = await fsPromises.readFile(path);
+            const data = await fs.promises.readFile(path);
             callback?.(data);
             return data;
         } else {
@@ -45,7 +41,7 @@ export const buf = {
         callback?: voidCallback
     ): Promise<void> => {
         if (await checkPath(path) == true) {
-            await fsPromises.writeFile(path, data);
+            await fs.promises.writeFile(path, data);
             callback?.();
         } else {
             throw new Error(`Can't write to ${path}`);
@@ -60,7 +56,6 @@ export const buf = {
         path: string,
         callback?: objectCallback<Buffer>
     ): Promise<Buffer> => {
-
         const array = await action<Uint8Array>({
             method: Method.loadBuffer,
             path: path,
@@ -89,3 +84,4 @@ export const buf = {
         });
     },
 };
+export default buf;

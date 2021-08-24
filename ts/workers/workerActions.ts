@@ -1,6 +1,6 @@
 import { Worker } from 'worker_threads';
 import { Request } from "../types";
-export const action = <T>(
+const action = <T>(
     { callback, ...req }: Request<T>
 ): Promise<T> => new Promise<T>((res, rej) => {
     let d: T;
@@ -9,3 +9,4 @@ export const action = <T>(
         .once('error', e => rej(e)).once('messageerror', e => rej(e))
         .postMessage(req);
 }).then(v => { callback?.(v); return v; }, e => { throw new Error(e); });
+export default action;

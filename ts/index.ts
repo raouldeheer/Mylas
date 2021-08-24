@@ -1,8 +1,8 @@
 /** Import all sub-modules */
-import { buf as Buf } from "./buf";
-import { file as File } from "./file";
-import { json as Json } from "./json";
-import { dir as Dir } from "./dir";
+import Buf from "./buf";
+import File from "./file";
+import Json from "./json";
+import Dir from "./dir";
 require("./prototypes");
 
 /** Make module */

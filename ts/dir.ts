@@ -1,6 +1,4 @@
-import fs, {
-    promises as fsPromises,
-} from "fs";
+import fs from "fs";
 import {
     booleanCallback,
     voidCallback,
@@ -10,7 +8,7 @@ import {
     checkPath,
 } from "./checks";
 
-export const dir = {
+const dir = {
     /**
      * makes fs dir sync
      * @param {string} path path to dir
@@ -47,7 +45,7 @@ export const dir = {
         callback?: voidCallback
     ): Promise<void> => {
         if (await checkPath(path))
-            await fsPromises.mkdir(path, { recursive: true });
+            await fs.promises.mkdir(path, { recursive: true });
         callback?.();
     }
     ,
@@ -62,7 +60,7 @@ export const dir = {
         callback?: voidCallback
     ): Promise<void> => {
         if (await checkPath(path))
-            await fsPromises.rmdir(path);
+            await fs.promises.rmdir(path);
         callback?.();
     },
     /**
@@ -80,3 +78,4 @@ export const dir = {
         return response;
     },
 };
+export default dir;

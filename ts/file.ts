@@ -1,6 +1,4 @@
-import fs, {
-    promises as fsPromises,
-} from "fs";
+import fs from "fs";
 import {
     stringCallback,
     voidCallback,
@@ -10,11 +8,9 @@ import {
     checkPathSync,
     checkPath,
 } from "./checks";
-import {
-    action,
-} from "./workers/workerActions";
+import action from "./workers/workerActions";
 
-export const file = {
+const file = {
     /**
      * loads string data from file.
      * @param {string} path path to load from.
@@ -56,7 +52,7 @@ export const file = {
         callback?: stringCallback
     ): Promise<string> => {
         if (await checkPath(path) == true) {
-            const data = await fsPromises.readFile(path, "utf8");
+            const data = await fs.promises.readFile(path, "utf8");
             callback?.(data);
             return data;
         } else {
@@ -76,7 +72,7 @@ export const file = {
         callback?: voidCallback
     ): Promise<void> => {
         if (await checkPath(path) == true) {
-            await fsPromises.writeFile(path, data, "utf8");
+            await fs.promises.writeFile(path, data, "utf8");
             callback?.();
         } else {
             throw new Error(`Can't write to ${path}`);
@@ -112,3 +108,4 @@ export const file = {
         callback: callback
     }),
 };
+export default file;

@@ -1,6 +1,4 @@
-import fs, {
-    promises as fsPromises,
-} from "fs";
+import fs from "fs";
 import Path from "path";
 
 /**
@@ -72,7 +70,7 @@ export const checkPerm = async (
     /** check permissions */
     const parsedPath = Path.parse(path);
     if (fs.existsSync(path)) {
-        await fsPromises.access(
+        await fs.promises.access(
             path,
             fs.constants.R_OK |
             fs.constants.W_OK
@@ -80,7 +78,7 @@ export const checkPerm = async (
             throw new Error("Permissions error");
         });
     }
-    await fsPromises.access(
+    await fs.promises.access(
         parsedPath.dir,
         fs.constants.R_OK |
         fs.constants.W_OK

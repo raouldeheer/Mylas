@@ -1,5 +1,5 @@
-import { file } from "./file";
-import { json } from "./json";
+import file from "./file";
+import json from "./json";
 import { voidCallback, stringCallback, objectCallback } from "./types";
 
 // These types are here for tsc to compile.

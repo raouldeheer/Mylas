@@ -3,14 +3,10 @@ import {
     voidCallback,
     Method,
 } from "./types";
-import {
-    file,
-} from "./file";
-import {
-    action,
-} from "./workers/workerActions";
+import file from "./file";
+import action from "./workers/workerActions";
 
-export const json = {
+const json = {
     /**
      * loads JSON from file sync.
      * @param {string} path path to load from.
@@ -98,6 +94,7 @@ export const json = {
         callback: callback,
     }),
 };
+export default json;
 
 function removeComments(jsonString: string): string {
     const isEscaped = (string: string, quotePosition: number) => {
