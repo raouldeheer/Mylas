@@ -97,11 +97,10 @@ const json = {
 export default json;
 
 function removeComments(jsonString: string): string {
-    const isEscaped = (string: string, quotePosition: number) => {
-        let index = quotePosition - 1;
+    const isNotEscaped = (string: string, quotePosition: number) => {
         let backslashCount = 0;
-        while (string[index] === '\\') {
-            index--;
+        while (string[quotePosition] === '\\') {
+            quotePosition--;
             backslashCount++;
         }
         return !(backslashCount % 2);
@@ -110,22 +109,23 @@ function removeComments(jsonString: string): string {
     let isInsideSComment = false;
     let isInsideMComment = false;
     let offset = 0;
-    let result = '';
+    let result = "";
 
     for (let i = 0; i < jsonString.length; i++) {
         const currentCharacter = jsonString[i] || "";
         const nextCharacter = jsonString[i + 1] || "";
-        const isInsideComment = (isInsideMComment || isInsideSComment);
+        const isOutsideComment = !(isInsideMComment || isInsideSComment);
 
-        if (!isInsideComment && currentCharacter === '"' && isEscaped(jsonString, i)) isInsideString = !isInsideString;
+        if (isOutsideComment && currentCharacter === '"' && isNotEscaped(jsonString, i-1)) isInsideString = !isInsideString;
         if (isInsideString) continue;
 
-        if (!isInsideComment && currentCharacter + nextCharacter === '//') {
+        const currNextCharacter = currentCharacter + nextCharacter;
+        if (isOutsideComment && currNextCharacter === '//') {
             result += jsonString.slice(offset, i);
             offset = i;
             isInsideSComment = true;
             i++;
-        } else if (isInsideSComment && currentCharacter + nextCharacter === '\r\n') {
+        } else if (isInsideSComment && currNextCharacter === '\r\n') {
             i++;
             isInsideSComment = false;
             offset = i;
@@ -133,13 +133,13 @@ function removeComments(jsonString: string): string {
         } else if (isInsideSComment && currentCharacter === '\n') {
             isInsideSComment = false;
             offset = i;
-        } else if (!isInsideComment && currentCharacter + nextCharacter === '/*') {
+        } else if (isOutsideComment && currNextCharacter === '/*') {
             result += jsonString.slice(offset, i);
             offset = i;
             isInsideMComment = true;
             i++;
             continue;
-        } else if (isInsideMComment && currentCharacter + nextCharacter === '*/') {
+        } else if (isInsideMComment && currNextCharacter === '*/') {
             i++;
             isInsideMComment = false;
             offset = i + 1;
