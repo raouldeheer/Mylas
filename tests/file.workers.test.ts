@@ -1,4 +1,4 @@
-import mylas from "../ts/index";
+import mylas from "../build/index";
 import fs from "fs";
 
 const testData = "Test data";
