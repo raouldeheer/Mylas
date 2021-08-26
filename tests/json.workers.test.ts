@@ -1,4 +1,4 @@
-import { Json } from "../ts/index";
+import { Json } from "../build/index";
 import fs from "fs";
 
 const testData = [{ Test: "Data" }];
@@ -37,6 +37,10 @@ describe("Load file from test folder", () => {
     it("Should load the data from the filesystem async", async () => {
         const data = await Json.loadW(testDataPath);
         expect(data).toEqual(testData);
+    });
+    it("Should load the jsondata from the filesystem and remove comments", async () => {
+        const data = await Json.loadW("./config/tsconfig.json", undefined, true);
+        expect(data).toBeDefined();
     });
     test("Should load the data from the filesystem async with callback", done => {
         Json.loadW(testDataPath, data => {

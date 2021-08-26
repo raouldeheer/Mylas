@@ -14,6 +14,9 @@ JSON.saveS("./text.json", [{test: "Hello world"}]);
 
 //Load JSON from file
 const loadedJSON = JSON.loadS("./text.json");
+
+//Load JSON from file with comments
+const loadedJSON = JSON.loadS("./text.json", true);
 ```
 ASync, Promises & Callback:
 ```ts

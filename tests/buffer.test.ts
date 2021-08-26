@@ -1,4 +1,4 @@
-import mylas from "../ts/index";
+import mylas from "../build/index";
 import fs from "fs";
 
 const testData = Buffer.from("Test data");
@@ -12,7 +12,6 @@ beforeAll(() => {
 afterAll(() => {
     fs.unlinkSync(testDataPath);
 });
-
 
 /** file tests */
 describe("Save file to test folder", () => {

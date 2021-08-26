@@ -1,4 +1,4 @@
-import mylas, { Json } from "../ts/index";
+import mylas, { Json } from "../build/index";
 import fs from "fs";
 
 const testJson = [{ "Test": "Data" }];
@@ -45,6 +45,14 @@ describe("Load jsonfile from test folder", () => {
     it("Should load the jsondata from the filesystem", () => {
         const data = mylas.json.loadS(testJsonPath);
         expect(data).toStrictEqual(testJson);
+    });
+    it("Should load the jsondata from the filesystem and remove comments", () => {
+        const data = mylas.json.loadS("./config/tsconfig.json", true);
+        expect(data).toBeDefined();
+    });
+    it("Should load the jsondata from the filesystem and remove comments", async () => {
+        const data = await mylas.json.load("./config/tsconfig.json", undefined, true);
+        expect(data).toBeDefined();
     });
     it("Should load the data from the filesystem async", async () => {
         const data = await mylas.json.load(testJsonPath);
