@@ -1,25 +1,7 @@
 declare global {
-    interface JSON {
-        loadS: <T>(path: string) => T;
-        saveS: <T>(path: string, data: T) => void;
-        load: <T>(path: string, callback?: objectCallback<T>) => Promise<T>;
-        save: <T>(path: string, data: T, callback?: voidCallback) => Promise<void>;
-        loadW: <T>(path: string, callback?: objectCallback<T>) => Promise<T>;
-        saveW: <T>(path: string, data: T, callback?: voidCallback) => Promise<void>;
-    }
-    interface StringConstructor {
-        loadS: (path: string) => string;
-        saveS: (path: string, data: string) => void;
-        load: (path: string, callback?: stringCallback) => Promise<string>;
-        save: (path: string, data: string, callback?: voidCallback) => Promise<void>;
-        loadW: (path: string, callback?: stringCallback) => Promise<string>;
-        saveW: (path: string, data: string, callback?: voidCallback) => Promise<void>;
-    }
-    interface String {
-        saveS: (path: string) => void;
-        save: (path: string, callback?: voidCallback) => Promise<void>;
-        saveW: (path: string, callback?: voidCallback) => Promise<void>;
-    }
+    interface JSON extends JsonT { }
+    interface StringConstructor extends FileT { }
+    interface String extends FileTsave { }
 }
 
 declare type voidCallback = () => void;
@@ -73,29 +55,16 @@ declare interface JsonT {
      */
     saveW: <T>(path: string, data: T, callback?: voidCallback | undefined) => Promise<void>;
 }
-declare interface FileT {
+declare interface FileTsave {
     /**
-     * loads string data from file.
-     * @param {string} path path to load from.
-     * @return {string}
-     */
-    loadS: (path: string) => string;
-    /**
-    * saves string to file.
+    * saves string to file sync.
     * @param {string} path path to save to.
     * @param {string} data data to save.
     * @return {void}
     */
     saveS: (path: string, data: string) => void;
     /**
-    * loads string data from file.
-    * @param {string} path path to load from.
-    * @param {stringCallback} callback callback to call.
-    * @return {Promise<string>}
-    */
-    load: (path: string, callback?: stringCallback | undefined) => Promise<string>;
-    /**
-     * saves string to file.
+     * saves string to file async.
      * @param {string} path path to save to.
      * @param {string} data data to save.
      * @param {voidCallback} callback callback to call.
@@ -103,18 +72,33 @@ declare interface FileT {
      */
     save: (path: string, data: string, callback?: voidCallback | undefined) => Promise<void>;
     /**
-     * loads string data from file.
-     * @param {string} path path to load from.
-     * @param {stringCallback} callback callback to call.
-     */
-    loadW: (path: string, callback?: stringCallback | undefined) => Promise<string>;
-    /**
-     * saves string to file.
+     * saves string to file with worker.
      * @param {string} path path to save to.
      * @param {string} data data to save.
      * @param {voidCallback} callback callback to call.
      */
     saveW: (path: string, data: string, callback?: voidCallback | undefined) => Promise<void>;
+}
+declare interface FileT extends FileTsave {
+    /**
+     * loads string data from file sync.
+     * @param {string} path path to load from.
+     * @return {string}
+     */
+    loadS: (path: string) => string;
+    /**
+    * loads string data from file async.
+    * @param {string} path path to load from.
+    * @param {stringCallback} callback callback to call.
+    * @return {Promise<string>}
+    */
+    load: (path: string, callback?: stringCallback | undefined) => Promise<string>;
+    /**
+     * loads string data from file with worker.
+     * @param {string} path path to load from.
+     * @param {stringCallback} callback callback to call.
+     */
+    loadW: (path: string, callback?: stringCallback | undefined) => Promise<string>;
 }
 declare interface DirT {
     /**
