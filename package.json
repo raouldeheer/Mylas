@@ -5,8 +5,7 @@
   "main": "build/index.js",
   "typings": "build/index",
   "files": [
-    "build/",
-    "mylas.d.ts"
+    "build/"
   ],
   "sideEffects": false,
   "scripts": {
