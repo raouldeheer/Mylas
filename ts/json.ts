@@ -4,7 +4,7 @@ import {
     Method,
 } from "./types";
 import file from "./file";
-import action from "./workers/workerActions";
+import action from "./workerActions";
 
 const json = {
     /**

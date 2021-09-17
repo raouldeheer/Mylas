@@ -8,7 +8,7 @@ import {
     checkPathSync,
     checkPath,
 } from "./checks";
-import action from "./workers/workerActions";
+import action from "./workerActions";
 
 const file = {
     /**

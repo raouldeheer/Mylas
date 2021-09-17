@@ -17,3 +17,6 @@ const Mylas = {
 /** Export modules */
 export default Mylas;
 export { Json, Dir, File, Buf };
+
+import { Method, Request } from "./types";
+export { Method, Request };
