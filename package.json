@@ -13,7 +13,7 @@
     "test": "jest --config='./tests/jest.config.js'",
     "build": "bash ./config/build.sh",
     "lint": "eslint -c ./config/.eslintrc --ext .ts ./ts",
-    "docs": "typedoc --tsconfig config/tsconfig.json"
+    "docs": "typedoc --excludeInternal --tsconfig config/tsconfig.json"
   },
   "repository": {
     "type": "git",
