@@ -3,9 +3,17 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    commit-message:
+      prefix: "🔼"
+    reviewers:
+      - "raouldeheer"
       
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    commit-message:
+      prefix: "🔼"
+    reviewers:
+      - "raouldeheer"
