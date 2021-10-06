@@ -12,8 +12,6 @@ export const checkPathSync = (
     //check if path is only a filename.
     if (!path.includes("\\") && !path.includes("/"))
         return path.includes(".");
-    if (Path.isAbsolute(path)) //check if path is absolute.
-        throw new Error("Cannot use absolute path");
     /** check if dir exists */
     if (checkDir(path) != true) return false;
     return true; // all checks good return true
@@ -50,8 +48,6 @@ export const checkDir = (
     //check if path is only a filename.
     if (!path.includes("\\") && !path.includes("/"))
         return path.includes(".");
-    if (Path.isAbsolute(path)) //check if path is absolute.
-        throw new Error("Cannot use absolute path");
     /** check if dir exists */
     if (checkDir(path) != true) return false;
     /** check permissions */
