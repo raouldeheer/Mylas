@@ -13,7 +13,7 @@ const json = {
      * @param {boolean} hasComments file to load has comments in json.
      * @return {T}
      */
-    loadS: <T = any>(
+    loadS: <T = unknown>(
         path: string,
         hasComments = false
     ): T => JSON.parse(hasComments ?
@@ -25,7 +25,7 @@ const json = {
      * @param {T} data data to save.
      * @return {void}
      */
-    saveS: <T = any>(
+    saveS: <T = unknown>(
         path: string,
         data: T
     ): void => file.saveS(path, JSON.stringify(data)),
@@ -36,7 +36,7 @@ const json = {
      * @param {boolean} hasComments file to load has comments in json.
      * @return {Promise<T>}
      */
-    load: async <T = any>(
+    load: async <T = unknown>(
         path: string,
         callback?: objectCallback<T>,
         hasComments = false
@@ -54,7 +54,7 @@ const json = {
      * @param {voidCallback} callback callback to call. 
      * @return {Promise<void>}
      */
-    save: async <T = any>(
+    save: async <T = unknown>(
         path: string,
         data: T,
         callback?: voidCallback
@@ -68,7 +68,7 @@ const json = {
      * @param {objectCallback<T>} callback callback to call. 
      * @param {boolean} hasComments file to load has comments in json.
      */
-    loadW: <T = any>(
+    loadW: <T = unknown>(
         path: string,
         callback?: objectCallback<T>,
         hasComments = false
@@ -83,7 +83,7 @@ const json = {
      * @param {T} data data to save.
      * @param {voidCallback} callback callback to call. 
      */
-    saveW: <T = any>(
+    saveW: <T = unknown>(
         path: string,
         data: T,
         callback?: voidCallback
