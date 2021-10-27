@@ -102,39 +102,39 @@ declare interface FileT extends FileTsave {
 }
 declare interface DirT {
     /**
-     * makes fs dir sync
+     * Creates directory on filesystem synchronous.
      * @param {string} path path to dir
      * @return {void}
      */
     mkS: (path: string) => void;
     /**
-     * removes fs dir sync
+     * Removes directory on filesystem synchronous.
      * @param {string} path path to dir
      * @return {void}
      */
     rmS: (path: string) => void;
     /**
-     * checks if dir exists sync.
+     * Checks if directory exists on filesystem synchronous.
      * @param {string} path path to dir.
      * @return {boolean}
      */
     checkS: (path: string) => boolean;
     /**
-     * makes fs dir
+     * Creates directory on filesystem asynchronous.
      * @param {string} path path to dir
      * @param {voidCallback} callback callback to call.
      * @return {Promise<void>}
      */
     mk: (path: string, callback?: voidCallback | undefined) => Promise<void>;
     /**
-     * removes fs dir
+     * Removes directory on filesystem asynchronous.
      * @param {string} path path to dir
      * @param {voidCallback} callback callback to call.
      * @return {Promise<void>}
      */
     rm: (path: string, callback?: voidCallback | undefined) => Promise<void>;
     /**
-     * checks if dir exists.
+     * Checks if directory exists on filesystem asynchronous.
      * @param {string} path path to dir.
      * @param {booleanCallback} callback callback to call.
      * @return {Promise<boolean>}
@@ -143,14 +143,14 @@ declare interface DirT {
 }
 declare interface BufT {
     /**
-     * loads string data from file.
+     * loads buffer data from file.
      * @param {string} path path to load from.
      * @param {objectCallback<Buffer>} callback callback to call.
      * @return {Promise<Buffer>}
      */
     load: (path: string, callback?: objectCallback<Buffer> | undefined) => Promise<Buffer>;
     /**
-     * saves string to file.
+     * saves buffer to file.
      * @param {string} path path to save to.
      * @param {Buffer} data data to save.
      * @param {voidCallback} callback callback to call.
@@ -158,13 +158,13 @@ declare interface BufT {
      */
     save: (path: string, data: Buffer, callback?: voidCallback | undefined) => Promise<void>;
     /**
-     * loads string data from file.
+     * loads buffer data from file.
      * @param {string} path path to load from.
      * @param {objectCallback<Buffer>} callback callback to call.
      */
     loadW: (path: string, callback?: objectCallback<Buffer> | undefined) => Promise<Buffer>;
     /**
-     * saves string to file.
+     * saves buffer to file.
      * @param {string} path path to save to.
      * @param {Buffer} data data to save.
      * @param {voidCallback} callback callback to call.
