@@ -20,7 +20,7 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 15      | :white_check_mark: |
+| 16      | :white_check_mark: |
 | 14      | :white_check_mark: |
 | 12      | :white_check_mark: |
 | < 10    | :x:                |
