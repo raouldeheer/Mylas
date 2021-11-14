@@ -7,7 +7,7 @@
   "files": [
     "build/"
   ],
-  "sideEffects": false,
+  "sideEffects": true,
   "scripts": {
     "prepack": "npm run build",
     "test": "jest --config='./tests/jest.config.js'",
@@ -24,7 +24,8 @@
     "data",
     "json",
     "loader",
-    "multithreaded"
+    "multithreaded",
+    "json-comments"
   ],
   "author": "Raoul de Heer",
   "license": "MIT",
