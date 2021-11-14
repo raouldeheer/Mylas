@@ -1,13 +1,13 @@
 {
   "name": "mylas",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Mylas is a npm package to make the loading and storing of data from fs easy and reliable.",
   "main": "build/index.js",
   "typings": "build/index",
   "files": [
     "build/"
   ],
-  "sideEffects": false,
+  "sideEffects": true,
   "scripts": {
     "prepack": "npm run build",
     "test": "jest --config='./tests/jest.config.js'",
@@ -24,7 +24,8 @@
     "data",
     "json",
     "loader",
-    "multithreaded"
+    "multithreaded",
+    "json-comments"
   ],
   "author": "Raoul de Heer",
   "license": "MIT",
