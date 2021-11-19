@@ -25,7 +25,7 @@ const dir = {
      */
     rmS: (path: string): void => {
         if (checkPathSync(path))
-            fs.rmdirSync(path);
+            fs.rmSync(path, { recursive:true, force: true });
     },
     /**
      * checks if dir exists sync.
@@ -60,7 +60,7 @@ const dir = {
         callback?: voidCallback
     ): Promise<void> => {
         if (await checkPath(path))
-            await fs.promises.rmdir(path);
+            await fs.promises.rm(path, { recursive:true, force: true });
         callback?.();
     },
     /**
