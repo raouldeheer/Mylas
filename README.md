@@ -31,7 +31,6 @@ To get started have a look at our [wiki](https://github.com/raouldeheer/Mylas/wi
 
 ## Documentation
 All features are listed at the [wiki](https://github.com/raouldeheer/Mylas/wiki)   
-More documentation at [mylas.js.org](https://mylas.js.org/)
 
 ## Contributing
 We would love more contributors! To start contributing read our [Contributing page](https://github.com/raouldeheer/Mylas/blob/main/.github/CONTRIBUTING.md).  
