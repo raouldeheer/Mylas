@@ -24,8 +24,14 @@ const dir = {
      * @return {void}
      */
     rmS: (path: string): void => {
-        if (checkPathSync(path))
-            fs.rmdirSync(path);
+        if (checkPathSync(path)) {
+            // node version 12 compatibility
+            if (process.versions.node.startsWith("12")) {
+                fs.rmdirSync(path, { recursive: true });
+            } else {
+                fs.rmSync(path, { recursive:true, force: true });
+            }
+        }
     },
     /**
      * checks if dir exists sync.
@@ -59,8 +65,14 @@ const dir = {
         path: string,
         callback?: voidCallback
     ): Promise<void> => {
-        if (await checkPath(path))
-            await fs.promises.rmdir(path);
+        if (await checkPath(path)) {
+            // node version 12 compatibility
+            if (process.versions.node.startsWith("12")) {
+                await fs.promises.rmdir(path, { recursive: true });
+            } else {
+                await fs.promises.rm(path, { recursive:true, force: true });
+            }
+        }
         callback?.();
     },
     /**

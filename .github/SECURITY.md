@@ -4,6 +4,10 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 2.1.6   | :white_check_mark: |
+| 2.1.5   | :white_check_mark: |
+| 2.1.4   | :white_check_mark: |
+| 2.1.3   | :white_check_mark: |
 | 2.1.2   | :white_check_mark: |
 | 2.1.1   | :white_check_mark: |
 | 2.1.0   | :white_check_mark: |
@@ -18,7 +22,7 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 15      | :white_check_mark: |
+| 16      | :white_check_mark: |
 | 14      | :white_check_mark: |
 | 12      | :white_check_mark: |
 | < 10    | :x:                |

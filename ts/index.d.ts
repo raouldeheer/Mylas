@@ -1,7 +1,7 @@
 declare global {
     interface JSON extends JsonT { }
     interface StringConstructor extends FileT { }
-    interface String extends FileTsave { }
+    interface String extends StringSave { }
 }
 
 declare type voidCallback = () => void;
@@ -55,31 +55,28 @@ declare interface JsonT {
      */
     saveW: <T = any>(path: string, data: T, callback?: voidCallback | undefined) => Promise<void>;
 }
-declare interface FileTsave {
+declare interface StringSave {
     /**
     * saves string to file sync.
     * @param {string} path path to save to.
-    * @param {string} data data to save.
     * @return {void}
     */
-    saveS: (path: string, data: string) => void;
+    saveS: (path: string) => void;
     /**
      * saves string to file async.
      * @param {string} path path to save to.
-     * @param {string} data data to save.
      * @param {voidCallback} callback callback to call.
      * @return {Promise<void>}
      */
-    save: (path: string, data: string, callback?: voidCallback | undefined) => Promise<void>;
+    save: (path: string, callback?: voidCallback | undefined) => Promise<void>;
     /**
      * saves string to file with worker.
      * @param {string} path path to save to.
-     * @param {string} data data to save.
      * @param {voidCallback} callback callback to call.
      */
-    saveW: (path: string, data: string, callback?: voidCallback | undefined) => Promise<void>;
+    saveW: (path: string, callback?: voidCallback | undefined) => Promise<void>;
 }
-declare interface FileT extends FileTsave {
+declare interface FileT {
     /**
      * loads string data from file sync.
      * @param {string} path path to load from.
@@ -99,42 +96,64 @@ declare interface FileT extends FileTsave {
      * @param {stringCallback} callback callback to call.
      */
     loadW: (path: string, callback?: stringCallback | undefined) => Promise<string>;
+    /**
+     * saves string to file sync.
+     * @param {string} path path to save to.
+     * @param {string} data data to save.
+     * @return {void}
+     */
+    saveS: (path: string, data: string) => void;
+    /**
+     * saves string to file async.
+     * @param {string} path path to save to.
+     * @param {string} data data to save.
+     * @param {voidCallback} callback callback to call.
+     * @return {Promise<void>}
+     */
+    save: (path: string, data: string, callback?: voidCallback | undefined) => Promise<void>;
+    /**
+     * saves string to file with worker.
+     * @param {string} path path to save to.
+     * @param {string} data data to save.
+     * @param {voidCallback} callback callback to call.
+     */
+    saveW: (path: string, data: string, callback?: voidCallback | undefined) => Promise<void>;
 }
 declare interface DirT {
     /**
-     * makes fs dir sync
+     * Creates directory on filesystem synchronous.
      * @param {string} path path to dir
      * @return {void}
      */
     mkS: (path: string) => void;
     /**
-     * removes fs dir sync
+     * Removes directory on filesystem synchronous.
      * @param {string} path path to dir
      * @return {void}
      */
     rmS: (path: string) => void;
     /**
-     * checks if dir exists sync.
+     * Checks if directory exists on filesystem synchronous.
      * @param {string} path path to dir.
      * @return {boolean}
      */
     checkS: (path: string) => boolean;
     /**
-     * makes fs dir
+     * Creates directory on filesystem asynchronous.
      * @param {string} path path to dir
      * @param {voidCallback} callback callback to call.
      * @return {Promise<void>}
      */
     mk: (path: string, callback?: voidCallback | undefined) => Promise<void>;
     /**
-     * removes fs dir
+     * Removes directory on filesystem asynchronous.
      * @param {string} path path to dir
      * @param {voidCallback} callback callback to call.
      * @return {Promise<void>}
      */
     rm: (path: string, callback?: voidCallback | undefined) => Promise<void>;
     /**
-     * checks if dir exists.
+     * Checks if directory exists on filesystem asynchronous.
      * @param {string} path path to dir.
      * @param {booleanCallback} callback callback to call.
      * @return {Promise<boolean>}
@@ -143,14 +162,14 @@ declare interface DirT {
 }
 declare interface BufT {
     /**
-     * loads string data from file.
+     * loads buffer data from file.
      * @param {string} path path to load from.
      * @param {objectCallback<Buffer>} callback callback to call.
      * @return {Promise<Buffer>}
      */
     load: (path: string, callback?: objectCallback<Buffer> | undefined) => Promise<Buffer>;
     /**
-     * saves string to file.
+     * saves buffer to file.
      * @param {string} path path to save to.
      * @param {Buffer} data data to save.
      * @param {voidCallback} callback callback to call.
@@ -158,13 +177,13 @@ declare interface BufT {
      */
     save: (path: string, data: Buffer, callback?: voidCallback | undefined) => Promise<void>;
     /**
-     * loads string data from file.
+     * loads buffer data from file.
      * @param {string} path path to load from.
      * @param {objectCallback<Buffer>} callback callback to call.
      */
     loadW: (path: string, callback?: objectCallback<Buffer> | undefined) => Promise<Buffer>;
     /**
-     * saves string to file.
+     * saves buffer to file.
      * @param {string} path path to save to.
      * @param {Buffer} data data to save.
      * @param {voidCallback} callback callback to call.
