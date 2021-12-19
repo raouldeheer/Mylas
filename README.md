@@ -18,27 +18,19 @@ npm i mylas
 yarn add mylas
 ```
 
+## Getting started
+
+To get started have a look at our [wiki](https://github.com/raouldeheer/Mylas/wiki) 
+
 ## Examples
-Synchronous functions:
-```ts
-const Mylas = require("mylas");
 
-// Save string to file
-Mylas.saveS("./text.txt", "Hello world!");
+- [Json examples](https://github.com/raouldeheer/Mylas/wiki/Json)
+- [File examples](https://github.com/raouldeheer/Mylas/wiki/File)
+- [Buf examples](https://github.com/raouldeheer/Mylas/wiki/Buf)
+- [Dir examples](https://github.com/raouldeheer/Mylas/wiki/Dir)
 
-// Load string from file
-const loadedData = Mylas.loadS("./text.txt");
-
-// Save JSON to file
-JSON.saveS("./text.json", [{test: "Hello world"}]);
-
-// Load JSON from file
-const loadedJSON = JSON.loadS("./text.json");
-```
-[More examples](https://github.com/raouldeheer/Mylas/blob/main/.github/EXAMPLES.md)
-
-## Features
-All features are listed at the [Features page](https://github.com/raouldeheer/Mylas/blob/main/.github/FEATURES.md).  
+## Documentation
+All features are listed at the [wiki](https://github.com/raouldeheer/Mylas/wiki)   
 More documentation at [mylas.js.org](https://mylas.js.org/)
 
 ## Contributing
