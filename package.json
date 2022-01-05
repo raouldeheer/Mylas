@@ -1,6 +1,6 @@
 {
   "name": "mylas",
-  "version": "2.1.6",
+  "version": "2.1.7",
   "description": "Mylas is a npm package to make the loading and storing of data from fs easy and reliable.",
   "main": "build/index.js",
   "typings": "build/index",
