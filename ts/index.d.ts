@@ -159,6 +159,12 @@ declare interface DirT {
      * @return {Promise<boolean>}
      */
     check: (path: string, callback?: booleanCallback | undefined) => Promise<boolean>;
+    /**
+     * NodeModules find where the node_modules directories are.
+     * @param input optional cwd input.
+     * @returns an array of locations where node_modules is found.
+     */
+    nodeModules: (input?: { cwd?: string; relative?: boolean; } | string) => string[];
 }
 declare interface BufT {
     /**
