@@ -1,4 +1,5 @@
 import fs from "fs";
+import findDeps from "./find-dependencies";
 import {
     booleanCallback,
     voidCallback,
@@ -89,5 +90,11 @@ const dir = {
         callback?.(response);
         return response;
     },
+    /**
+     * NodeModules find where the node_modules directories are.
+     * @param input optional cwd input.
+     * @returns an array of locations where node_modules is found.
+     */
+    nodeModules: (input?: { cwd?: string; relative?: boolean; } | string): string[] => findDeps(input),
 };
 export default dir;
