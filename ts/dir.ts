@@ -91,7 +91,7 @@ const dir = {
         return response;
     },
     /**
-     * NodeModules find where the node_modules directories are.
+     * NodeModules finds where the node_modules directories are.
      * @param {{ cwd?: string; relative?: boolean; } | string} input optional cwd input.
      * @returns an array of locations where node_modules is found.
      */
