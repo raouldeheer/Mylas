@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import fs from "fs";
 import path from "path";
 import os from "os";
@@ -15,7 +16,8 @@ export default function (input?: { cwd?: string; relative?: boolean; } | string)
     do {
         if (schDr.charAt(0) === "~") schDr = tilde(schDr);
         if (schDr.charAt(0) === "@") schDr = path.join(GPath(), schDr.slice(1));
-        if (modDr = lookup(schDr)) {
+        modDr = lookup(schDr)
+        if (modDr) {
             const fmd = opts.relative ? path.relative(opts.cwd, modDr) : modDr;
             df = results.indexOf(fmd) > -1;
             if (!df) {
@@ -34,7 +36,6 @@ function lookup(cwd: string): string | null {
     const dir = path.dirname(cwd);
     return dir === cwd ? null : lookup(dir);
 }
-
 
 let gm: string;
 let prefix: string;
@@ -73,7 +74,6 @@ const GPath = () => gm || (gm = isWin ?
     path.resolve(Prefix(), "node_modules") :
     path.resolve(Prefix(), "lib/node_modules"));
 const Prefix = () => prefix || (prefix = getPrefix());
-
 
 function inip(str: string) {
     // eslint-disable-next-line
@@ -159,19 +159,17 @@ const tilde = (fp: string) => fp.charCodeAt(0) === 126 ?
     fp.charCodeAt(1) === 43 ? path.join(process.cwd(), fp.slice(2)) :
         path.join(os.homedir(), fp.slice(1)) : fp;
 
-
-const pc = process;
-const isWin = pc.platform === "win32" ||
-    pc.env.OSTYPE === "cygwin" ||
-    pc.env.OSTYPE === "msys";
+const isWin = process.platform === "win32" ||
+    process.env.OSTYPE === "cygwin" ||
+    process.env.OSTYPE === "msys";
 const colon = isWin ? ";" : ":";
 
 function file(cmd: string): string {
-    let env = (pc.env.PATH || "").split(colon);
+    let env = (process.env.PATH || "").split(colon);
     let ext = [""];
     if (isWin) {
-        env.unshift(pc.cwd());
-        ext = (pc.env.PATHEXT || ".EXE;.CMD;.BAT;.COM").split(colon);
+        env.unshift(process.cwd());
+        ext = (process.env.PATHEXT || ".EXE;.CMD;.BAT;.COM").split(colon);
         if (cmd.indexOf(".") !== -1 && ext[0] !== "") ext.unshift("");
     }
     if (cmd.match(/\//) || isWin && cmd.match(/\\/)) env = [""];
@@ -187,8 +185,8 @@ function file(cmd: string): string {
 const core = isWin ? (path: string) => {
     const stat = fs.statSync(path);
     if (!stat.isSymbolicLink() && !stat.isFile()) return false;
-    if (!pc.env.PATHEXT) return true;
-    const pathext = pc.env.PATHEXT.split(";");
+    if (!process.env.PATHEXT) return true;
+    const pathext = process.env.PATHEXT.split(";");
     if (pathext.indexOf("") !== -1) return true;
     for (let i = 0; i < pathext.length; i++) {
         const p = pathext[i]!.toLowerCase();
@@ -199,9 +197,9 @@ const core = isWin ? (path: string) => {
     const { mode, gid, uid, isFile } = fs.statSync(path);
     return (isFile() && (
         (mode & 1) ||
-        (mode & 2) && gid === pc.getgid() ||
-        (mode & 4) && uid === pc.getuid() ||
-        (mode & 6) && pc.getuid() === 0
+        (mode & 2) && gid === process.getgid() ||
+        (mode & 4) && uid === process.getuid() ||
+        (mode & 6) && process.getuid() === 0
     ));
 };
 function isexesync(path: string) {
