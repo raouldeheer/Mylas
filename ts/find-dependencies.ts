@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import fs from "fs";
 import path from "path";
 import os from "os";
@@ -15,8 +14,10 @@ export default function (input?: { cwd?: string; relative?: boolean; } | string)
     let df = false;
     do {
         if (schDr.charAt(0) === "~") schDr = tilde(schDr);
-        if (schDr.charAt(0) === "@") schDr = path.join(GPath(), schDr.slice(1));
-        modDr = lookup(schDr)
+        if (schDr.charAt(0) === "@") schDr = path.join(gm || (gm = isWin ?
+            path.resolve(prefix || (prefix = getPrefix()), "node_modules") :
+            path.resolve(prefix || (prefix = getPrefix()), "lib/node_modules")), schDr.slice(1));
+        modDr = lookup(schDr);
         if (modDr) {
             const fmd = opts.relative ? path.relative(opts.cwd, modDr) : modDr;
             df = results.indexOf(fmd) > -1;
@@ -44,11 +45,11 @@ function getPrefix(): string {
     if (process.env.PREFIX) {
         prefix = process.env.PREFIX;
     } else {
-        prefix = tConfP(path.resolve(os.homedir(), ".npmrc"));
+        prefix = confPath(path.resolve(os.homedir(), ".npmrc"));
         if (!prefix) {
             try {
-                prefix = tConfP(path.resolve(fs.realpathSync(file("npm")), "..", "..", "npmrc"));
-                if (prefix) prefix = tConfP(path.resolve(prefix, "etc", "npmrc")) || prefix;
+                prefix = confPath(path.resolve(file(), "..", "..", "npmrc"));
+                if (prefix) prefix = confPath(path.resolve(prefix, "etc", "npmrc")) || prefix;
             } catch (_) { /* Do nothing */ }
             if (!prefix) {
                 if (isWin) {
@@ -65,15 +66,10 @@ function getPrefix(): string {
     return prefix ? tilde(prefix) : "";
 }
 
-function tConfP(configPath: string) {
+function confPath(configPath: string) {
     try { return inip(fs.readFileSync(configPath, "utf-8"))?.prefix; }
     catch (err) { return null; }
 }
-
-const GPath = () => gm || (gm = isWin ?
-    path.resolve(Prefix(), "node_modules") :
-    path.resolve(Prefix(), "lib/node_modules"));
-const Prefix = () => prefix || (prefix = getPrefix());
 
 function inip(str: string) {
     // eslint-disable-next-line
@@ -93,9 +89,9 @@ function inip(str: string) {
             p = out[section] = out[section] || {};
             return;
         }
-        let key = decode(match[2]!);
+        let key = decode(match[2] || "");
         if (key === "__proto__") return;
-        let value = match[3] ? decode(match[4]!) : true;
+        let value = match[3] ? decode(match[4] || "") : true;
         if (["true", "false", "null"].includes(value as string)) value = JSON.parse(value as string);
         if (key.length > 2 && key.slice(-2) === "[]") {
             key = key.substring(0, key.length - 2);
@@ -107,10 +103,7 @@ function inip(str: string) {
         else p[key] = value;
     });
     Object.keys(out).filter(k => {
-        if (!out[k] ||
-            typeof out[k] !== "object" ||
-            Array.isArray(out[k]))
-            return false;
+        if (!out[k] || typeof out[k] !== "object" || Array.isArray(out[k])) return false;
         const parts = k.replace(/\1/g, "\u0002LITERAL\\1LITERAL\u0002")
             .replace(/\\\./g, "\u0001")
             .split(/\./).map(part => part.replace(/\1/g, "\\.")
@@ -131,15 +124,14 @@ function inip(str: string) {
 }
 
 function decode(val: string) {
-    val = (val || "").trim();
-    if ((val.charAt(0) === "\"" && val.slice(-1) === "\"") ||
-        (val.charAt(0) === "'" && val.slice(-1) === "'")) {
-        if (val.charAt(0) === "'") val = val.substr(1, val.length - 2);
-        try { val = JSON.parse(val); } catch (_) { /* Do nothing */ }
+    val = val.trim();
+    const c1 = val.charAt(0), c2 = val.charAt(val.length - 1);
+    if ((c1 === "\"" && c2 === "\"") || (c1 === "'" && c2 === "'")) {
+        val = c1 === "'" ? val.substr(1, val.length - 2) : val;
+        try { return JSON.parse(val); } catch (_) { /* Do nothing */ }
     } else {
-        let esc = false;
-        let unesc = "";
-        for (let i = 0, l = val.length; i < l; i++) {
+        let esc = false, unesc = "";
+        for (let i = 0; i < val.length; i++) {
             const c = val.charAt(i);
             if (esc) {
                 if ("\\;#".indexOf(c) !== -1) unesc += c;
@@ -155,54 +147,54 @@ function decode(val: string) {
     return val;
 }
 
-const tilde = (fp: string) => fp.charCodeAt(0) === 126 ?
-    fp.charCodeAt(1) === 43 ? path.join(process.cwd(), fp.slice(2)) :
+const tilde = (fp: string) => fp.charAt(0) === "~" ?
+    fp.charAt(1) === "+" ? path.join(process.cwd(), fp.slice(2)) :
         path.join(os.homedir(), fp.slice(1)) : fp;
 
 const isWin = process.platform === "win32" ||
     process.env.OSTYPE === "cygwin" ||
     process.env.OSTYPE === "msys";
-const colon = isWin ? ";" : ":";
 
-function file(cmd: string): string {
-    let env = (process.env.PATH || "").split(colon);
+function file(): string {
+    const env = (process.env.PATH || "").split(isWin ? ";" : ":");
     let ext = [""];
     if (isWin) {
         env.unshift(process.cwd());
-        ext = (process.env.PATHEXT || ".EXE;.CMD;.BAT;.COM").split(colon);
-        if (cmd.indexOf(".") !== -1 && ext[0] !== "") ext.unshift("");
+        ext = (process.env.PATHEXT || ".EXE;.CMD;.BAT;.COM").split(";");
     }
-    if (cmd.match(/\//) || isWin && cmd.match(/\\/)) env = [""];
-    for (let i = 0; i < env.length; i++) {
-        const part = (env[i]!.charAt(0) === "\"" && env[i]!.slice(-1) === "\"") ? env[i]!.slice(1, -1) : env[i];
-        const p = (!part && /^\.[\\/]/.test(cmd) ? cmd.slice(0, 2) : "") + path.join(part!, cmd);
-        for (let j = 0; j < ext.length; j++)
-            if (isexesync(p + ext[j])) return p + ext[j];
+    for (const envi of env) {
+        const part = path.join(
+            (envi.charAt(0) === "\"" && envi.slice(-1) === "\"")
+                ? envi.slice(1, -1)
+                : envi,
+            "npm");
+        for (const exti of ext)
+            if (isexesync(part + exti)) return fs.realpathSync(part + exti);
     }
-    throw new Error("not found: " + cmd);
+    throw new Error("Can't find npm file");
 }
 
-const core = isWin ? (path: string) => {
-    const stat = fs.statSync(path);
-    if (!stat.isSymbolicLink() && !stat.isFile()) return false;
-    if (!process.env.PATHEXT) return true;
-    const pathext = process.env.PATHEXT.split(";");
-    if (pathext.indexOf("") !== -1) return true;
-    for (let i = 0; i < pathext.length; i++) {
-        const p = pathext[i]!.toLowerCase();
-        if (p && path.substr(-p.length).toLowerCase() === p) return true;
-    }
-    return false;
-} : (path: string) => {
-    const { mode, gid, uid, isFile } = fs.statSync(path);
-    return (isFile() && (
-        (mode & 1) ||
-        (mode & 2) && gid === process.getgid() ||
-        (mode & 4) && uid === process.getuid() ||
-        (mode & 6) && process.getuid() === 0
-    ));
-};
 function isexesync(path: string) {
-    try { return core(path); }
-    catch (_) { return false; }
+    try {
+        return (isWin ? (path: string) => {
+            const stat = fs.statSync(path);
+            if (!stat.isSymbolicLink() && !stat.isFile()) return false;
+            if (!process.env.PATHEXT) return true;
+            const pathext = process.env.PATHEXT.split(";");
+            if (pathext.indexOf("") !== -1) return true;
+            for (const pathexti of pathext) {
+                const p = pathexti.toLowerCase();
+                if (p && path.substr(-p.length).toLowerCase() === p) return true;
+            }
+            return false;
+        } : (path: string) => {
+            const { mode, gid, uid, isFile } = fs.statSync(path);
+            return (isFile() && (
+                (mode & 1) ||
+                (mode & 2) && gid === process.getgid() ||
+                (mode & 4) && uid === process.getuid() ||
+                (mode & 6) && process.getuid() === 0
+            ));
+        })(path);
+    } catch (_) { return false; }
 }
