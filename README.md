@@ -7,7 +7,7 @@
 ![GitHub](https://img.shields.io/github/license/raouldeheer/Mylas)
 ![npm (scoped)](https://img.shields.io/npm/v/mylas)
 ![node-current (scoped)](https://img.shields.io/node/v/mylas)  
-Mylas is a npm package that makes the loading and storing of data from fs easy and reliable. And it supports multithreading, json with comments and loading buffers with multithreading.   
+Mylas is a npm package that makes the loading and storing of data from fs easy and reliable. And it supports multithreading, json with comments and loading buffers with multithreading. It can also find [node_modules](https://github.com/raouldeheer/Mylas/wiki/Dir#nodemodules) folders.   
 <img src="https://raw.githubusercontent.com/raouldeheer/Mylas/HEAD/.github/logo.png" width="600"> 
 
 ## Installation
