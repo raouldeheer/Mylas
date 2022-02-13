@@ -72,67 +72,72 @@ function confPath(configPath: string) {
 }
 
 function inip(str: string) {
-    // eslint-disable-next-line
-    const out: any = {};
+    const out = Object.create(null);
     let p = out;
     let section = null;
-    str.split(/[\r\n]+/g).forEach(line => {
-        if (!line || line.match(/^\s*[;#]/)) return;
+    for (const line of str.split(/[\r\n]+/g)) {
+        if (!line || line.match(/^\s*[;#]/)) continue;
         const match = line.match(/^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i);
-        if (!match) return;
+        if (!match) continue;
         if (match[1] !== undefined) {
             section = decode(match[1]);
             if (section === "__proto__") {
-                p = {};
-                return;
+                p = Object.create(null);
+                continue;
             }
-            p = out[section] = out[section] || {};
-            return;
+            p = out[section] = out[section] || Object.create(null);
+            continue;
         }
-        let key = decode(match[2] || "");
-        if (key === "__proto__") return;
-        let value = match[3] ? decode(match[4] || "") : true;
-        if (["true", "false", "null"].includes(value as string)) value = JSON.parse(value as string);
-        if (key.length > 2 && key.slice(-2) === "[]") {
-            key = key.substring(0, key.length - 2);
-            if (key === "__proto__") return;
-            if (!p[key]) p[key] = [];
+        const keyRaw = decode(match[2] || "");
+        const isArray = keyRaw.length > 2 && keyRaw.slice(-2) === "[]";
+        const key = isArray ? keyRaw.slice(0, -2) : keyRaw;
+        if (key === "__proto__")
+            continue;
+        const valueRaw = match[3] ? decode(match[4] || "") : true;
+        const value = valueRaw === "true"
+            || valueRaw === "false"
+            || valueRaw === "null"
+            ? JSON.parse(valueRaw)
+            : valueRaw;
+        if (isArray) {
+            if (!Object.hasOwnProperty.call(p, key)) p[key] = [];
             else if (!Array.isArray(p[key])) p[key] = [p[key]];
         }
         if (Array.isArray(p[key])) p[key].push(value);
         else p[key] = value;
-    });
-    Object.keys(out).filter(k => {
-        if (!out[k] || typeof out[k] !== "object" || Array.isArray(out[k])) return false;
-        const parts = k.replace(/\1/g, "\u0002LITERAL\\1LITERAL\u0002")
-            .replace(/\\\./g, "\u0001")
-            .split(/\./).map(part => part.replace(/\1/g, "\\.")
-                .replace(/\2LITERAL\\1LITERAL\2/g, "\u0001"));
+    };
+    const remove = [];
+    for (const j of Object.keys(out)) {
+        if (!Object.hasOwnProperty.call(out, j) || typeof out[j] !== 'object' || Array.isArray(out[j])) continue;
+        const parts = j.replace(/\1/g, '\u0002LITERAL\\1LITERAL\u0002').replace(/\\\./g, '\u0001').split(/\./)
+            .map(part => part.replace(/\1/g, '\\.').replace(/\2LITERAL\\1LITERAL\2/g, '\u0001'));
         let p = out;
         const l = parts.pop() || "";
-        const nl = l.replace(/\\\./g, ".");
-        parts.forEach(part => {
-            if (part === "__proto__") return;
-            if (!p[part] || typeof p[part] !== "object") p[part] = {};
+        const nl = l.replace(/\\\./g, '.');
+        for (const part of parts) {
+            if (part === '__proto__') continue;
+            if (!Object.hasOwnProperty.call(p, part) || typeof p[part] !== 'object')
+                p[part] = Object.create(null);
             p = p[part];
-        });
-        if (p === out && nl === l) return false;
-        p[nl] = out[k];
-        return true;
-    }).forEach(del => delete out[del]);
+        }
+        if (p === out && nl === l) continue;
+        p[nl] = out[j];
+        remove.push(j);
+    }
+    remove.forEach(d => delete out[d]);
     return out;
 }
 
-function decode(val: string) {
-    val = val.trim();
-    const c1 = val.charAt(0), c2 = val.charAt(val.length - 1);
+function decode(str: string) {
+    str = str.trim();
+    const c1 = str.charAt(0), c2 = str.charAt(str.length - 1);
     if ((c1 === "\"" && c2 === "\"") || (c1 === "'" && c2 === "'")) {
-        val = c1 === "'" ? val.substr(1, val.length - 2) : val;
-        try { return JSON.parse(val); } catch (_) { /* Do nothing */ }
+        str = c1 === "'" ? str.substr(1, str.length - 2) : str;
+        try { return JSON.parse(str); } catch (_) { /* Do nothing */ }
     } else {
         let esc = false, unesc = "";
-        for (let i = 0; i < val.length; i++) {
-            const c = val.charAt(i);
+        for (let i = 0; i < str.length; i++) {
+            const c = str.charAt(i);
             if (esc) {
                 if ("\\;#".indexOf(c) !== -1) unesc += c;
                 else unesc += "\\" + c;
@@ -144,7 +149,7 @@ function decode(val: string) {
         if (esc) unesc += "\\";
         return unesc.trim();
     }
-    return val;
+    return str;
 }
 
 const tilde = (fp: string) => fp.charAt(0) === "~" ?
