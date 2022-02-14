@@ -105,7 +105,7 @@ function inip(str: string) {
         }
         if (Array.isArray(p[key])) p[key].push(value);
         else p[key] = value;
-    };
+    }
     const remove = [];
     for (const j of Object.keys(out)) {
         if (!Object.hasOwnProperty.call(out, j) || typeof out[j] !== 'object' || Array.isArray(out[j])) continue;
