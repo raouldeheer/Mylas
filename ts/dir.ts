@@ -16,7 +16,7 @@ const dir = {
      * @return {void}
      */
     mkS: (path: string): void => {
-        if (checkPathSync(path))
+        if (checkPathSync(path, fs.constants.W_OK))
             fs.mkdirSync(path, { recursive: true });
     },
     /**
@@ -25,7 +25,7 @@ const dir = {
      * @return {void}
      */
     rmS: (path: string): void => {
-        if (checkPathSync(path)) {
+        if (checkPathSync(path, fs.constants.W_OK)) {
             // node version 12 compatibility
             if (process.versions.node.startsWith("12")) {
                 fs.rmdirSync(path, { recursive: true });
@@ -51,7 +51,7 @@ const dir = {
         path: string,
         callback?: voidCallback
     ): Promise<void> => {
-        if (await checkPath(path))
+        if (await checkPath(path, fs.constants.W_OK))
             await fs.promises.mkdir(path, { recursive: true });
         callback?.();
     }
@@ -66,7 +66,7 @@ const dir = {
         path: string,
         callback?: voidCallback
     ): Promise<void> => {
-        if (await checkPath(path)) {
+        if (await checkPath(path, fs.constants.W_OK)) {
             // node version 12 compatibility
             if (process.versions.node.startsWith("12")) {
                 await fs.promises.rmdir(path, { recursive: true });

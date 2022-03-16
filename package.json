@@ -7,7 +7,6 @@
   "files": [
     "build/"
   ],
-  "sideEffects": true,
   "scripts": {
     "prepack": "npm run build",
     "test": "jest --config='./tests/jest.config.js'",
