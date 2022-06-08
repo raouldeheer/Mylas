@@ -196,9 +196,9 @@ function isexesync(path: string) {
             const { mode, gid, uid, isFile } = fs.statSync(path);
             return (isFile() && (
                 (mode & 1) ||
-                (mode & 2) && gid === process.getgid() ||
-                (mode & 4) && uid === process.getuid() ||
-                (mode & 6) && process.getuid() === 0
+                (mode & 2) && gid === process.getgid!() ||
+                (mode & 4) && uid === process.getuid!() ||
+                (mode & 6) && process.getuid!() === 0
             ));
         })(path);
     } catch (_) { return false; }
