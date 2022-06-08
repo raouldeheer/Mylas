@@ -1,4 +1,4 @@
-import mylas, { Json } from "../build/index";
+import mylas, { Json } from "../build/index.js";
 import fs from "fs";
 
 const testJson = [{ "Test": "Data" }];

@@ -1,4 +1,4 @@
-import { Dir } from "../../build/index";
+import { Dir } from "../../build/index.js";
 
 const testFunc = (testCases: any[]) => {
     testCases.forEach((v) => {

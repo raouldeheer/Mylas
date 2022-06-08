@@ -1,4 +1,4 @@
-import { File } from "../build/index";
+import { File } from "../build/index.js";
 import fs from "fs";
 
 const testData = "Test data";
