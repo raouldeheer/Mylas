@@ -19,7 +19,7 @@ const file = {
     loadS: (
         path: string
     ): string => {
-        if (checkPathSync(path) == true) {
+        if (checkPathSync(path, fs.constants.R_OK)) {
             return fs.readFileSync(path, "utf8");
         } else {
             throw new Error(`Can't read from ${path}`);
@@ -35,7 +35,7 @@ const file = {
         path: string,
         data: string
     ): void => {
-        if (checkPathSync(path) == true) {
+        if (checkPathSync(path, fs.constants.W_OK)) {
             fs.writeFileSync(path, data, "utf8");
         } else {
             throw new Error(`Can't write to ${path}`);
@@ -51,7 +51,7 @@ const file = {
         path: string,
         callback?: stringCallback
     ): Promise<string> => {
-        if (await checkPath(path) == true) {
+        if (await checkPath(path, fs.constants.R_OK)) {
             const data = await fs.promises.readFile(path, "utf8");
             callback?.(data);
             return data;
@@ -71,7 +71,7 @@ const file = {
         data: string,
         callback?: voidCallback
     ): Promise<void> => {
-        if (await checkPath(path) == true) {
+        if (await checkPath(path, fs.constants.W_OK)) {
             await fs.promises.writeFile(path, data, "utf8");
             callback?.();
         } else {

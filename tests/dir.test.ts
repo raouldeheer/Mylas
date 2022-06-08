@@ -1,4 +1,4 @@
-import mylas, { Dir } from "../build/index";
+import mylas, { Dir } from "../build/index.js";
 import fs from "fs";
 
 const testDataPathDir = "./tests/testdir/";

@@ -20,7 +20,7 @@ const buf = {
         path: string,
         callback?: objectCallback<Buffer>
     ): Promise<Buffer> => {
-        if (await checkPath(path) == true) {
+        if (await checkPath(path, fs.constants.R_OK)) {
             const data = await fs.promises.readFile(path);
             callback?.(data);
             return data;
@@ -40,7 +40,7 @@ const buf = {
         data: Buffer,
         callback?: voidCallback
     ): Promise<void> => {
-        if (await checkPath(path) == true) {
+        if (await checkPath(path, fs.constants.W_OK)) {
             await fs.promises.writeFile(path, data);
             callback?.();
         } else {
