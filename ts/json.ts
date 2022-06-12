@@ -15,7 +15,7 @@ const json = {
      */
     loadS: <T = unknown>(
         path: string,
-        hasComments = false
+        hasComments = false,
     ): T => JSON.parse(hasComments ?
         removeComments(file.loadS(path)) :
         file.loadS(path)),
@@ -27,7 +27,7 @@ const json = {
      */
     saveS: <T = unknown>(
         path: string,
-        data: T
+        data: T,
     ): void => file.saveS(path, JSON.stringify(data)),
     /**
      * loads JSON from file.
@@ -39,7 +39,7 @@ const json = {
     load: async <T = unknown>(
         path: string,
         callback?: objectCallback<T>,
-        hasComments = false
+        hasComments = false,
     ): Promise<T> => {
         const data: T = JSON.parse(hasComments ?
             removeComments(await file.load(path)) :
@@ -57,7 +57,7 @@ const json = {
     save: async <T = unknown>(
         path: string,
         data: T,
-        callback?: voidCallback
+        callback?: voidCallback,
     ): Promise<void> => {
         await file.save(path, JSON.stringify(data));
         callback?.();
@@ -71,7 +71,7 @@ const json = {
     loadW: <T = unknown>(
         path: string,
         callback?: objectCallback<T>,
-        hasComments = false
+        hasComments = false,
     ): Promise<T> => action<T>({
         method: hasComments ? Method.loadJsonComments : Method.loadJson,
         path: path,
@@ -86,7 +86,7 @@ const json = {
     saveW: <T = unknown>(
         path: string,
         data: T,
-        callback?: voidCallback
+        callback?: voidCallback,
     ): Promise<void> => action({
         method: Method.saveJson,
         path: path,
