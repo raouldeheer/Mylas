@@ -1,4 +1,4 @@
-import { existsSync, accessSync, promises as fsp, mkdirSync } from "fs";
+import { existsSync, mkdirSync } from "fs";
 import { parse } from "path";
 
 /**
@@ -8,17 +8,10 @@ import { parse } from "path";
  */
 export const checkPathSync = (
     path: string,
-    mode: number
 ): boolean => {
     /** check if dir exists */
     if (!checkDir(path)) return false;
-    try {
-        /** check permissions */
-        accessSync(existsSync(path) ? path : parse(path).dir, mode);
-        return true;// all checks good return true
-    } catch (error) {
-        return false;
-    }
+    return true;// all checks good return true
 };
 
 /**
@@ -28,17 +21,10 @@ export const checkPathSync = (
  */
 export const checkPath = async (
     path: string,
-    mode: number
 ): Promise<boolean> => {
     /** check if dir exists */
     if (!checkDir(path)) return false;
-    try {
-        /** check permissions */
-        await fsp.access(existsSync(path) ? path : parse(path).dir, mode);
-        return true; // all checks good return true
-    } catch (error) {
-        return false;
-    }
+    return true; // all checks good return true
 };
 
 /**

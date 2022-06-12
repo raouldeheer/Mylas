@@ -17,9 +17,9 @@ const file = {
      * @return {string}
      */
     loadS: (
-        path: string
+        path: string,
     ): string => {
-        if (checkPathSync(path, fs.constants.R_OK)) {
+        if (checkPathSync(path)) {
             return fs.readFileSync(path, "utf8");
         } else {
             throw new Error(`Can't read from ${path}`);
@@ -33,9 +33,9 @@ const file = {
     */
     saveS: (
         path: string,
-        data: string
+        data: string,
     ): void => {
-        if (checkPathSync(path, fs.constants.W_OK)) {
+        if (checkPathSync(path)) {
             fs.writeFileSync(path, data, "utf8");
         } else {
             throw new Error(`Can't write to ${path}`);
@@ -49,9 +49,9 @@ const file = {
     */
     load: async (
         path: string,
-        callback?: stringCallback
+        callback?: stringCallback,
     ): Promise<string> => {
-        if (await checkPath(path, fs.constants.R_OK)) {
+        if (await checkPath(path)) {
             const data = await fs.promises.readFile(path, "utf8");
             callback?.(data);
             return data;
@@ -69,9 +69,9 @@ const file = {
     save: async (
         path: string,
         data: string,
-        callback?: voidCallback
+        callback?: voidCallback,
     ): Promise<void> => {
-        if (await checkPath(path, fs.constants.W_OK)) {
+        if (await checkPath(path)) {
             await fs.promises.writeFile(path, data, "utf8");
             callback?.();
         } else {
@@ -85,7 +85,7 @@ const file = {
      */
     loadW: (
         path: string,
-        callback?: stringCallback
+        callback?: stringCallback,
     ): Promise<string> => action<string>({
         method: Method.loadFile,
         path: path,
@@ -105,7 +105,7 @@ const file = {
         method: Method.saveFile,
         path: path,
         data: data,
-        callback: callback
+        callback: callback,
     }),
 };
 export default file;
