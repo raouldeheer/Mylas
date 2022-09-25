@@ -18,6 +18,6 @@ PP!.once("message", async ({ method, path, data }: Request) => {
             sharedUint8Array.set(data);
             PP!.postMessage(sharedUint8Array);
         }
-        setTimeout(process.exit(0), 10);
+        process.exit(0);
     } catch (error) { process.exit(1); }
 });
