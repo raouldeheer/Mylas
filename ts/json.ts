@@ -116,35 +116,35 @@ function removeComments(jsonString: string): string {
         const nextCharacter = jsonString[i + 1] || "";
         const isOutsideComment = !(isInsideMComment || isInsideSComment);
 
-        if (isOutsideComment && currentCharacter === '"' && isNotEscaped(jsonString, i-1)) isInsideString = !isInsideString;
+        if (isOutsideComment && currentCharacter === "\"" && isNotEscaped(jsonString, i-1)) isInsideString = !isInsideString;
         if (isInsideString) continue;
 
         const currNextCharacter = currentCharacter + nextCharacter;
-        if (isOutsideComment && currNextCharacter === '//') {
+        if (isOutsideComment && currNextCharacter === "//") {
             result += jsonString.slice(offset, i);
             offset = i;
             isInsideSComment = true;
             i++;
-        } else if (isInsideSComment && currNextCharacter === '\r\n') {
+        } else if (isInsideSComment && currNextCharacter === "\r\n") {
             i++;
             isInsideSComment = false;
             offset = i;
             continue;
-        } else if (isInsideSComment && currentCharacter === '\n') {
+        } else if (isInsideSComment && currentCharacter === "\n") {
             isInsideSComment = false;
             offset = i;
-        } else if (isOutsideComment && currNextCharacter === '/*') {
+        } else if (isOutsideComment && currNextCharacter === "/*") {
             result += jsonString.slice(offset, i);
             offset = i;
             isInsideMComment = true;
             i++;
             continue;
-        } else if (isInsideMComment && currNextCharacter === '*/') {
+        } else if (isInsideMComment && currNextCharacter === "*/") {
             i++;
             isInsideMComment = false;
             offset = i + 1;
             continue;
         }
     }
-    return (result + ((isInsideMComment || isInsideSComment) ? '' : jsonString.slice(offset))).replace(/,(?!\s*?[{["'\w])/g, "");
+    return (result + ((isInsideMComment || isInsideSComment) ? "" : jsonString.slice(offset))).replace(/,(?!\s*?[{["'\w])/g, "");
 }

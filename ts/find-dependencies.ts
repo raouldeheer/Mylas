@@ -108,15 +108,15 @@ function inip(str: string) {
     }
     const remove = [];
     for (const j of Object.keys(out)) {
-        if (!Object.hasOwnProperty.call(out, j) || typeof out[j] !== 'object' || Array.isArray(out[j])) continue;
-        const parts = j.replace(/\1/g, '\u0002LITERAL\\1LITERAL\u0002').replace(/\\\./g, '\u0001').split(/\./)
-            .map(part => part.replace(/\1/g, '\\.').replace(/\2LITERAL\\1LITERAL\2/g, '\u0001'));
+        if (!Object.hasOwnProperty.call(out, j) || typeof out[j] !== "object" || Array.isArray(out[j])) continue;
+        const parts = j.replace(/\1/g, "\u0002LITERAL\\1LITERAL\u0002").replace(/\\\./g, "\u0001").split(/\./)
+            .map(part => part.replace(/\1/g, "\\.").replace(/\2LITERAL\\1LITERAL\2/g, "\u0001"));
         let p = out;
         const l = parts.pop() || "";
-        const nl = l.replace(/\\\./g, '.');
+        const nl = l.replace(/\\\./g, ".");
         for (const part of parts) {
-            if (part === '__proto__') continue;
-            if (!Object.hasOwnProperty.call(p, part) || typeof p[part] !== 'object')
+            if (part === "__proto__") continue;
+            if (!Object.hasOwnProperty.call(p, part) || typeof p[part] !== "object")
                 p[part] = Object.create(null);
             p = p[part];
         }
