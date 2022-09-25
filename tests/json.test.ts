@@ -1,9 +1,11 @@
-import mylas, { Json } from "../build/index.js";
+import mylas, { Json } from "../build/index";
 import fs from "fs";
+import "../build/register";
 
 const testJson = [{ "Test": "Data" }];
 const testJsonPath = "./tests/testdata.json";
 const testJsonPathSync = "./tests/testfilesync.json";
+const testJsonPathSync2 = "./tests/testfilesync.json";
 const testJsonPathAsync = "./tests/testfileasync.json";
 
 beforeAll(() => {
@@ -21,6 +23,13 @@ describe("Save jsonfile to test folder", () => {
         /** data should now be saved */
         const data = mylas.json.loadS(testJsonPathSync);
         fs.unlinkSync(testJsonPathSync);
+        expect(data).toStrictEqual(testJson);
+    });
+    it("Should save the jsondata to the filesystem", () => {
+        JSON.saveS(testJsonPathSync2, testJson);
+        /** data should now be saved */
+        const data = JSON.loadS(testJsonPathSync2);
+        fs.unlinkSync(testJsonPathSync2);
         expect(data).toStrictEqual(testJson);
     });
     it("Should save the jsondata to the filesystem async", async () => {

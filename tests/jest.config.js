@@ -3,7 +3,6 @@ module.exports = {
   testEnvironment: 'node',
   globals: {
     'ts-jest': {
-      tsconfig: "./config/tsconfig.json"
     }
   }
 };

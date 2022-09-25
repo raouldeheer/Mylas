@@ -49,3 +49,5 @@ JSON.loadS = json.loadS;
 JSON.saveS = json.saveS;
 JSON.loadW = json.loadW;
 JSON.saveW = json.saveW;
+
+export { };
