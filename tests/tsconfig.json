@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "incremental": false,
+        "target": "ES2017",
+        "module": "commonjs",
+        "rootDir": "../ts/",
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUncheckedIndexedAccess": true,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": true
+    }
+}
