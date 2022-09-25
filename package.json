@@ -1,12 +1,24 @@
 {
   "name": "mylas",
-  "version": "2.1.12",
+  "version": "2.1.13",
   "description": "Mylas is a npm package to make the loading and storing of data from fs easy and reliable.",
   "main": "build/index.js",
   "typings": "build/index",
   "files": [
     "build/"
   ],
+  "exports": {
+    ".": {
+      "types": "./build/index.d.ts",
+      "require": "./build/index.js",
+      "default": "./build/index.js"
+    },
+    "./register": {
+      "types": "./build/register.d.ts",
+      "require": "./build/register.js",
+      "default": "./build/register.js"
+    }
+  },
   "scripts": {
     "prepack": "npm run build",
     "test": "jest --config='./tests/jest.config.js'",
