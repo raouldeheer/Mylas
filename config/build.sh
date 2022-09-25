@@ -2,10 +2,7 @@
 
 rm -rf ./build
 tsc --build ./config/tsconfig.json
-mkdir build
-tsup temp/index.js --format cjs --minify
-mv ./dist/* ./build
-mv ./temp/worker.js ./build
+tsup --config config/tsup.config.ts
 cp ./ts/index.d.ts ./build/index.d.ts
-rm -rf ./temp
-rm -rf ./dist
+cp ./ts/register.d.ts ./build/register.d.ts
+cp ./ts/interfaces.d.ts ./build/interfaces.d.ts
