@@ -4,21 +4,14 @@
 
 | Version | Supported          |
 | ------- | ------------------ |
-| 2.1.7   | :white_check_mark: |
-| 2.1.6   | :white_check_mark: |
-| 2.1.5   | :white_check_mark: |
-| 2.1.4   | :white_check_mark: |
-| 2.1.3   | :white_check_mark: |
-| 2.1.2   | :white_check_mark: |
-| 2.1.1   | :white_check_mark: |
-| 2.1.0   | :white_check_mark: |
-| 2.0.3   | :white_check_mark: |
-| < 2.0.2 | :x:                |
+| 2.1.13  | :white_check_mark: |
+| <2.1.12 | :x:                |
 
 ## Supported Node Versions
 
 | Version | Supported          |
 | ------- | ------------------ |
+| 18      | :white_check_mark: |
 | 16      | :white_check_mark: |
 | 14      | :white_check_mark: |
 | 12      | :white_check_mark: |
