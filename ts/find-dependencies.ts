@@ -8,7 +8,7 @@ export default function (input?: { cwd?: string; relative?: boolean; } | string)
         relative: true,
         ...(typeof input === "string" ? { cwd: input } : input),
     };
-    const results = [];
+    const results: string[] = [];
     let schDr = opts.cwd;
     let modDr: string | null;
     let df = false;
@@ -74,7 +74,7 @@ function confPath(configPath: string) {
 function inip(str: string) {
     const out = Object.create(null);
     let p = out;
-    let section = null;
+    let section: any = null;
     for (const line of str.split(/[\r\n]+/g)) {
         if (!line || line.match(/^\s*[;#]/)) continue;
         const match = line.match(/^\[([^\]]*)\]$|^([^=]+)(=(.*))?$/i);
@@ -106,10 +106,12 @@ function inip(str: string) {
         if (Array.isArray(p[key])) p[key].push(value);
         else p[key] = value;
     }
-    const remove = [];
+    const remove: string[] = [];
     for (const j of Object.keys(out)) {
         if (!Object.hasOwnProperty.call(out, j) || typeof out[j] !== "object" || Array.isArray(out[j])) continue;
+        // @ts-ignore
         const parts = j.replace(/\1/g, "\u0002LITERAL\\1LITERAL\u0002").replace(/\\\./g, "\u0001").split(/\./)
+        // @ts-ignore
             .map(part => part.replace(/\1/g, "\\.").replace(/\2LITERAL\\1LITERAL\2/g, "\u0001"));
         let p = out;
         const l = parts.pop() || "";
