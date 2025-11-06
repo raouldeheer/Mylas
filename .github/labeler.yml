@@ -1,11 +1,11 @@
 repo:
-  - ./*
+  - ["./*"]
   
 source:
-  - ts/**/*
+  - ["ts/**/*"]
     
 testing:
-  - tests/**/*
+  - ["tests/**/*"]
 
 github:
-  - .github/*
+  - [".github/*"]
